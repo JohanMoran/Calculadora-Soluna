@@ -156,7 +156,7 @@
 <body>
   <!-- COLUMNA IZQUIERDA: FORMULARIOS -->
   <div class="contenedor-formularios">
-    <img src="Soluna.png" alt="Logo Soluna" id="logo">
+    <img src="Soluna sin fondo blanco.png" alt="Logo Soluna" id="logo">
     <h1>Calculadora de Costos de Velas Artesanales</h1>
 
     <div class="section">
