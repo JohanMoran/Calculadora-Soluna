@@ -759,7 +759,7 @@
 
   <!-- Logo hero -->
   <div class="logo-hero">
-    <img src="Soluna sin fondo blanco.png" alt="Logo Soluna" class="hero-logo">
+    <img src="Soluna.png" alt="Logo Soluna" class="hero-logo">
   </div>
 
   <div class="calculadora-grid">
@@ -779,7 +779,7 @@
               <span class="tooltip-text">Precio por kilogramo de cera que utilizas</span>
             </div>
           </label>
-          <input type="number" id="costoCera" step="0.01" placeholder="0.00">
+          <input type="number" id="costoCera" step="0.01" placeholder="0.00" value="25.00">
         </div>
         <div class="input-group">
           <label for="gramosCera">Cera por vela (gramos):
@@ -788,7 +788,7 @@
               <span class="tooltip-text">Cantidad de cera que usa cada vela</span>
             </div>
           </label>
-          <input type="number" id="gramosCera" step="0.1" placeholder="0">
+          <input type="number" id="gramosCera" step="0.1" placeholder="0" value="150">
         </div>
       </div>
 
@@ -806,7 +806,7 @@
               <span class="tooltip-text">Precio del envase completo de fragancia</span>
             </div>
           </label>
-          <input type="number" id="costoFragancia" step="0.01" placeholder="0.00">
+          <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="15.00">
         </div>
         <div class="input-group">
           <label for="tamanoFragancia">Tamaño del bote (gramos):
@@ -815,7 +815,7 @@
               <span class="tooltip-text">Peso total del envase de fragancia</span>
             </div>
           </label>
-          <input type="number" id="tamanoFragancia" step="1" placeholder="0">
+          <input type="number" id="tamanoFragancia" step="1" placeholder="0" value="500">
         </div>
         <div class="input-group">
           <label for="porcentajeFragancia">Porcentaje de fragancia (%):
@@ -824,7 +824,7 @@
               <span class="tooltip-text">Porcentaje de fragancia en relación al peso de la cera</span>
             </div>
           </label>
-          <input type="number" id="porcentajeFragancia" step="0.1" placeholder="0">
+          <input type="number" id="porcentajeFragancia" step="0.1" placeholder="0" value="8">
         </div>
       </div>
 
@@ -842,7 +842,7 @@
               <span class="tooltip-text">Precio del frasco completo de colorante</span>
             </div>
           </label>
-          <input type="number" id="costoColorante" step="0.01" placeholder="0.00">
+          <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="12.00">
         </div>
         <div class="input-group">
           <label for="usoColorante">Uso por vela (gramos):
@@ -851,7 +851,7 @@
               <span class="tooltip-text">Cantidad de colorante que usa cada vela</span>
             </div>
           </label>
-          <input type="number" id="usoColorante" step="0.1" placeholder="0">
+          <input type="number" id="usoColorante" step="0.1" placeholder="0" value="5">
         </div>
         <div class="input-group">
           <label for="cantidadColorante">Cantidad del frasco (gramos):
@@ -860,7 +860,7 @@
               <span class="tooltip-text">Peso total del frasco de colorante</span>
             </div>
           </label>
-          <input type="number" id="cantidadColorante" step="1" placeholder="0">
+          <input type="number" id="cantidadColorante" step="1" placeholder="0" value="100">
         </div>
       </div>
 
@@ -878,7 +878,7 @@
               <span class="tooltip-text">Costo de la mecha o pabilo para cada vela</span>
             </div>
           </label>
-          <input type="number" id="costoMecha" step="0.01" placeholder="0.00">
+          <input type="number" id="costoMecha" step="0.01" placeholder="0.00" value="2.50">
         </div>
         <div class="input-group">
           <label for="costoFrasco">Costo del frasco por vela ($):
@@ -887,7 +887,7 @@
               <span class="tooltip-text">Costo del contenedor o frasco para cada vela</span>
             </div>
           </label>
-          <input type="number" id="costoFrasco" step="0.01" placeholder="0.00">
+          <input type="number" id="costoFrasco" step="0.01" placeholder="0.00" value="8.00">
         </div>
         <div class="input-group">
           <label for="costoEtiqueta">Costo de etiqueta por vela ($):
@@ -896,7 +896,7 @@
               <span class="tooltip-text">Costo de etiquetas y branding por vela</span>
             </div>
           </label>
-          <input type="number" id="costoEtiqueta" step="0.01" placeholder="0.00">
+          <input type="number" id="costoEtiqueta" step="0.01" placeholder="0.00" value="1.50">
         </div>
         <div class="input-group">
           <label for="manoObra">Mano de obra por vela ($):
@@ -905,7 +905,7 @@
               <span class="tooltip-text">Costo de mano de obra para producir cada vela</span>
             </div>
           </label>
-          <input type="number" id="manoObra" step="0.01" value="0" placeholder="0.00">
+          <input type="number" id="manoObra" step="0.01" value="10.00" placeholder="0.00">
         </div>
         <div class="input-group">
           <label for="costoIndirecto">Costos indirectos por vela ($):
@@ -914,7 +914,7 @@
               <span class="tooltip-text">Costos indirectos como electricidad, empaque, etc.</span>
             </div>
           </label>
-          <input type="number" id="costoIndirecto" step="0.01" value="0" placeholder="0.00">
+          <input type="number" id="costoIndirecto" step="0.01" value="3.00" placeholder="0.00">
         </div>
       </div>
 
@@ -1106,6 +1106,14 @@
     let chartCostos = null;
     let resultadosCalculo = {};
 
+    // Función mejorada para obtener valores numéricos
+    function obtenerValorNumerico(id, valorPorDefecto = 0) {
+      const elemento = document.getElementById(id);
+      const valor = parseFloat(elemento.value);
+      // Si el valor es NaN o negativo, devolvemos el valor por defecto
+      return isNaN(valor) || valor < 0 ? valorPorDefecto : valor;
+    }
+
     // Inicialización
     document.addEventListener('DOMContentLoaded', function() {
       // Configura eventos de input para cálculo automático
@@ -1156,52 +1164,32 @@
       // Limpiar mensajes de error previos
       document.querySelectorAll('.error-mensaje').forEach(el => el.remove());
       
-      // Obtener valores de los inputs
-      const costoCera = parseFloat(document.getElementById('costoCera').value) || 0;
-      const gramosCera = parseFloat(document.getElementById('gramosCera').value) || 0;
-      const costoFragancia = parseFloat(document.getElementById('costoFragancia').value) || 0;
-      const tamanoFragancia = parseFloat(document.getElementById('tamanoFragancia').value) || 0;
-      const porcentajeFragancia = parseFloat(document.getElementById('porcentajeFragancia').value) || 0;
-      const costoColorante = parseFloat(document.getElementById('costoColorante').value) || 0;
-      const usoColorante = parseFloat(document.getElementById('usoColorante').value) || 0;
-      const cantidadColorante = parseFloat(document.getElementById('cantidadColorante').value) || 0;
-      const costoMecha = parseFloat(document.getElementById('costoMecha').value) || 0;
-      const costoFrasco = parseFloat(document.getElementById('costoFrasco').value) || 0;
-      const costoEtiqueta = parseFloat(document.getElementById('costoEtiqueta').value) || 0;
-      const manoObra = parseFloat(document.getElementById('manoObra').value) || 0;
-      const costoIndirecto = parseFloat(document.getElementById('costoIndirecto').value) || 0;
-      const margen = parseFloat(document.getElementById('margen').value) || 0;
-      const cantidadVelas = parseFloat(document.getElementById('cantidadVelas').value) || 1;
+      // Obtener valores de los inputs usando la función mejorada
+      const costoCera = obtenerValorNumerico('costoCera', 0);
+      const gramosCera = obtenerValorNumerico('gramosCera', 0);
+      const costoFragancia = obtenerValorNumerico('costoFragancia', 0);
+      const tamanoFragancia = obtenerValorNumerico('tamanoFragancia', 1); // Evitar división por cero
+      const porcentajeFragancia = obtenerValorNumerico('porcentajeFragancia', 0);
+      const costoColorante = obtenerValorNumerico('costoColorante', 0);
+      const usoColorante = obtenerValorNumerico('usoColorante', 0);
+      const cantidadColorante = obtenerValorNumerico('cantidadColorante', 1); // Evitar división por cero
+      const costoMecha = obtenerValorNumerico('costoMecha', 0);
+      const costoFrasco = obtenerValorNumerico('costoFrasco', 0);
+      const costoEtiqueta = obtenerValorNumerico('costoEtiqueta', 0);
+      const manoObra = obtenerValorNumerico('manoObra', 0);
+      const costoIndirecto = obtenerValorNumerico('costoIndirecto', 0);
+      const margen = obtenerValorNumerico('margen', 35);
+      const cantidadVelas = obtenerValorNumerico('cantidadVelas', 1);
 
-      // Validaciones
-      if (costoCera < 0) mostrarError('costoCera', 'El costo de cera no puede ser negativo');
-      if (gramosCera < 0) mostrarError('gramosCera', 'Los gramos de cera no pueden ser negativos');
-      if (costoFragancia < 0) mostrarError('costoFragancia', 'El costo de fragancia no puede ser negativo');
-      if (tamanoFragancia < 0) mostrarError('tamanoFragancia', 'El tamaño del bote no puede ser negativo');
-      if (porcentajeFragancia < 0) mostrarError('porcentajeFragancia', 'El porcentaje no puede ser negativo');
-      if (costoColorante < 0) mostrarError('costoColorante', 'El costo de colorante no puede ser negativo');
-      if (usoColorante < 0) mostrarError('usoColorante', 'El uso de colorante no puede ser negativo');
-      if (cantidadColorante < 0) mostrarError('cantidadColorante', 'La cantidad del frasco no puede ser negativa');
-      if (costoMecha < 0) mostrarError('costoMecha', 'El costo de mecha no puede ser negativo');
-      if (costoFrasco < 0) mostrarError('costoFrasco', 'El costo del frasco no puede ser negativo');
-      if (costoEtiqueta < 0) mostrarError('costoEtiqueta', 'El costo de etiqueta no puede ser negativo');
-      if (manoObra < 0) mostrarError('manoObra', 'La mano de obra no puede ser negativa');
-      if (costoIndirecto < 0) mostrarError('costoIndirecto', 'Los costos indirectos no pueden ser negativos');
-      if (margen < 0) mostrarError('margen', 'El margen no puede ser negativo');
-      if (cantidadVelas < 1) mostrarError('cantidadVelas', 'Debes producir al menos 1 vela');
-
-      // Si hay errores, no calcular
-      if (document.querySelectorAll('.error-mensaje').length > 0) return;
-
-      // Cálculos de costos unitarios
+      // Cálculos de costos unitarios (con protección contra división por cero)
       const costoPorGramoCera = costoCera / 1000;
       const costoCeraPorVela = costoPorGramoCera * gramosCera;
 
       const gramosFragancia = gramosCera * (porcentajeFragancia / 100);
-      const costoPorGramoFragancia = costoFragancia / tamanoFragancia;
+      const costoPorGramoFragancia = tamanoFragancia > 0 ? costoFragancia / tamanoFragancia : 0;
       const costoFraganciaPorVela = gramosFragancia * costoPorGramoFragancia;
 
-      const costoColorantePorGramo = costoColorante / cantidadColorante;
+      const costoColorantePorGramo = cantidadColorante > 0 ? costoColorante / cantidadColorante : 0;
       const costoColorantePorVela = usoColorante * costoColorantePorGramo;
 
       const otrosCostosPorVela = costoMecha + costoFrasco + costoEtiqueta + manoObra + costoIndirecto;
@@ -1267,10 +1255,10 @@
         labels: ['Cera', 'Fragancia', 'Colorante', 'Otros Costos'],
         datasets: [{
           data: [
-            resultadosCalculo.costoCeraPorVela,
-            resultadosCalculo.costoFraganciaPorVela,
-            resultadosCalculo.costoColorantePorVela,
-            resultadosCalculo.otrosCostosPorVela
+            resultadosCalculo.costoCeraPorVela || 0,
+            resultadosCalculo.costoFraganciaPorVela || 0,
+            resultadosCalculo.costoColorantePorVela || 0,
+            resultadosCalculo.otrosCostosPorVela || 0
           ],
           backgroundColor: [
             'rgba(217, 122, 155, 0.8)',
@@ -1306,7 +1294,7 @@
                 const label = context.label || '';
                 const value = context.raw || 0;
                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                const percentage = ((value / total) * 100).toFixed(1);
+                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0.0';
                 return `${label}: ${formatCurrency(value)} (${percentage}%)`;
               }
             }
@@ -1325,21 +1313,21 @@
       const tbody = document.querySelector('#tablaResultados tbody');
       tbody.innerHTML = '';
       
-      const total = resultadosCalculo.costoTotalUnitario;
+      const total = resultadosCalculo.costoTotalUnitario || 0;
       const conceptos = [
-        { nombre: 'Cera', valor: resultadosCalculo.costoCeraPorVela },
-        { nombre: 'Fragancia', valor: resultadosCalculo.costoFraganciaPorVela },
-        { nombre: 'Colorante', valor: resultadosCalculo.costoColorantePorVela },
-        { nombre: 'Mecha', valor: parseFloat(document.getElementById('costoMecha').value) || 0 },
-        { nombre: 'Frasco', valor: parseFloat(document.getElementById('costoFrasco').value) || 0 },
-        { nombre: 'Etiqueta', valor: parseFloat(document.getElementById('costoEtiqueta').value) || 0 },
-        { nombre: 'Mano de obra', valor: parseFloat(document.getElementById('manoObra').value) || 0 },
-        { nombre: 'Costos indirectos', valor: parseFloat(document.getElementById('costoIndirecto').value) || 0 }
+        { nombre: 'Cera', valor: resultadosCalculo.costoCeraPorVela || 0 },
+        { nombre: 'Fragancia', valor: resultadosCalculo.costoFraganciaPorVela || 0 },
+        { nombre: 'Colorante', valor: resultadosCalculo.costoColorantePorVela || 0 },
+        { nombre: 'Mecha', valor: obtenerValorNumerico('costoMecha', 0) },
+        { nombre: 'Frasco', valor: obtenerValorNumerico('costoFrasco', 0) },
+        { nombre: 'Etiqueta', valor: obtenerValorNumerico('costoEtiqueta', 0) },
+        { nombre: 'Mano de obra', valor: obtenerValorNumerico('manoObra', 0) },
+        { nombre: 'Costos indirectos', valor: obtenerValorNumerico('costoIndirecto', 0) }
       ];
 
       conceptos.forEach(concepto => {
-        if (concepto.valor > 0) {
-          const porcentaje = ((concepto.valor / total) * 100).toFixed(1);
+        if (concepto.valor > 0 || total > 0) {
+          const porcentaje = total > 0 ? ((concepto.valor / total) * 100).toFixed(1) : '0.0';
           const fila = document.createElement('tr');
           
           fila.innerHTML = `
@@ -1367,12 +1355,14 @@
     }
 
     function formatCurrency(value) {
+      // Asegurarse de que el valor sea un número válido
+      const numero = isNaN(value) || value === null ? 0 : value;
       return new Intl.NumberFormat('es-MX', { 
         style: 'currency', 
         currency: 'MXN',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-      }).format(value);
+      }).format(numero);
     }
 
     // Función para exportar a PDF
@@ -1420,12 +1410,12 @@
       yPosition += 10;
 
       const summaryData = [
-        { label: 'Costo unitario total', value: resultadosCalculo.costoTotalUnitario },
-        { label: 'Precio de venta sugerido', value: resultadosCalculo.precioVentaUnitario },
-        { label: 'Ganancia por unidad', value: resultadosCalculo.gananciaUnitario },
-        { label: `Total para ${resultadosCalculo.cantidadVelas} velas`, value: resultadosCalculo.costoTotal },
-        { label: 'Venta total sugerida', value: resultadosCalculo.precioTotalVenta },
-        { label: 'Ganancia total', value: resultadosCalculo.gananciaTotal }
+        { label: 'Costo unitario total', value: resultadosCalculo.costoTotalUnitario || 0 },
+        { label: 'Precio de venta sugerido', value: resultadosCalculo.precioVentaUnitario || 0 },
+        { label: 'Ganancia por unidad', value: resultadosCalculo.gananciaUnitario || 0 },
+        { label: `Total para ${resultadosCalculo.cantidadVelas || 0} velas`, value: resultadosCalculo.costoTotal || 0 },
+        { label: 'Venta total sugerida', value: resultadosCalculo.precioTotalVenta || 0 },
+        { label: 'Ganancia total', value: resultadosCalculo.gananciaTotal || 0 }
       ];
 
       summaryData.forEach((item, i) => {
@@ -1524,13 +1514,13 @@
         ['Generado el:', new Date().toLocaleDateString()],
         [],
         ['RESUMEN DE COSTOS'],
-        ['Costo unitario total:', formatCurrency(resultadosCalculo.costoTotalUnitario)],
-        ['Precio de venta sugerido:', formatCurrency(resultadosCalculo.precioVentaUnitario)],
-        ['Ganancia por unidad:', formatCurrency(resultadosCalculo.gananciaUnitario)],
-        [`Total para ${resultadosCalculo.cantidadVelas} velas:`, formatCurrency(resultadosCalculo.costoTotal)],
-        ['Venta total sugerida:', formatCurrency(resultadosCalculo.precioTotalVenta)],
-        ['Ganancia total:', formatCurrency(resultadosCalculo.gananciaTotal)],
-        ['Margen aplicado:', document.getElementById('margen').value + '%'],
+        ['Costo unitario total:', formatCurrency(resultadosCalculo.costoTotalUnitario || 0)],
+        ['Precio de venta sugerido:', formatCurrency(resultadosCalculo.precioVentaUnitario || 0)],
+        ['Ganancia por unidad:', formatCurrency(resultadosCalculo.gananciaUnitario || 0)],
+        [`Total para ${resultadosCalculo.cantidadVelas || 0} velas:`, formatCurrency(resultadosCalculo.costoTotal || 0)],
+        ['Venta total sugerida:', formatCurrency(resultadosCalculo.precioTotalVenta || 0)],
+        ['Ganancia total:', formatCurrency(resultadosCalculo.gananciaTotal || 0)],
+        ['Margen aplicado:', (resultadosCalculo.margen || 35) + '%'],
         [],
         ['DESGLOSE DE COSTOS UNITARIOS']
       ];
