@@ -1097,7 +1097,7 @@
   </div>
 
   <!-- Botón flotante de WhatsApp -->
-  <a href="https://wa.me/523318853923?text=Hola,%20me%20interesa%20saber%20m%C3%A1s%20sobre%20la%20calculadora%20de%20costos%20de%20velas%20%F0%9F%94%A5" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
+  <a href="https://wa.me/523331490596?text=Hola,%20me%20interesa%20saber%20m%C3%A1s%20sobre%20la%20calculadora%20de%20costos%20de%20velas%20%F0%9F%94%A5" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
 
