@@ -14,60 +14,9 @@
       max-width: 1400px;
       margin: auto;
     }
-    .contenedor-principal {
-      flex: 1;
-    }
-    h1, h2 {
-      color: #d97a9b;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 10px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-top: 4px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .section {
-      background-color: #ffeaf0;
-      padding: 20px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    button {
-      background-color: #e38da8;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-right: 10px;
-      margin-bottom: 10px;
-    }
-    button:hover {
-      background-color: #d5779a;
-    }
-    #resultado {
-      margin-top: 20px;
-      font-size: 18px;
-      background-color: #fbe5eb;
-      padding: 15px;
-      border-radius: 10px;
-    }
-    #logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 100%;
-      height: auto;
-    }
-    .desglose {
+    
+    /* Contenedor izquierdo para formularios */
+    .contenedor-formularios {
       flex: 1;
       background-color: #ffeaf0;
       padding: 20px;
@@ -75,20 +24,128 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       height: fit-content;
     }
-    .desglose h3 {
-      color: #d97a9b;
+    
+    /* Contenedor derecho para resultados */
+    .contenedor-resultados {
+      flex: 1;
+      background-color: #ffeaf0;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      height: fit-content;
     }
+    
+    h1, h2 {
+      color: #d97a9b;
+      text-align: center;
+    }
+    
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    
+    .section {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    button {
+      background-color: #e38da8;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #d5779a;
+    }
+    
+    #resultado {
+      margin-top: 20px;
+      font-size: 16px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    #logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 200px;
+      height: auto;
+    }
+    
     .botones-descarga {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
       margin-top: 20px;
     }
+    
     .boton-pdf {
       background-color: #ff6b6b;
+      flex: 1;
     }
+    
     .boton-excel {
       background-color: #51cf66;
+      flex: 1;
+    }
+    
+    .boton-pdf:hover {
+      background-color: #ff5252;
+    }
+    
+    .boton-excel:hover {
+      background-color: #40c057;
+    }
+    
+    .resultado-item {
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .resultado-total {
+      background-color: #fbe5eb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        padding: 10px;
+      }
+      
+      .contenedor-formularios,
+      .contenedor-resultados {
+        width: 100%;
+      }
     }
   </style>
   <!-- Librerías para generar PDF y Excel -->
@@ -97,65 +154,66 @@
   <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <div class="contenedor-principal">
+  <!-- COLUMNA IZQUIERDA: FORMULARIOS -->
+  <div class="contenedor-formularios">
     <img src="Soluna.png" alt="Logo Soluna" id="logo">
-    <h1 style="text-align: center;">Calculadora de Costos de Velas Artesanales</h1>
+    <h1>Calculadora de Costos de Velas Artesanales</h1>
 
     <div class="section">
       <h2>Cera</h2>
       <label>Costo de 1kg de cera: ($)</label>
-      <input type="number" id="costoCera">
+      <input type="number" id="costoCera" placeholder="Ej: 25.00">
       <label>Cera por vela (gramos):</label>
-      <input type="number" id="gramosCera">
+      <input type="number" id="gramosCera" placeholder="Ej: 150">
     </div>
 
     <div class="section">
       <h2>Fragancia</h2>
       <label>Costo del bote de fragancia: ($)</label>
-      <input type="number" id="costoFragancia">
+      <input type="number" id="costoFragancia" placeholder="Ej: 15.00">
       <label>Tamaño del bote de fragancia (gramos):</label>
-      <input type="number" id="tamanoFragancia">
+      <input type="number" id="tamanoFragancia" placeholder="Ej: 500">
       <label>Porcentaje de fragancia usado en la vela (%):</label>
-      <input type="number" id="porcentajeFragancia">
+      <input type="number" id="porcentajeFragancia" placeholder="Ej: 8">
     </div>
 
     <div class="section">
       <h2>Colorante</h2>
       <label>Costo del colorante por frasco: ($)</label>
-      <input type="number" id="costoColorante">
+      <input type="number" id="costoColorante" placeholder="Ej: 12.00">
       <label>Uso por vela (gramos):</label>
-      <input type="number" id="usoColorante">
+      <input type="number" id="usoColorante" placeholder="Ej: 5">
       <label>Cantidad del frasco (gramos):</label>
-      <input type="number" id="cantidadColorante">
+      <input type="number" id="cantidadColorante" placeholder="Ej: 100">
     </div>
 
     <div class="section">
       <h2>Otros Costos</h2>
       <label>Costo de la mecha/pabilo (por vela): ($)</label>
-      <input type="number" id="costoMecha">
+      <input type="number" id="costoMecha" placeholder="Ej: 2.50">
       <label>Costo del frasco/contenedor (por vela): ($)</label>
-      <input type="number" id="costoFrasco">
+      <input type="number" id="costoFrasco" placeholder="Ej: 8.00">
       <label>Costo de la etiqueta (por vela): ($)</label>
-      <input type="number" id="costoEtiqueta">
+      <input type="number" id="costoEtiqueta" placeholder="Ej: 1.50">
       <label>Mano de obra por vela ($):</label>
-      <input type="number" id="manoObra" value="0">
+      <input type="number" id="manoObra" value="0" placeholder="Ej: 10.00">
       <label>Costos indirectos (por vela): ($)</label>
-      <input type="number" id="costoIndirecto" value="0">
+      <input type="number" id="costoIndirecto" value="0" placeholder="Ej: 3.00">
     </div>
 
     <div class="section">
       <h2>Margen de Beneficio</h2>
       <label>Margen de beneficio deseado (%):</label>
-      <input type="number" id="margen" value="35">
+      <input type="number" id="margen" value="35" placeholder="Ej: 35">
     </div>
 
     <div class="section">
       <h2>Producción</h2>
       <label>Número de velas a producir:</label>
-      <input type="number" id="cantidadVelas" value="1">
+      <input type="number" id="cantidadVelas" value="1" placeholder="Ej: 10">
     </div>
 
-    <button onclick="calcularCosto()">Calcular</button>
+    <button onclick="calcularCosto()">Calcular Costos</button>
     
     <div class="botones-descarga" id="botonesDescarga" style="display: none;">
       <button class="boton-pdf" onclick="generarPDF()">Descargar PDF</button>
@@ -163,9 +221,14 @@
     </div>
   </div>
 
-  <div class="desglose">
-    <h3>Desglose de Costos</h3>
-    <div id="resultado"></div>
+  <!-- COLUMNA DERECHA: RESULTADOS -->
+  <div class="contenedor-resultados">
+    <h2>Resultados del Cálculo</h2>
+    <div id="resultado">
+      <p style="text-align: center; color: #666; font-style: italic;">
+        Ingresa los datos en la columna izquierda y haz clic en "Calcular Costos" para ver los resultados aquí.
+      </p>
+    </div>
   </div>
 
   <script>
@@ -229,21 +292,47 @@
       };
 
       document.getElementById('resultado').innerHTML =
-        `<p><strong>Velas a producir:</strong> ${cantidadVelas}</p>` +
-        `<p><strong>Costo de cera por vela:</strong> $${costoCeraPorVela.toFixed(2)}</p>` +
-        `<p><strong>Costo de fragancia por vela:</strong> $${costoFraganciaPorVela.toFixed(2)}</p>` +
-        `<p><strong>Costo de colorante por vela:</strong> $${costoColorantePorVela.toFixed(2)}</p>` +
-        `<p><strong>Mecha/Pabilo:</strong> $${costoMecha.toFixed(2)}</p>` +
-        `<p><strong>Frasco:</strong> $${costoFrasco.toFixed(2)}</p>` +
-        `<p><strong>Etiqueta:</strong> $${costoEtiqueta.toFixed(2)}</p>` +
-        `<p><strong>Mano de obra:</strong> $${manoObra.toFixed(2)}</p>` +
-        `<p><strong>Costos indirectos:</strong> $${costoIndirecto.toFixed(2)}</p>` +
-        `<hr><p><strong>Costo total unitario:</strong> $${costoTotalUnitario.toFixed(2)}</p>` +
-        `<p><strong>Precio sugerido de venta por unidad (con ${margen}% de margen):</strong> $${precioVentaUnitario.toFixed(2)}</p>` +
-        `<p><strong>Ganancia estimada por unidad:</strong> $${gananciaUnitario.toFixed(2)}</p>` +
-        `<hr><p><strong>Costo total para ${cantidadVelas} velas:</strong> $${costoTotal.toFixed(2)}</p>` +
-        `<p><strong>Precio total sugerido de venta:</strong> $${precioTotalVenta.toFixed(2)}</p>` +
-        `<p><strong>Ganancia total estimada:</strong> $${gananciaTotal.toFixed(2)}</p>`;
+        `<div class="resultado-item">
+          <p><strong>Velas a producir:</strong> ${cantidadVelas}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Costo de cera por vela:</strong> $${costoCeraPorVela.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Costo de fragancia por vela:</strong> $${costoFraganciaPorVela.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Costo de colorante por vela:</strong> $${costoColorantePorVela.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Mecha/Pabilo:</strong> $${costoMecha.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Frasco:</strong> $${costoFrasco.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Etiqueta:</strong> $${costoEtiqueta.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Mano de obra:</strong> $${manoObra.toFixed(2)}</p>
+        </div>
+        <div class="resultado-item">
+          <p><strong>Costos indirectos:</strong> $${costoIndirecto.toFixed(2)}</p>
+        </div>
+        <div class="resultado-total">
+          <p><strong>Costo total unitario:</strong> $${costoTotalUnitario.toFixed(2)}</p>
+        </div>
+        <div class="resultado-total">
+          <p><strong>Precio sugerido de venta por unidad (con ${margen}% de margen):</strong> $${precioVentaUnitario.toFixed(2)}</p>
+        </div>
+        <div class="resultado-total">
+          <p><strong>Ganancia estimada por unidad:</strong> $${gananciaUnitario.toFixed(2)}</p>
+        </div>
+        <div class="resultado-total" style="background-color: #e38da8; color: white;">
+          <p><strong>Costo total para ${cantidadVelas} velas:</strong> $${costoTotal.toFixed(2)}</p>
+          <p><strong>Precio total sugerido de venta:</strong> $${precioTotalVenta.toFixed(2)}</p>
+          <p><strong>Ganancia total estimada:</strong> $${gananciaTotal.toFixed(2)}</p>
+        </div>`;
       
       // Mostrar botones de descarga
       document.getElementById('botonesDescarga').style.display = 'flex';
