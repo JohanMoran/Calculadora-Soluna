@@ -759,7 +759,7 @@
 
   <!-- Logo hero -->
   <div class="logo-hero">
-    <img src="Soluna oficial.png" alt="Logo Soluna" class="hero-logo">
+    <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo">
   </div>
 
   <div class="calculadora-grid">
