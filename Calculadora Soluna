@@ -45,12 +45,12 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Logo hero */
+    /* Logo hero - MÁS DELGADO */
     .logo-hero {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto 30px;
-      padding: 20px;
+      margin: 0 auto 20px;
+      padding: 15px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -58,24 +58,25 @@
     }
     
     .hero-logo {
-      width: 90%;
-      max-width: 1000px;
+      width: 70%; /* Reducido del 90% */
+      max-width: 800px; /* Reducido del 1000px */
       height: auto;
+      max-height: 120px; /* Altura máxima para hacerlo más delgado */
       object-fit: contain;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
       transition: all 0.3s ease;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.08);
     }
     
     body.dark .hero-logo {
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.08);
     }
     
     .hero-logo:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
     }
 
     /* Botones de exportación */
@@ -266,6 +267,42 @@
       background-color: #2a2a2a;
       color: #e0e0e0;
       border-color: #555;
+    }
+
+    /* Selectores de unidad */
+    .unit-selector {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .unit-option {
+      flex: 1;
+      text-align: center;
+      padding: 8px 5px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      background: #f8f9fa;
+    }
+    
+    body.dark .unit-option {
+      background: #2a2a2a;
+      border-color: #555;
+      color: #e0e0e0;
+    }
+    
+    .unit-option.active {
+      background-color: var(--primario);
+      color: white;
+      border-color: var(--primario);
+    }
+    
+    body.dark .unit-option.active {
+      background-color: var(--secundario);
+      border-color: var(--secundario);
     }
   
     /* Estilos para el resumen tipo infografía */
@@ -634,6 +671,12 @@
         margin-right: 0;
       }
       
+      /* Logo más delgado en móviles */
+      .hero-logo {
+        width: 85%;
+        max-height: 100px;
+      }
+      
       /* Ajuste para la tabla */
       .table-wrapper {
         width: 100%;
@@ -757,7 +800,7 @@
 <body>
   <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Modo Oscuro</button>
 
-  <!-- Logo hero -->
+  <!-- Logo hero - MÁS DELGADO -->
   <div class="logo-hero">
     <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo">
   </div>
@@ -800,7 +843,7 @@
           </div>
         </h3>
         <div class="input-group">
-          <label for="costoFragancia">Costo del bote de fragancia ($):
+          <label for="costoFragancia">Costo de la fragancia ($):
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
               <span class="tooltip-text">Precio del envase completo de fragancia</span>
@@ -808,15 +851,32 @@
           </label>
           <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="15.00">
         </div>
+        
+        <!-- Selector de unidad para fragancia -->
         <div class="input-group">
-          <label for="tamanoFragancia">Tamaño del bote (gramos):
+          <label>Unidad de medida:
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Peso total del envase de fragancia</span>
+              <span class="tooltip-text">Selecciona la unidad en la que viene tu fragancia</span>
+            </div>
+          </label>
+          <div class="unit-selector">
+            <div class="unit-option active" data-unit="ml" data-target="fragancia">Mililitros (ml)</div>
+            <div class="unit-option" data-unit="litros" data-target="fragancia">Litros (L)</div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="tamanoFragancia">Tamaño del envase:
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Capacidad total del envase de fragancia</span>
             </div>
           </label>
           <input type="number" id="tamanoFragancia" step="1" placeholder="0" value="500">
+          <div id="fragancia-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
         </div>
+        
         <div class="input-group">
           <label for="porcentajeFragancia">Porcentaje de fragancia (%):
             <div class="tooltip-container">
@@ -836,39 +896,57 @@
           </div>
         </h3>
         <div class="input-group">
-          <label for="costoColorante">Costo del frasco de colorante ($):
+          <label for="costoColorante">Costo del colorante ($):
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Precio del frasco completo de colorante</span>
+              <span class="tooltip-text">Precio del envase completo de colorante</span>
             </div>
           </label>
           <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="12.00">
         </div>
+        
+        <!-- Selector de unidad para colorante -->
         <div class="input-group">
-          <label for="usoColorante">Uso por vela (gramos):
+          <label>Unidad de medida:
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Selecciona la unidad en la que viene tu colorante</span>
+            </div>
+          </label>
+          <div class="unit-selector">
+            <div class="unit-option active" data-unit="ml" data-target="colorante">Mililitros (ml)</div>
+            <div class="unit-option" data-unit="gramos" data-target="colorante">Gramos (g)</div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="cantidadColorante">Tamaño del envase:
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Capacidad total del envase de colorante</span>
+            </div>
+          </label>
+          <input type="number" id="cantidadColorante" step="1" placeholder="0" value="100">
+          <div id="colorante-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
+        </div>
+        
+        <div class="input-group">
+          <label for="usoColorante">Uso por vela:
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
               <span class="tooltip-text">Cantidad de colorante que usa cada vela</span>
             </div>
           </label>
           <input type="number" id="usoColorante" step="0.1" placeholder="0" value="5">
-        </div>
-        <div class="input-group">
-          <label for="cantidadColorante">Cantidad del frasco (gramos):
-            <div class="tooltip-container">
-              <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Peso total del frasco de colorante</span>
-            </div>
-          </label>
-          <input type="number" id="cantidadColorante" step="1" placeholder="0" value="100">
+          <div id="uso-colorante-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
         </div>
       </div>
 
       <div class="input-card">
-        <h3><i class="fas fa-tools"></i> Otros Costos
+        <h3><i class="fas fa-tools"></i> Materiales y Empaque
           <div class="tooltip-container">
             <i class="fas fa-question-circle tooltip-icon"></i>
-            <span class="tooltip-text">Costos adicionales de producción</span>
+            <span class="tooltip-text">Costos de materiales y empaque</span>
           </div>
         </h3>
         <div class="input-group">
@@ -890,28 +968,90 @@
           <input type="number" id="costoFrasco" step="0.01" placeholder="0.00" value="8.00">
         </div>
         <div class="input-group">
-          <label for="costoEtiqueta">Costo de etiqueta por vela ($):
+          <label for="costoEtiqueta">Costo de etiqueta principal ($):
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Costo de etiquetas y branding por vela</span>
+              <span class="tooltip-text">Costo de etiquetas principales por vela</span>
             </div>
           </label>
           <input type="number" id="costoEtiqueta" step="0.01" placeholder="0.00" value="1.50">
         </div>
         <div class="input-group">
-          <label for="manoObra">Mano de obra por vela ($):
+          <label for="costoRotulacion">Rotulación de tapa/frasco ($):
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Costo de mano de obra para producir cada vela</span>
+              <span class="tooltip-text">Costo de rotulación o etiquetado adicional en tapa o frasco</span>
             </div>
           </label>
-          <input type="number" id="manoObra" step="0.01" value="10.00" placeholder="0.00">
+          <input type="number" id="costoRotulacion" step="0.01" placeholder="0.00" value="0.50">
         </div>
+        <div class="input-group">
+          <label for="costoEmpaque">Coste de empaque ($):
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Costo de materiales de empaque (caja, papel, etc.)</span>
+            </div>
+          </label>
+          <input type="number" id="costoEmpaque" step="0.01" placeholder="0.00" value="2.00">
+        </div>
+        <div class="input-group">
+          <label for="costoProtector">Protectores de cera ($):
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Costo de protectores, sellos o seguridad para la cera</span>
+            </div>
+          </label>
+          <input type="number" id="costoProtector" step="0.01" placeholder="0.00" value="0.75">
+        </div>
+      </div>
+
+      <div class="input-card">
+        <h3><i class="fas fa-user-tie"></i> Mano de Obra y Costos Indirectos
+          <div class="tooltip-container">
+            <i class="fas fa-question-circle tooltip-icon"></i>
+            <span class="tooltip-text">Configuración de mano de obra y costos indirectos</span>
+          </div>
+        </h3>
+        
+        <!-- Selector de tipo de mano de obra -->
+        <div class="input-group">
+          <label>Tipo de cálculo de mano de obra:
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Selecciona cómo calcular la mano de obra</span>
+            </div>
+          </label>
+          <div class="unit-selector">
+            <div class="unit-option" data-unit="fijo" data-target="manoObra">Monto Fijo</div>
+            <div class="unit-option active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
+          </div>
+        </div>
+        
+        <div class="input-group" id="manoObraFijo-group">
+          <label for="manoObraFijo">Mano de obra fija por vela ($):
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Costo fijo de mano de obra para producir cada vela</span>
+            </div>
+          </label>
+          <input type="number" id="manoObraFijo" step="0.01" value="0.00" placeholder="0.00">
+        </div>
+        
+        <div class="input-group" id="manoObraPorcentaje-group">
+          <label for="manoObraPorcentaje">Porcentaje de mano de obra (%):
+            <div class="tooltip-container">
+              <i class="fas fa-question-circle tooltip-icon"></i>
+              <span class="tooltip-text">Porcentaje sobre el costo de materiales para calcular mano de obra</span>
+            </div>
+          </label>
+          <input type="number" id="manoObraPorcentaje" step="0.1" value="25" placeholder="25">
+        </div>
+        
         <div class="input-group">
           <label for="costoIndirecto">Costos indirectos por vela ($):
             <div class="tooltip-container">
               <i class="fas fa-question-circle tooltip-icon"></i>
-              <span class="tooltip-text">Costos indirectos como electricidad, empaque, etc.</span>
+              <span class="tooltip-text">Costos indirectos como electricidad, alquiler, etc.</span>
             </div>
           </label>
           <input type="number" id="costoIndirecto" step="0.01" value="3.00" placeholder="0.00">
@@ -993,11 +1133,21 @@
           
           <div class="summary-item">
             <div class="summary-icon">
-              <i class="fas fa-tools"></i>
+              <i class="fas fa-box"></i>
             </div>
             <div class="summary-content">
-              <div class="summary-label">Otros costos</div>
-              <div class="summary-value" id="res-otros">$0.00</div>
+              <div class="summary-label">Materiales y empaque</div>
+              <div class="summary-value" id="res-materiales">$0.00</div>
+            </div>
+          </div>
+          
+          <div class="summary-item">
+            <div class="summary-icon">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="summary-content">
+              <div class="summary-label">Mano de obra</div>
+              <div class="summary-value" id="res-mano-obra">$0.00</div>
             </div>
           </div>
           
@@ -1061,7 +1211,7 @@
           <p>El porcentaje de fragancia se calcula en relación al peso de la cera. Por ejemplo:</p>
           <ul>
             <li>Si usas 150g de cera y 8% de fragancia: 150g × 8% = 12g de fragancia por vela</li>
-            <li>Para un bote de 500g de fragancia a $15: $15 ÷ 500g = $0.03 por gramo</li>
+            <li>Para un bote de 500ml de fragancia a $15: $15 ÷ 500ml = $0.03 por ml</li>
             <li>Costo de fragancia por vela: 12g × $0.03 = $0.36</li>
           </ul>
         </div>
@@ -1105,6 +1255,21 @@
     // Variables globales
     let chartCostos = null;
     let resultadosCalculo = {};
+    
+    // Configuración de unidades
+    const unidadesConfig = {
+      fragancia: {
+        unidad: 'ml',
+        factor: 1
+      },
+      colorante: {
+        unidad: 'ml',
+        factor: 1
+      },
+      manoObra: {
+        tipo: 'porcentaje'
+      }
+    };
 
     // Función mejorada para obtener valores numéricos
     function obtenerValorNumerico(id, valorPorDefecto = 0) {
@@ -1114,8 +1279,65 @@
       return isNaN(valor) || valor < 0 ? valorPorDefecto : valor;
     }
 
+    // Función para manejar selectores de unidad
+    function configurarSelectoresUnidad() {
+      document.querySelectorAll('.unit-option').forEach(option => {
+        option.addEventListener('click', function() {
+          const target = this.getAttribute('data-target');
+          const unit = this.getAttribute('data-unit');
+          
+          // Remover clase active de todas las opciones del mismo grupo
+          document.querySelectorAll(`.unit-option[data-target="${target}"]`).forEach(opt => {
+            opt.classList.remove('active');
+          });
+          
+          // Agregar clase active a la opción seleccionada
+          this.classList.add('active');
+          
+          // Actualizar configuración
+          if (target === 'manoObra') {
+            unidadesConfig.manoObra.tipo = unit;
+            actualizarVisibilidadManoObra();
+          } else {
+            unidadesConfig[target].unidad = unit;
+            unidadesConfig[target].factor = unit === 'litros' ? 1000 : 1;
+            actualizarDisplayUnidades(target);
+          }
+          
+          calcularCostos();
+        });
+      });
+    }
+
+    // Función para actualizar la visibilidad de los campos de mano de obra
+    function actualizarVisibilidadManoObra() {
+      const esPorcentaje = unidadesConfig.manoObra.tipo === 'porcentaje';
+      
+      document.getElementById('manoObraFijo-group').style.display = esPorcentaje ? 'none' : 'block';
+      document.getElementById('manoObraPorcentaje-group').style.display = esPorcentaje ? 'block' : 'none';
+    }
+
+    // Función para actualizar los displays de unidades
+    function actualizarDisplayUnidades(target) {
+      const config = unidadesConfig[target];
+      let displayText = config.unidad;
+      
+      if (target === 'fragancia') {
+        document.getElementById('fragancia-unit-display').textContent = displayText;
+      } else if (target === 'colorante') {
+        document.getElementById('colorante-unit-display').textContent = displayText;
+        document.getElementById('uso-colorante-unit-display').textContent = displayText;
+      }
+    }
+
     // Inicialización
     document.addEventListener('DOMContentLoaded', function() {
+      // Configurar selectores de unidad
+      configurarSelectoresUnidad();
+      actualizarVisibilidadManoObra();
+      actualizarDisplayUnidades('fragancia');
+      actualizarDisplayUnidades('colorante');
+      
       // Configura eventos de input para cálculo automático
       document.querySelectorAll('input').forEach(input => {
         input.addEventListener('input', calcularCostos);
@@ -1168,15 +1390,19 @@
       const costoCera = obtenerValorNumerico('costoCera', 0);
       const gramosCera = obtenerValorNumerico('gramosCera', 0);
       const costoFragancia = obtenerValorNumerico('costoFragancia', 0);
-      const tamanoFragancia = obtenerValorNumerico('tamanoFragancia', 1); // Evitar división por cero
+      const tamanoFragancia = obtenerValorNumerico('tamanoFragancia', 1);
       const porcentajeFragancia = obtenerValorNumerico('porcentajeFragancia', 0);
       const costoColorante = obtenerValorNumerico('costoColorante', 0);
       const usoColorante = obtenerValorNumerico('usoColorante', 0);
-      const cantidadColorante = obtenerValorNumerico('cantidadColorante', 1); // Evitar división por cero
+      const cantidadColorante = obtenerValorNumerico('cantidadColorante', 1);
       const costoMecha = obtenerValorNumerico('costoMecha', 0);
       const costoFrasco = obtenerValorNumerico('costoFrasco', 0);
       const costoEtiqueta = obtenerValorNumerico('costoEtiqueta', 0);
-      const manoObra = obtenerValorNumerico('manoObra', 0);
+      const costoRotulacion = obtenerValorNumerico('costoRotulacion', 0);
+      const costoEmpaque = obtenerValorNumerico('costoEmpaque', 0);
+      const costoProtector = obtenerValorNumerico('costoProtector', 0);
+      const manoObraFijo = obtenerValorNumerico('manoObraFijo', 0);
+      const manoObraPorcentaje = obtenerValorNumerico('manoObraPorcentaje', 0);
       const costoIndirecto = obtenerValorNumerico('costoIndirecto', 0);
       const margen = obtenerValorNumerico('margen', 35);
       const cantidadVelas = obtenerValorNumerico('cantidadVelas', 1);
@@ -1185,16 +1411,33 @@
       const costoPorGramoCera = costoCera / 1000;
       const costoCeraPorVela = costoPorGramoCera * gramosCera;
 
+      // Cálculo de fragancia (considerando unidades)
       const gramosFragancia = gramosCera * (porcentajeFragancia / 100);
-      const costoPorGramoFragancia = tamanoFragancia > 0 ? costoFragancia / tamanoFragancia : 0;
-      const costoFraganciaPorVela = gramosFragancia * costoPorGramoFragancia;
+      const tamanoFraganciaMl = tamanoFragancia * unidadesConfig.fragancia.factor;
+      const costoPorMlFragancia = tamanoFraganciaMl > 0 ? costoFragancia / tamanoFraganciaMl : 0;
+      const costoFraganciaPorVela = gramosFragancia * costoPorMlFragancia;
 
-      const costoColorantePorGramo = cantidadColorante > 0 ? costoColorante / cantidadColorante : 0;
-      const costoColorantePorVela = usoColorante * costoColorantePorGramo;
+      // Cálculo de colorante (considerando unidades)
+      const cantidadColoranteMl = cantidadColorante * unidadesConfig.colorante.factor;
+      const costoColorantePorUnidad = cantidadColoranteMl > 0 ? costoColorante / cantidadColoranteMl : 0;
+      const costoColorantePorVela = usoColorante * costoColorantePorUnidad;
 
-      const otrosCostosPorVela = costoMecha + costoFrasco + costoEtiqueta + manoObra + costoIndirecto;
+      // Costos de materiales y empaque
+      const costosMateriales = costoMecha + costoFrasco + costoEtiqueta + costoRotulacion + costoEmpaque + costoProtector;
+      
+      // Cálculo de mano de obra
+      let costoManoObraPorVela = 0;
+      const costosMaterialesTotales = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + costosMateriales;
+      
+      if (unidadesConfig.manoObra.tipo === 'porcentaje') {
+        costoManoObraPorVela = costosMaterialesTotales * (manoObraPorcentaje / 100);
+      } else {
+        costoManoObraPorVela = manoObraFijo;
+      }
 
-      const costoTotalUnitario = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + otrosCostosPorVela;
+      const costoTotalUnitario = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + 
+                                costosMateriales + costoManoObraPorVela + costoIndirecto;
+      
       const precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
       const gananciaUnitario = precioVentaUnitario - costoTotalUnitario;
 
@@ -1208,7 +1451,9 @@
         costoCeraPorVela,
         costoFraganciaPorVela,
         costoColorantePorVela,
-        otrosCostosPorVela,
+        costosMateriales,
+        costoManoObraPorVela,
+        costoIndirecto,
         costoTotalUnitario,
         margen,
         precioVentaUnitario,
@@ -1222,7 +1467,8 @@
       document.getElementById('res-cera').textContent = formatCurrency(costoCeraPorVela);
       document.getElementById('res-fragancia').textContent = formatCurrency(costoFraganciaPorVela);
       document.getElementById('res-colorante').textContent = formatCurrency(costoColorantePorVela);
-      document.getElementById('res-otros').textContent = formatCurrency(otrosCostosPorVela);
+      document.getElementById('res-materiales').textContent = formatCurrency(costosMateriales);
+      document.getElementById('res-mano-obra').textContent = formatCurrency(costoManoObraPorVela);
       document.getElementById('res-total-unitario').textContent = formatCurrency(costoTotalUnitario);
       document.getElementById('res-precio-venta').textContent = formatCurrency(precioVentaUnitario);
 
@@ -1252,25 +1498,31 @@
       }
 
       const data = {
-        labels: ['Cera', 'Fragancia', 'Colorante', 'Otros Costos'],
+        labels: ['Cera', 'Fragancia', 'Colorante', 'Materiales', 'Mano Obra', 'Indirectos'],
         datasets: [{
           data: [
             resultadosCalculo.costoCeraPorVela || 0,
             resultadosCalculo.costoFraganciaPorVela || 0,
             resultadosCalculo.costoColorantePorVela || 0,
-            resultadosCalculo.otrosCostosPorVela || 0
+            resultadosCalculo.costosMateriales || 0,
+            resultadosCalculo.costoManoObraPorVela || 0,
+            resultadosCalculo.costoIndirecto || 0
           ],
           backgroundColor: [
             'rgba(217, 122, 155, 0.8)',
             'rgba(227, 141, 168, 0.8)',
             'rgba(255, 234, 240, 0.8)',
-            'rgba(82, 171, 152, 0.8)'
+            'rgba(82, 171, 152, 0.8)',
+            'rgba(155, 89, 182, 0.8)',
+            'rgba(52, 152, 219, 0.8)'
           ],
           borderColor: [
             'rgba(217, 122, 155, 1)',
             'rgba(227, 141, 168, 1)',
             'rgba(255, 234, 240, 1)',
-            'rgba(82, 171, 152, 1)'
+            'rgba(82, 171, 152, 1)',
+            'rgba(155, 89, 182, 1)',
+            'rgba(52, 152, 219, 1)'
           ],
           borderWidth: 1
         }]
@@ -1320,8 +1572,11 @@
         { nombre: 'Colorante', valor: resultadosCalculo.costoColorantePorVela || 0 },
         { nombre: 'Mecha', valor: obtenerValorNumerico('costoMecha', 0) },
         { nombre: 'Frasco', valor: obtenerValorNumerico('costoFrasco', 0) },
-        { nombre: 'Etiqueta', valor: obtenerValorNumerico('costoEtiqueta', 0) },
-        { nombre: 'Mano de obra', valor: obtenerValorNumerico('manoObra', 0) },
+        { nombre: 'Etiqueta principal', valor: obtenerValorNumerico('costoEtiqueta', 0) },
+        { nombre: 'Rotulación tapa/frasco', valor: obtenerValorNumerico('costoRotulacion', 0) },
+        { nombre: 'Empaque', valor: obtenerValorNumerico('costoEmpaque', 0) },
+        { nombre: 'Protectores de cera', valor: obtenerValorNumerico('costoProtector', 0) },
+        { nombre: 'Mano de obra', valor: resultadosCalculo.costoManoObraPorVela || 0 },
         { nombre: 'Costos indirectos', valor: obtenerValorNumerico('costoIndirecto', 0) }
       ];
 
