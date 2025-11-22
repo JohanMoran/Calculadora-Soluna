@@ -45,12 +45,12 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Logo hero - MÁS DELGADO */
+    /* Logo hero - MEJORADO Y MÁS COMPACTO */
     .logo-hero {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto 20px;
-      padding: 15px;
+      margin: 0 auto 15px;
+      padding: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -58,25 +58,24 @@
     }
     
     .hero-logo {
-      width: 70%; /* Reducido del 90% */
-      max-width: 800px; /* Reducido del 1000px */
+      width: 100%;
+      max-width: 900px;
       height: auto;
-      max-height: 120px; /* Altura máxima para hacerlo más delgado */
-      object-fit: contain;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      max-height: 80px; /* Más compacto */
+      object-fit: cover; /* Cambiado a cover para adaptar mejor la imagen */
+      object-position: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      border: 1px solid rgba(0, 0, 0, 0.08);
     }
     
     body.dark .hero-logo {
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     }
     
     .hero-logo:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     }
 
     /* Botones de exportación */
@@ -671,10 +670,10 @@
         margin-right: 0;
       }
       
-      /* Logo más delgado en móviles */
+      /* Logo más compacto en móviles */
       .hero-logo {
-        width: 85%;
-        max-height: 100px;
+        width: 100%;
+        max-height: 70px;
       }
       
       /* Ajuste para la tabla */
@@ -721,8 +720,8 @@
       /* Logo hero */
       .hero-logo {
         width: 100%;
-        border-radius: 10px;
-        margin-bottom: 15px;
+        border-radius: 6px;
+        margin-bottom: 10px;
       }
       
       /* FAQ responsive */
@@ -800,7 +799,7 @@
 <body>
   <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Modo Oscuro</button>
 
-  <!-- Logo hero - MÁS DELGADO -->
+  <!-- Logo hero - MEJORADO Y MÁS COMPACTO -->
   <div class="logo-hero">
     <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo">
   </div>
@@ -822,7 +821,7 @@
               <span class="tooltip-text">Precio por kilogramo de cera que utilizas</span>
             </div>
           </label>
-          <input type="number" id="costoCera" step="0.01" placeholder="0.00" value="25.00">
+          <input type="number" id="costoCera" step="0.01" placeholder="0.00" value="100.00">
         </div>
         <div class="input-group">
           <label for="gramosCera">Cera por vela (gramos):
@@ -849,7 +848,7 @@
               <span class="tooltip-text">Precio del envase completo de fragancia</span>
             </div>
           </label>
-          <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="15.00">
+          <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="200.00">
         </div>
         
         <!-- Selector de unidad para fragancia -->
@@ -873,7 +872,7 @@
               <span class="tooltip-text">Capacidad total del envase de fragancia</span>
             </div>
           </label>
-          <input type="number" id="tamanoFragancia" step="1" placeholder="0" value="500">
+          <input type="number" id="tamanoFragancia" step="1" placeholder="0" value="250">
           <div id="fragancia-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
         </div>
         
@@ -884,7 +883,7 @@
               <span class="tooltip-text">Porcentaje de fragancia en relación al peso de la cera</span>
             </div>
           </label>
-          <input type="number" id="porcentajeFragancia" step="0.1" placeholder="0" value="8">
+          <input type="number" id="porcentajeFragancia" step="0.1" placeholder="0" value="10">
         </div>
       </div>
 
@@ -902,7 +901,7 @@
               <span class="tooltip-text">Precio del envase completo de colorante</span>
             </div>
           </label>
-          <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="12.00">
+          <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="10.00">
         </div>
         
         <!-- Selector de unidad para colorante -->
@@ -926,7 +925,7 @@
               <span class="tooltip-text">Capacidad total del envase de colorante</span>
             </div>
           </label>
-          <input type="number" id="cantidadColorante" step="1" placeholder="0" value="100">
+          <input type="number" id="cantidadColorante" step="1" placeholder="0" value="10">
           <div id="colorante-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
         </div>
         
@@ -937,7 +936,7 @@
               <span class="tooltip-text">Cantidad de colorante que usa cada vela</span>
             </div>
           </label>
-          <input type="number" id="usoColorante" step="0.1" placeholder="0" value="5">
+          <input type="number" id="usoColorante" step="0.1" placeholder="0" value="0.1">
           <div id="uso-colorante-unit-display" style="font-size: 0.8rem; color: #666; margin-top: 5px;">ml</div>
         </div>
       </div>
@@ -1425,18 +1424,18 @@
       // Costos de materiales y empaque
       const costosMateriales = costoMecha + costoFrasco + costoEtiqueta + costoRotulacion + costoEmpaque + costoProtector;
       
-      // Cálculo de mano de obra
-      let costoManoObraPorVela = 0;
+      // CÁLCULO MEJORADO DE MANO DE OBRA - SUMA DE TODOS LOS MATERIALES
       const costosMaterialesTotales = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + costosMateriales;
       
+      let costoManoObraPorVela = 0;
       if (unidadesConfig.manoObra.tipo === 'porcentaje') {
+        // Calcular el 25% sobre la suma de todos los materiales
         costoManoObraPorVela = costosMaterialesTotales * (manoObraPorcentaje / 100);
       } else {
         costoManoObraPorVela = manoObraFijo;
       }
 
-      const costoTotalUnitario = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + 
-                                costosMateriales + costoManoObraPorVela + costoIndirecto;
+      const costoTotalUnitario = costosMaterialesTotales + costoManoObraPorVela + costoIndirecto;
       
       const precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
       const gananciaUnitario = precioVentaUnitario - costoTotalUnitario;
