@@ -61,34 +61,34 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* LOGO ESTÉTICO Y PROPORCIONAL */
-    .logo-hero { 
-      width: 100%; 
-      max-width: 1200px; 
-      margin: 15px auto 30px; /* Más espacio abajo para respirar */
-      padding: 0 15px; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
+    /* ==========================================
+       NUEVO LOGO ENMARCADO Y RECORTADO
+       ========================================== */
+    .logo-hero-container {
+      width: 100%;
+      max-width: 750px;
+      height: 130px; /* Altura controlada para forzar el recorte en PC */
+      margin: 15px auto 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      overflow: hidden; /* CORTA EL EXCESO DE BLANCO ARRIBA Y ABAJO */
+      background: white;
     }
     
-    .hero-logo { 
-      width: 100%; 
-      max-width: 750px; /* Ancho ideal para destacar sin comerse la pantalla */
-      height: auto; /* Se ajusta solo, sin restricciones que lo hagan miniatura */
-      object-fit: contain; 
-      border-radius: 12px; 
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Sombra suave y elegante */
-      transition: all 0.3s ease; 
+    body.dark .logo-hero-container {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
     
-    body.dark .hero-logo { 
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+    .hero-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Hace que la imagen llene el contenedor, recortando los bordes */
+      object-position: center;
+      transition: all 0.3s ease;
     }
     
-    .hero-logo:hover { 
-      transform: translateY(-3px); 
-      box-shadow: 0 12px 28px rgba(0,0,0,0.12); 
+    .hero-logo:hover {
+      transform: scale(1.02); /* Efecto zoom elegante */
     }
 
     /* SWITCHER PRINCIPAL DE APPS */
@@ -199,7 +199,21 @@
     
     /* RESPONSIVE */
     @media (min-width: 768px) { .calculadora-grid { grid-template-columns: 1.1fr 2fr; } .chart-container { height: 400px; } .export-buttons { flex-direction: row; } }
-    @media (max-width: 768px) { body { padding: 10px; min-width: 100%; overflow-x: hidden; } .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } .table-wrapper { width: 100%; display: block; } .chart-container { height: 300px; padding: 10px; } .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .export-buttons { flex-direction: column; } }
+    @media (max-width: 768px) { 
+      body { padding: 10px; min-width: 100%; overflow-x: hidden; } 
+      .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } 
+      .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } 
+      .table-wrapper { width: 100%; display: block; } 
+      .chart-container { height: 300px; padding: 10px; } 
+      .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } 
+      .export-buttons { flex-direction: column; } 
+      /* Ajuste del logo para móvil para forzar el recorte también en celulares */
+      .logo-hero-container {
+        height: 85px; 
+        margin: 10px auto 20px;
+        width: calc(100% - 20px);
+      }
+    }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; } .calculadora-grid { width: 100%; overflow: hidden; }
   </style>
@@ -207,7 +221,8 @@
 <body>
   <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Modo Oscuro</button>
 
-  <div class="logo-hero">
+  <!-- LOGO ACTUALIZADO CON CONTENEDOR ENMARCADO -->
+  <div class="logo-hero-container">
     <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo">
   </div>
 
@@ -432,7 +447,6 @@
             <label for="gramosCemento">Gramos de Cemento por pieza:</label>
             <input type="number" id="gramosCemento" step="1" value="300">
           </div>
-          <!-- NUEVO: Arena/Marmolina -->
           <div class="input-group">
             <label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label>
             <input type="number" id="costoArena" step="0.01" value="5.00">
@@ -447,13 +461,10 @@
           </div>
         </div>
 
-        <!-- NUEVO: Químicos -->
         <div id="sec-conc-quimicos" class="input-card step-section-conc">
           <h3><i class="fas fa-flask"></i> 2. Químicos</h3>
           <div class="input-group">
-            <label for="costoAcido">Ácido muriático por pieza ($):
-              <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Costo proporcional por pieza para lavado y neutralizado.</span></div>
-            </label>
+            <label for="costoAcido">Ácido muriático por pieza ($):</label>
             <input type="number" id="costoAcido" step="0.01" value="1.00">
           </div>
           <div class="input-group">
@@ -481,9 +492,7 @@
             <input type="number" id="costoBaseCorcho" step="0.01" value="1.50">
           </div>
           <div class="input-group">
-            <label for="desgasteMolde">Desgaste de molde por pieza ($):
-              <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Si un molde cuesta $100 y dura 20 usos, el costo es $5 por pieza.</span></div>
-            </label>
+            <label for="desgasteMolde">Desgaste de molde por pieza ($):</label>
             <input type="number" id="desgasteMolde" step="0.01" value="5.00">
           </div>
         </div>
@@ -553,7 +562,6 @@
   </a>
 
   <script>
-    // Variables Velas
     let chartCostos = null;
     let resultadosCalculo = {};
     const unidadesConfig = {
@@ -561,11 +569,9 @@
       manoObra: { tipo: 'porcentaje' }, utilidadEnvase: { tipo: 'con-utilidad' }
     };
 
-    // Variables Concreto
     let chartCostosConcreto = null;
     let resultadosConcreto = {};
 
-    // SWITCHER PRINCIPAL
     function switchApp(app) {
       if(app === 'velas') {
         document.getElementById('app-velas').style.display = 'block';
@@ -584,7 +590,6 @@
       }
     }
 
-    // PESTAÑAS
     function mostrarSeccionVelas(sectionId, btnElement) {
       document.querySelectorAll('.step-section-velas').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.step-velas').forEach(btn => btn.classList.remove('active'));
@@ -643,31 +648,22 @@
       calcularCostosConcreto();
     });
 
-    // ==========================================
-    // CALCULADORA CONCRETO
-    // ==========================================
     function calcularCostosConcreto() {
       const costoCemento = obtenerValorNumerico('costoCemento', 0);
       const gramosCemento = obtenerValorNumerico('gramosCemento', 0);
-      
       const costoArena = obtenerValorNumerico('costoArena', 0);
       const gramosArena = obtenerValorNumerico('gramosArena', 0);
       const costoAgua = obtenerValorNumerico('costoAgua', 0);
-      
       const costoAcido = obtenerValorNumerico('costoAcido', 0);
       const costoCarbonato = obtenerValorNumerico('costoCarbonato', 0);
-
       const costoPigmento = obtenerValorNumerico('costoPigmentoConc', 0);
-      
       const costoSellador = obtenerValorNumerico('costoSellador', 0);
       const costoBaseCorcho = obtenerValorNumerico('costoBaseCorcho', 0);
       const desgasteMolde = obtenerValorNumerico('desgasteMolde', 0);
-      
       const manoObra = obtenerValorNumerico('manoObraConc', 0);
       const indirectos = obtenerValorNumerico('indirectosConc', 0);
       const margen = obtenerValorNumerico('margenConc', 40);
 
-      // Math
       const costoMezcla = (costoCemento / 1000 * gramosCemento) + (costoArena / 1000 * gramosArena) + costoAgua;
       const costoQuimicos = costoAcido + costoCarbonato;
       const costoAcabados = costoSellador + costoBaseCorcho + desgasteMolde;
@@ -676,7 +672,6 @@
 
       resultadosConcreto = { costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos, costoTotalUnitario, precioVenta };
 
-      // DOM
       document.getElementById('res-conc-mezcla').textContent = formatCurrency(costoMezcla);
       document.getElementById('res-conc-quimicos').textContent = formatCurrency(costoQuimicos);
       document.getElementById('res-conc-acabado').textContent = formatCurrency(costoAcabados);
@@ -724,9 +719,6 @@
       tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(84, 110, 122, 0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
     }
 
-    // ==========================================
-    // CALCULADORA VELAS
-    // ==========================================
     function calcularCostos() {
       const costoCera = obtenerValorNumerico('costoCera', 0);
       const gramosCera = obtenerValorNumerico('gramosCera', 0);
@@ -804,10 +796,7 @@
       });
       tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(82,171,152,0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
     }
-    
-    // ==========================================
-    // EXPORTACIÓN INTELIGENTE (Velas o Concreto)
-    // ==========================================
+
     async function exportToPDF() {
       const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const { jsPDF } = window.jspdf;
