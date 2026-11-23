@@ -61,17 +61,15 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* ==========================================
-       NUEVO LOGO ENMARCADO Y RECORTADO
-       ========================================== */
+    /* LOGO ENMARCADO Y RECORTADO */
     .logo-hero-container {
       width: 100%;
       max-width: 750px;
-      height: 130px; /* Altura controlada para forzar el recorte en PC */
+      height: 130px; 
       margin: 15px auto 30px;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      overflow: hidden; /* CORTA EL EXCESO DE BLANCO ARRIBA Y ABAJO */
+      overflow: hidden; 
       background: white;
     }
     
@@ -82,13 +80,13 @@
     .hero-logo {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Hace que la imagen llene el contenedor, recortando los bordes */
+      object-fit: cover; 
       object-position: center;
       transition: all 0.3s ease;
     }
     
     .hero-logo:hover {
-      transform: scale(1.02); /* Efecto zoom elegante */
+      transform: scale(1.02); 
     }
 
     /* SWITCHER PRINCIPAL DE APPS */
@@ -207,12 +205,7 @@
       .chart-container { height: 300px; padding: 10px; } 
       .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } 
       .export-buttons { flex-direction: column; } 
-      /* Ajuste del logo para móvil para forzar el recorte también en celulares */
-      .logo-hero-container {
-        height: 85px; 
-        margin: 10px auto 20px;
-        width: calc(100% - 20px);
-      }
+      .logo-hero-container { height: 85px; margin: 10px auto 20px; width: calc(100% - 20px); }
     }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; } .calculadora-grid { width: 100%; overflow: hidden; }
@@ -221,9 +214,8 @@
 <body>
   <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Modo Oscuro</button>
 
-  <!-- LOGO ACTUALIZADO CON CONTENEDOR ENMARCADO -->
   <div class="logo-hero-container">
-    <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo">
+    <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo" id="main-logo">
   </div>
 
   <!-- SELECTOR PRINCIPAL VELAS VS CONCRETO -->
@@ -256,22 +248,13 @@
       <div class="input-section">
         <div id="sec-cera" class="input-card step-section-velas active">
           <h3><i class="fas fa-fire"></i> 1. Cera</h3>
-          <div class="input-group">
-            <label for="costoCera">Costo de 1kg de cera ($):</label>
-            <input type="number" id="costoCera" step="0.01" placeholder="0.00" value="100.00">
-          </div>
-          <div class="input-group">
-            <label for="gramosCera">Cera por vela (gramos):</label>
-            <input type="number" id="gramosCera" step="0.1" placeholder="0" value="150">
-          </div>
+          <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
+          <div class="input-group"><label for="gramosCera">Cera por vela (gramos):</label><input type="number" id="gramosCera" step="0.1" value="150"></div>
         </div>
 
         <div id="sec-fragancia" class="input-card step-section-velas">
           <h3><i class="fas fa-wind"></i> 2. Fragancia</h3>
-          <div class="input-group">
-            <label for="costoFragancia">Costo de la fragancia ($):</label>
-            <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="200.00">
-          </div>
+          <div class="input-group"><label for="costoFragancia">Costo de la fragancia ($):</label><input type="number" id="costoFragancia" step="0.01" value="200.00"></div>
           <div class="input-group">
             <label>Unidad de medida:</label>
             <div class="unit-selector">
@@ -279,22 +262,13 @@
               <div class="unit-option unit-velas" data-unit="litros" data-target="fragancia">Litros (L)</div>
             </div>
           </div>
-          <div class="input-group">
-            <label for="tamanoFragancia">Tamaño del envase:</label>
-            <input type="number" id="tamanoFragancia" step="1" placeholder="0" value="250">
-          </div>
-          <div class="input-group">
-            <label for="porcentajeFragancia">Porcentaje de fragancia (%):</label>
-            <input type="number" id="porcentajeFragancia" step="0.1" placeholder="0" value="10">
-          </div>
+          <div class="input-group"><label for="tamanoFragancia">Tamaño del envase:</label><input type="number" id="tamanoFragancia" step="1" value="250"></div>
+          <div class="input-group"><label for="porcentajeFragancia">Porcentaje de fragancia (%):</label><input type="number" id="porcentajeFragancia" step="0.1" value="10"></div>
         </div>
 
         <div id="sec-colorante" class="input-card step-section-velas">
           <h3><i class="fas fa-palette"></i> 3. Colorante</h3>
-          <div class="input-group">
-            <label for="costoColorante">Costo del colorante ($):</label>
-            <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="10.00">
-          </div>
+          <div class="input-group"><label for="costoColorante">Costo del colorante ($):</label><input type="number" id="costoColorante" step="0.01" value="10.00"></div>
           <div class="input-group">
             <label>Unidad de medida:</label>
             <div class="unit-selector">
@@ -302,42 +276,18 @@
               <div class="unit-option unit-velas" data-unit="gramos" data-target="colorante">Gramos (g)</div>
             </div>
           </div>
-          <div class="input-group">
-            <label for="cantidadColorante">Tamaño del envase:</label>
-            <input type="number" id="cantidadColorante" step="1" placeholder="0" value="10">
-          </div>
-          <div class="input-group">
-            <label for="usoColorante">Uso por vela:</label>
-            <input type="number" id="usoColorante" step="0.1" placeholder="0" value="0.1">
-          </div>
+          <div class="input-group"><label for="cantidadColorante">Tamaño del envase:</label><input type="number" id="cantidadColorante" step="1" value="10"></div>
+          <div class="input-group"><label for="usoColorante">Uso por vela:</label><input type="number" id="usoColorante" step="0.1" value="0.1"></div>
         </div>
 
         <div id="sec-materiales" class="input-card step-section-velas">
           <h3><i class="fas fa-tools"></i> 4. Materiales y Empaque</h3>
-          <div class="input-group">
-            <label for="costoFrasco">Costo del frasco/envase por vela ($):</label>
-            <input type="number" id="costoFrasco" step="0.01" placeholder="0.00" value="8.00">
-          </div>
-          <div class="input-group">
-            <label for="costoMecha">Costo de mecha por vela ($):</label>
-            <input type="number" id="costoMecha" step="0.01" placeholder="0.00" value="2.50">
-          </div>
-          <div class="input-group">
-            <label for="costoEtiqueta">Costo de etiqueta principal ($):</label>
-            <input type="number" id="costoEtiqueta" step="0.01" placeholder="0.00" value="1.50">
-          </div>
-          <div class="input-group">
-            <label for="costoRotulacion">Rotulación de tapa/frasco ($):</label>
-            <input type="number" id="costoRotulacion" step="0.01" placeholder="0.00" value="0.50">
-          </div>
-          <div class="input-group">
-            <label for="costoEmpaque">Coste de empaque ($):</label>
-            <input type="number" id="costoEmpaque" step="0.01" placeholder="0.00" value="2.00">
-          </div>
-          <div class="input-group">
-            <label for="costoProtector">Protectores de cera ($):</label>
-            <input type="number" id="costoProtector" step="0.01" placeholder="0.00" value="0.75">
-          </div>
+          <div class="input-group"><label for="costoFrasco">Costo del frasco/envase por vela ($):</label><input type="number" id="costoFrasco" step="0.01" value="8.00"></div>
+          <div class="input-group"><label for="costoMecha">Costo de mecha por vela ($):</label><input type="number" id="costoMecha" step="0.01" value="2.50"></div>
+          <div class="input-group"><label for="costoEtiqueta">Costo de etiqueta principal ($):</label><input type="number" id="costoEtiqueta" step="0.01" value="1.50"></div>
+          <div class="input-group"><label for="costoRotulacion">Rotulación de tapa/frasco ($):</label><input type="number" id="costoRotulacion" step="0.01" value="0.50"></div>
+          <div class="input-group"><label for="costoEmpaque">Coste de empaque ($):</label><input type="number" id="costoEmpaque" step="0.01" value="2.00"></div>
+          <div class="input-group"><label for="costoProtector">Protectores de cera ($):</label><input type="number" id="costoProtector" step="0.01" value="0.75"></div>
         </div>
 
         <div id="sec-manoobra" class="input-card step-section-velas">
@@ -349,26 +299,14 @@
               <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
             </div>
           </div>
-          <div class="input-group" id="manoObraFijo-group">
-            <label for="manoObraFijo">Mano de obra fija por vela ($):</label>
-            <input type="number" id="manoObraFijo" step="0.01" value="0.00">
-          </div>
-          <div class="input-group" id="manoObraPorcentaje-group">
-            <label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label>
-            <input type="number" id="manoObraPorcentaje" step="0.1" value="25">
-          </div>
-          <div class="input-group">
-            <label for="costoIndirecto">Costos indirectos por vela ($):</label>
-            <input type="number" id="costoIndirecto" step="0.01" value="3.00">
-          </div>
+          <div class="input-group" id="manoObraFijo-group"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
+          <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
+          <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
         </div>
 
         <div id="sec-produccion" class="input-card step-section-velas">
-          <h3><i class="fas fa-chart-line"></i> 6. Producción y Margen</h3>
-          <div class="input-group">
-            <label for="margen">Margen de beneficio deseado (%):</label>
-            <input type="number" id="margen" step="0.1" value="35">
-          </div>
+          <h3><i class="fas fa-chart-line"></i> 6. Producción, Margen y Cotización</h3>
+          <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
           <div class="input-group" style="margin-top: 15px; margin-bottom: 15px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
             <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
             <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
@@ -377,13 +315,19 @@
               <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
             </div>
           </div>
-          <div class="input-group">
-            <label for="cantidadVelas">Número de velas a producir:</label>
-            <input type="number" id="cantidadVelas" step="1" value="1">
+          <div class="input-group"><label for="cantidadVelas">Número de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
+          
+          <!-- DATOS DEL CLIENTE PARA PDF -->
+          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
+            <h4 style="margin: 0 0 10px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente (Opcional para Cotización PDF)</h4>
+            <div class="input-group"><input type="text" id="clienteNombreVelas" placeholder="Nombre del Cliente"></div>
+            <div class="input-group"><input type="text" id="clienteContactoVelas" placeholder="Teléfono o Correo"></div>
+            <div class="input-group"><input type="text" id="clienteDomicilioVelas" placeholder="Domicilio / Ciudad"></div>
           </div>
+
           <div class="export-buttons">
-            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF</button>
-            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel</button>
+            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel Interno</button>
           </div>
         </div>
       </div>
@@ -401,17 +345,6 @@
           </div>
         </div>
         <div class="chart-container"><canvas id="graficaCostos"></canvas></div>
-        <div class="results-table-container">
-          <div class="input-card">
-            <h3><i class="fas fa-table"></i> Desglose</h3>
-            <div class="table-wrapper">
-              <table id="tablaResultados">
-                <thead><tr><th>Concepto</th><th>Costo</th><th>%</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -434,99 +367,60 @@
     </div>
 
     <div class="calculadora-grid">
-      <!-- Columna izquierda - Inputs Concreto -->
       <div class="input-section">
         
         <div id="sec-conc-mezcla" class="input-card step-section-conc active">
           <h3><i class="fas fa-cubes"></i> 1. Mezcla Base</h3>
-          <div class="input-group">
-            <label for="costoCemento">Costo de 1kg de Cemento/Jesmonite ($):</label>
-            <input type="number" id="costoCemento" step="0.01" value="20.00">
-          </div>
-          <div class="input-group">
-            <label for="gramosCemento">Gramos de Cemento por pieza:</label>
-            <input type="number" id="gramosCemento" step="1" value="300">
-          </div>
-          <div class="input-group">
-            <label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label>
-            <input type="number" id="costoArena" step="0.01" value="5.00">
-          </div>
-          <div class="input-group">
-            <label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label>
-            <input type="number" id="gramosArena" step="1" value="200">
-          </div>
-          <div class="input-group">
-            <label for="costoAgua">Costo de Aditivo/Líquido por pieza ($) (Opcional):</label>
-            <input type="number" id="costoAgua" step="0.01" value="2.00">
-          </div>
+          <div class="input-group"><label for="costoCemento">Costo de 1kg de Cemento/Jesmonite ($):</label><input type="number" id="costoCemento" step="0.01" value="20.00"></div>
+          <div class="input-group"><label for="gramosCemento">Gramos de Cemento por pieza:</label><input type="number" id="gramosCemento" step="1" value="300"></div>
+          <div class="input-group"><label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label><input type="number" id="costoArena" step="0.01" value="5.00"></div>
+          <div class="input-group"><label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label><input type="number" id="gramosArena" step="1" value="200"></div>
+          <div class="input-group"><label for="costoAgua">Costo de Aditivo/Líquido por pieza ($) (Opcional):</label><input type="number" id="costoAgua" step="0.01" value="2.00"></div>
         </div>
 
         <div id="sec-conc-quimicos" class="input-card step-section-conc">
           <h3><i class="fas fa-flask"></i> 2. Químicos</h3>
-          <div class="input-group">
-            <label for="costoAcido">Ácido muriático por pieza ($):</label>
-            <input type="number" id="costoAcido" step="0.01" value="1.00">
-          </div>
-          <div class="input-group">
-            <label for="costoCarbonato">Carbonato de sodio por pieza ($):</label>
-            <input type="number" id="costoCarbonato" step="0.01" value="0.50">
-          </div>
+          <div class="input-group"><label for="costoAcido">Ácido muriático por pieza ($):</label><input type="number" id="costoAcido" step="0.01" value="1.00"></div>
+          <div class="input-group"><label for="costoCarbonato">Carbonato de sodio por pieza ($):</label><input type="number" id="costoCarbonato" step="0.01" value="0.50"></div>
         </div>
 
         <div id="sec-conc-pigmento" class="input-card step-section-conc">
           <h3><i class="fas fa-palette"></i> 3. Pigmento / Color</h3>
-          <div class="input-group">
-            <label for="costoPigmentoConc">Costo del Pigmento por pieza ($):</label>
-            <input type="number" id="costoPigmentoConc" step="0.01" value="1.50">
-          </div>
+          <div class="input-group"><label for="costoPigmentoConc">Costo del Pigmento por pieza ($):</label><input type="number" id="costoPigmentoConc" step="0.01" value="1.50"></div>
         </div>
 
         <div id="sec-conc-acabado" class="input-card step-section-conc">
           <h3><i class="fas fa-paint-roller"></i> 4. Acabado, Sellador y Moldes</h3>
-          <div class="input-group">
-            <label for="costoSellador">Sellador / Barniz por pieza ($):</label>
-            <input type="number" id="costoSellador" step="0.01" value="3.00">
-          </div>
-          <div class="input-group">
-            <label for="costoBaseCorcho">Base protectora (Corcho/Fieltro) ($):</label>
-            <input type="number" id="costoBaseCorcho" step="0.01" value="1.50">
-          </div>
-          <div class="input-group">
-            <label for="desgasteMolde">Desgaste de molde por pieza ($):</label>
-            <input type="number" id="desgasteMolde" step="0.01" value="5.00">
-          </div>
+          <div class="input-group"><label for="costoSellador">Sellador / Barniz por pieza ($):</label><input type="number" id="costoSellador" step="0.01" value="3.00"></div>
+          <div class="input-group"><label for="costoBaseCorcho">Base protectora (Corcho/Fieltro) ($):</label><input type="number" id="costoBaseCorcho" step="0.01" value="1.50"></div>
+          <div class="input-group"><label for="desgasteMolde">Desgaste de molde por pieza ($):</label><input type="number" id="desgasteMolde" step="0.01" value="5.00"></div>
         </div>
 
         <div id="sec-conc-manoobra" class="input-card step-section-conc">
           <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos</h3>
-          <div class="input-group">
-            <label for="manoObraConc">Mano de obra fija por pieza ($):</label>
-            <input type="number" id="manoObraConc" step="0.01" value="15.00">
-          </div>
-          <div class="input-group">
-            <label for="indirectosConc">Costos indirectos (Lijas, luz, agua) ($):</label>
-            <input type="number" id="indirectosConc" step="0.01" value="4.00">
-          </div>
+          <div class="input-group"><label for="manoObraConc">Mano de obra fija por pieza ($):</label><input type="number" id="manoObraConc" step="0.01" value="15.00"></div>
+          <div class="input-group"><label for="indirectosConc">Costos indirectos (Lijas, luz, agua) ($):</label><input type="number" id="indirectosConc" step="0.01" value="4.00"></div>
         </div>
 
         <div id="sec-conc-produccion" class="input-card step-section-conc">
-          <h3><i class="fas fa-chart-line"></i> 6. Producción y Margen</h3>
-          <div class="input-group">
-            <label for="margenConc">Margen de beneficio deseado (%):</label>
-            <input type="number" id="margenConc" step="0.1" value="40">
+          <h3><i class="fas fa-chart-line"></i> 6. Producción, Margen y Cotización</h3>
+          <div class="input-group"><label for="margenConc">Margen de beneficio deseado (%):</label><input type="number" id="margenConc" step="0.1" value="40"></div>
+          <div class="input-group"><label for="cantidadConc">Piezas a cotizar:</label><input type="number" id="cantidadConc" step="1" value="1"></div>
+          
+          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
+            <h4 style="margin: 0 0 10px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente (Opcional para Cotización PDF)</h4>
+            <div class="input-group"><input type="text" id="clienteNombreConc" placeholder="Nombre del Cliente"></div>
+            <div class="input-group"><input type="text" id="clienteContactoConc" placeholder="Teléfono o Correo"></div>
+            <div class="input-group"><input type="text" id="clienteDomicilioConc" placeholder="Domicilio / Ciudad"></div>
           </div>
-          <div class="input-group">
-            <label for="cantidadConc">Piezas a producir:</label>
-            <input type="number" id="cantidadConc" step="1" value="1">
-          </div>
+
           <div class="export-buttons">
-            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF</button>
-            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel</button>
+            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel Interno</button>
           </div>
         </div>
       </div>
 
-      <!-- Columna derecha - Resultados Concreto -->
       <div class="results-section">
         <div class="result-card">
           <h3><i class="fas fa-calculator"></i> Resumen Concreto</h3>
@@ -539,20 +433,7 @@
             <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio Sugerido</div><div class="summary-value" id="res-conc-precio">$0.00</div></div></div>
           </div>
         </div>
-        
         <div class="chart-container"><canvas id="graficaCostosConcreto"></canvas></div>
-        
-        <div class="results-table-container">
-          <div class="input-card">
-            <h3><i class="fas fa-table"></i> Desglose Concreto</h3>
-            <div class="table-wrapper">
-              <table id="tablaResultadosConcreto">
-                <thead><tr><th>Concepto</th><th>Costo</th><th>%</th></tr></thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -663,6 +544,7 @@
       const manoObra = obtenerValorNumerico('manoObraConc', 0);
       const indirectos = obtenerValorNumerico('indirectosConc', 0);
       const margen = obtenerValorNumerico('margenConc', 40);
+      const cantidad = obtenerValorNumerico('cantidadConc', 1);
 
       const costoMezcla = (costoCemento / 1000 * gramosCemento) + (costoArena / 1000 * gramosArena) + costoAgua;
       const costoQuimicos = costoAcido + costoCarbonato;
@@ -670,7 +552,7 @@
       const costoTotalUnitario = costoMezcla + costoQuimicos + costoPigmento + costoAcabados + manoObra + indirectos;
       const precioVenta = costoTotalUnitario * (1 + margen / 100);
 
-      resultadosConcreto = { costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos, costoTotalUnitario, precioVenta };
+      resultadosConcreto = { cantidad, costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos, costoTotalUnitario, precioVenta };
 
       document.getElementById('res-conc-mezcla').textContent = formatCurrency(costoMezcla);
       document.getElementById('res-conc-quimicos').textContent = formatCurrency(costoQuimicos);
@@ -680,7 +562,6 @@
       document.getElementById('res-conc-precio').textContent = formatCurrency(precioVenta);
 
       generarGraficoConcreto();
-      generarTablaConcreto(costoTotalUnitario, costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos);
     }
 
     function generarGraficoConcreto() {
@@ -697,26 +578,6 @@
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
-    }
-
-    function generarTablaConcreto(total, mezcla, quimicos, pigmento, acabados, mano, ind) {
-      const tbody = document.querySelector('#tablaResultadosConcreto tbody');
-      tbody.innerHTML = '';
-      const datos = [
-        { nombre: 'Mezcla (Cemento + Arena + Líquido)', valor: mezcla },
-        { nombre: 'Químicos (Ácido + Carbonato)', valor: quimicos },
-        { nombre: 'Pigmentos', valor: pigmento },
-        { nombre: 'Sellador / Molde / Corcho', valor: acabados }, 
-        { nombre: 'Mano de Obra', valor: mano }, 
-        { nombre: 'Indirectos', valor: ind }
-      ];
-      datos.forEach(d => {
-        if(d.valor > 0) {
-          const pct = total > 0 ? ((d.valor / total) * 100).toFixed(1) : '0';
-          tbody.innerHTML += `<tr><td style="text-align:left">${d.nombre}</td><td>${formatCurrency(d.valor)}</td><td>${pct}%</td></tr>`;
-        }
-      });
-      tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(84, 110, 122, 0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
     }
 
     function calcularCostos() {
@@ -738,6 +599,7 @@
       const manoObraPorcentaje = obtenerValorNumerico('manoObraPorcentaje', 0);
       const costoIndirecto = obtenerValorNumerico('costoIndirecto', 0);
       const margen = obtenerValorNumerico('margen', 35);
+      const cantidad = obtenerValorNumerico('cantidadVelas', 1);
 
       const costoCeraPorVela = (costoCera / 1000) * gramosCera;
       const costoFraganciaPorVela = (gramosCera * (porcentajeFragancia / 100)) * (tamanoFragancia > 0 ? costoFragancia / (tamanoFragancia * unidadesConfig.fragancia.factor) : 0);
@@ -755,7 +617,7 @@
         precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
       }
 
-      resultadosCalculo = { costoCeraPorVela, costoFraganciaPorVela, costoColorantePorVela, costosMateriales, costoManoObraPorVela, costoIndirecto, costoTotalUnitario, precioVentaUnitario };
+      resultadosCalculo = { cantidad, costoCeraPorVela, costoFraganciaPorVela, costoColorantePorVela, costosMateriales, costoManoObraPorVela, costoIndirecto, costoTotalUnitario, precioVentaUnitario };
 
       document.getElementById('res-cera').textContent = formatCurrency(costoCeraPorVela);
       document.getElementById('res-fragancia').textContent = formatCurrency(costoFraganciaPorVela);
@@ -765,7 +627,6 @@
       document.getElementById('res-precio-venta').textContent = formatCurrency(precioVentaUnitario);
 
       generarGraficoVelas();
-      generarTablaVelas(costoTotalUnitario, costoCeraPorVela, costoFraganciaPorVela, costoColorantePorVela, costosMateriales, costoManoObraPorVela, costoIndirecto);
     }
 
     function generarGraficoVelas() {
@@ -784,106 +645,143 @@
       });
     }
 
-    function generarTablaVelas(total, cera, fragancia, colorante, materiales, mano, ind) {
-      const tbody = document.querySelector('#tablaResultados tbody');
-      tbody.innerHTML = '';
-      const datos = [ { nombre: 'Cera', valor: cera }, { nombre: 'Fragancia', valor: fragancia }, { nombre: 'Colorante', valor: colorante }, { nombre: 'Materiales/Frasco', valor: materiales }, { nombre: 'Mano de Obra', valor: mano }, { nombre: 'Indirectos', valor: ind } ];
-      datos.forEach(d => {
-        if(d.valor > 0) {
-          const pct = total > 0 ? ((d.valor / total) * 100).toFixed(1) : '0';
-          tbody.innerHTML += `<tr><td style="text-align:left">${d.nombre}</td><td>${formatCurrency(d.valor)}</td><td>${pct}%</td></tr>`;
-        }
-      });
-      tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(82,171,152,0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
-    }
-
+    // ==========================================
+    // NUEVA EXPORTACIÓN A PDF EXACTA AL TEMPLATE DOCX
+    // ==========================================
     async function exportToPDF() {
       const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
       
-      const primaryColor = esVelas ? '#d97a9b' : '#546e7a'; 
-      const accentColor = esVelas ? '#52ab98' : '#78909c'; 
-      const textColor = '#333333';
-      const margin = 15; const pageWidth = doc.internal.pageSize.getWidth(); const contentWidth = pageWidth - margin * 2; let yPosition = margin;
+      const primaryColor = esVelas ? '#d97a9b' : '#546e7a';
+      
+      // 1. HEADER (TUS DATOS OFICIALES)
+      doc.setFontSize(8);
+      doc.setTextColor(80);
+      doc.text("ANA PAULA VILLASEÑOR GONZALEZ", 15, 20);
+      doc.text("VILLA CORAL 21, SANTA ANA TEPETITLÁN, 45230 ZAPOPAN, JAL.", 15, 24);
+      doc.text("CORREO: ANAPAULAVIGON@GMAIL.COM", 15, 28);
+      doc.text("CEL: 33 3149 0596", 15, 32);
 
-      doc.setFontSize(18); doc.setTextColor(primaryColor); doc.setFont('helvetica', 'bold');
-      doc.text(esVelas ? 'Reporte de Costos de Velas - Soluna' : 'Reporte de Costos de Concreto - Soluna', pageWidth / 2, yPosition, { align: 'center' });
-      doc.setFontSize(10); doc.setTextColor(100); doc.setFont('helvetica', 'normal'); yPosition += 8;
-      doc.text(`Generado el: ${new Date().toLocaleDateString('es-MX')}`, pageWidth / 2, yPosition, { align: 'center' });
-      yPosition += 15; doc.setFontSize(14); doc.setTextColor(primaryColor);
-      doc.text('Resumen de Costos', margin, yPosition); doc.setDrawColor(primaryColor); doc.setLineWidth(0.3);
-      doc.line(margin, yPosition + 2, margin + 40, yPosition + 2); yPosition += 10;
+      const fechaActual = new Date().toLocaleDateString('es-MX');
+      doc.text(`No. COTIZACION: #${Math.floor(Math.random() * 1000) + 100}`, 160, 20);
+      doc.text(`FECHA: ${fechaActual}`, 160, 24);
 
-      const totalVenta = formatCurrency(esVelas ? resultadosCalculo.precioVentaUnitario : resultadosConcreto.precioVenta);
-      const totalCosto = formatCurrency(esVelas ? resultadosCalculo.costoTotalUnitario : resultadosConcreto.costoTotalUnitario);
-
-      const summaryData = [
-        { label: 'Costo unitario total', value: totalCosto },
-        { label: 'Precio de venta sugerido', value: totalVenta }
-      ];
-
-      summaryData.forEach((item, i) => {
-        doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(accentColor);
-        doc.text(item.label, margin, yPosition); doc.text(item.value, pageWidth - margin, yPosition, { align: 'right' }); yPosition += 6;
-      });
-      yPosition += 10;
-
+      // LOGO CENTRADO
       try {
-        const canvasId = esVelas ? 'graficaCostos' : 'graficaCostosConcreto';
-        const canvas = document.getElementById(canvasId);
-        const canvasImage = await html2canvas(canvas, { scale: 2, logging: false, useCORS: true });
-        const imgData = canvasImage.toDataURL('image/png');
-        const imgProps = doc.getImageProperties(imgData);
-        const imgWidth = contentWidth * 0.6; const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
-        doc.addImage(imgData, 'PNG', margin + (contentWidth - imgWidth) / 2, yPosition, imgWidth, imgHeight); yPosition += imgHeight + 10;
-      } catch (error) { console.error("Error al generar gráfico:", error); }
+        const logoImg = document.getElementById('main-logo');
+        const canvas = document.createElement('canvas');
+        canvas.width = logoImg.naturalWidth;
+        canvas.height = logoImg.naturalHeight;
+        canvas.getContext('2d').drawImage(logoImg, 0, 0);
+        const logoData = canvas.toDataURL('image/jpeg');
+        // Ajuste de tamaño y posición (x, y, w, h)
+        doc.addImage(logoData, 'JPEG', 58, 40, 100, 30);
+      } catch(e) {
+        console.error("No se pudo cargar el logo al PDF.");
+      }
 
-      doc.setFontSize(14); doc.setTextColor(primaryColor); doc.text('Desglose de Costos Unitarios', margin, yPosition);
-      doc.setDrawColor(primaryColor); doc.line(margin, yPosition + 2, margin + 60, yPosition + 2); yPosition += 10;
+      // 2. DATOS DEL CLIENTE
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(primaryColor);
+      doc.text("DATOS DE CLIENTE", 15, 85);
+      doc.setDrawColor(esVelas ? 217 : 84, esVelas ? 122 : 110, esVelas ? 155 : 122);
+      doc.line(15, 87, 195, 87);
 
-      const tableData = []; const headers = ['Concepto', 'Costo Unitario', 'Porcentaje'];
-      const tableId = esVelas ? '#tablaResultados tbody tr' : '#tablaResultadosConcreto tbody tr';
-      const rows = document.querySelectorAll(tableId);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(50);
       
-      rows.forEach(row => { const cells = row.querySelectorAll('td'); if (cells.length === 3) { tableData.push([cells[0].textContent.trim(), cells[1].textContent.trim(), cells[2].textContent.trim()]); } });
+      const cNombre = document.getElementById(esVelas ? 'clienteNombreVelas' : 'clienteNombreConc').value || "___________________________";
+      const cDom = document.getElementById(esVelas ? 'clienteDomicilioVelas' : 'clienteDomicilioConc').value || "___________________________";
+      const cCont = document.getElementById(esVelas ? 'clienteContactoVelas' : 'clienteContactoConc').value || "___________________________";
+
+      doc.text(`NOMBRE: ${cNombre}`, 15, 95);
+      doc.text(`Domicilio: ${cDom}`, 15, 101);
+      doc.text("Lugar de Emisión: Zapopan, Jalisco", 15, 107);
+      doc.text(`Contacto: ${cCont}`, 15, 113);
+
+      // 3. DATOS DE COTIZACIÓN
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(primaryColor);
+      doc.text("DATOS DE COTIZACION", 15, 125);
+      doc.line(15, 127, 195, 127);
+
+      const precioUnitario = esVelas ? resultadosCalculo.precioVentaUnitario : resultadosConcreto.precioVenta;
+      const cantidad = esVelas ? resultadosCalculo.cantidad : resultadosConcreto.cantidad;
+      const importe = precioUnitario * cantidad;
+      
+      // Cálculo estándar de México: El precio sugerido incluye IVA
+      const subtotal = importe / 1.16;
+      const iva = importe - subtotal;
+
+      const articulo = esVelas ? "VELA AROMATICA" : "PIEZA DE CONCRETO";
+      const descripcion = esVelas ? "Vela Artesanal Aromatica" : "Pieza Artesanal de Concreto / Jesmonite";
 
       doc.autoTable({
-        head: [headers], body: tableData, startY: yPosition, theme: 'grid',
-        headStyles: { fillColor: primaryColor, textColor: 255, fontStyle: 'bold', fontSize: 9 }, bodyStyles: { fontSize: 8, cellPadding: 2 },
-        columnStyles: { 0: { cellWidth: 'auto', halign: 'left' }, 1: { cellWidth: 'auto', halign: 'right' }, 2: { cellWidth: 'auto', halign: 'right' } },
-        margin: { left: margin, right: margin }, tableWidth: contentWidth
+        startY: 135,
+        head: [['Articulo', 'Descripción', 'Cantidad', 'Precio Unitario', 'Importe']],
+        body: [
+          [articulo, descripcion, cantidad, formatCurrency(precioUnitario), formatCurrency(importe)]
+        ],
+        theme: 'plain',
+        headStyles: { fillColor: [255, 255, 255], textColor: [0,0,0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [200,200,200] },
+        bodyStyles: { textColor: [50,50,50] },
+        styles: { cellPadding: 3 }
       });
+
+      const finalY = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text("SUBTOTAL", 140, finalY); doc.text(formatCurrency(subtotal), 170, finalY);
+      doc.text("IVA 16%", 140, finalY + 6); doc.text(formatCurrency(iva), 170, finalY + 6);
+      doc.text("TOTAL", 140, finalY + 12); doc.text(formatCurrency(importe), 170, finalY + 12);
+
+      // 4. CONDICIONES DE VENTA
+      doc.setTextColor(primaryColor);
+      doc.text("CONDICIONES DE VENTA", 15, finalY + 30);
+      doc.line(15, finalY + 32, 195, finalY + 32);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(80);
+      doc.setFontSize(8);
       
-      const fileName = esVelas ? 'Reporte_Velas' : 'Reporte_Concreto';
-      doc.save(`${fileName}_${new Date().toISOString().slice(0,10)}.pdf`);
+      const condiciones = [
+        "Estimado Cliente se le informa que:",
+        "La presente cotización tiene vigencia de 30 días naturales.",
+        "En caso de seleccionar el frasco marmoleado, se aplicará un costo adicional de $15.00 MXN por unidad.",
+        "La fecha de entrega se confirmará toda vez que se realice el pago del anticipo del 50%.",
+        "El tiempo de producción del pedido comienza a correr a partir del envío del comprobante de pago correspondiente.",
+        "Cualquier cambio o modificación en el pedido posterior a la fecha de confirmación podrá causar demoras en el tiempo de entrega, así como generar un costo adicional.",
+        "La manufactura de nuestras piezas es completamente artesanal, por lo que pueden presentarse sutiles variaciones en su apariencia final, sin que ello afecte su calidad. Estas diferencias naturales no se consideran defectos, sino parte del valor y la autenticidad que distingue a cada pieza."
+      ];
+      
+      let cy = finalY + 40;
+      condiciones.forEach(c => {
+        // Envolver texto para que no se salga del margen
+        const lines = doc.splitTextToSize(c, 180);
+        doc.text(lines, 15, cy);
+        cy += (lines.length * 4) + 2; 
+      });
+
+      doc.setFont('helvetica', 'bold');
+      doc.text("GRACIAS POR SU PREFERENCIA.", 105, cy + 10, { align: 'center' });
+
+      doc.save(`Cotizacion_${esVelas ? 'Velas' : 'Concreto'}_Soluna.pdf`);
     }
 
     function exportToExcel() {
+      // Excel Interno (se mantiene para análisis de costos)
       const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const wb = XLSX.utils.book_new();
+      const title = esVelas ? 'REPORTE INTERNO - COSTOS VELAS' : 'REPORTE INTERNO - COSTOS CONCRETO';
       
-      const title = esVelas ? 'REPORTE DE COSTOS DE VELAS - SOLUNA' : 'REPORTE DE COSTOS DE CONCRETO - SOLUNA';
-      const summaryData = [
-        [title], ['Generado el:', new Date().toLocaleDateString()], [],
-        ['DESGLOSE DE COSTOS UNITARIOS']
-      ];
+      const summaryData = [[title], ['Generado el:', new Date().toLocaleDateString()], []];
       
-      const tableHeaders = ['Concepto', 'Costo Unitario', 'Porcentaje']; const tableData = [tableHeaders];
-      const tableId = esVelas ? '#tablaResultados tbody tr' : '#tablaResultadosConcreto tbody tr';
-      
-      document.querySelectorAll(tableId).forEach(row => { const rowData = []; row.querySelectorAll('td').forEach(cell => { rowData.push(cell.textContent.trim()); }); tableData.push(rowData); });
-      
-      const ws = XLSX.utils.aoa_to_sheet([...summaryData, ...tableData]);
-      if(!ws['!merges']) ws['!merges'] = [];
-      ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }); ws['!merges'].push({ s: { r: 3, c: 0 }, e: { r: 3, c: 2 } });
-      ws['!cols'] = [{ wch: 25 }, { wch: 20 }, { wch: 15 }];
-      
-      const sheetName = esVelas ? "Costos Velas" : "Costos Concreto";
-      const fileName = esVelas ? 'Reporte_Costos_Velas.xlsx' : 'Reporte_Costos_Concreto.xlsx';
-      
-      XLSX.utils.book_append_sheet(wb, ws, sheetName); 
-      XLSX.writeFile(wb, fileName);
+      const ws = XLSX.utils.aoa_to_sheet([...summaryData]);
+      XLSX.utils.book_append_sheet(wb, ws, "Costos"); 
+      XLSX.writeFile(wb, `Reporte_Interno_${esVelas ? 'Velas' : 'Concreto'}.xlsx`);
+      alert("La exportación detallada a Excel se está configurando en la nueva versión.");
     }
   </script>
 </body>
