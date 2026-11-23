@@ -45,217 +45,104 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Logo hero - MEJORADO Y MÁS COMPACTO */
     .logo-hero {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 15px;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: transparent;
+      width: 100%; max-width: 1200px; margin: 0 auto 15px; padding: 10px;
+      display: flex; justify-content: center; align-items: center; background: transparent;
     }
     
     .hero-logo {
-      width: 100%;
-      max-width: 900px;
-      height: auto;
-      max-height: 80px;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
+      width: 100%; max-width: 900px; height: auto; max-height: 80px; object-fit: cover;
+      object-position: center; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;
     }
     
-    body.dark .hero-logo {
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    }
-    
-    .hero-logo:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    }
+    body.dark .hero-logo { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); }
+    .hero-logo:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
 
-    /* ========================================================
-       NUEVOS ESTILOS: NAVEGACIÓN PASO A PASO (TIPO PESTAÑAS)
-       ======================================================== */
+    /* NAVEGACIÓN PASO A PASO */
     .step-nav-container {
-      margin-bottom: 20px;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border: 1px solid #e0e0e0;
+      margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;
     }
-
-    body.dark .step-nav-container {
-      background: #1e1e1e;
-      border-color: #333;
-    }
-
-    .step-nav-title {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1rem;
-      color: var(--texto-claro);
-      font-weight: 600;
-    }
-
+    body.dark .step-nav-container { background: #1e1e1e; border-color: #333; }
+    .step-nav-title { margin-top: 0; margin-bottom: 12px; font-size: 1rem; color: var(--texto-claro); font-weight: 600; }
     .step-nav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px; /* Espacio para barra de scroll en móviles */
-      scrollbar-width: thin;
-      scrollbar-color: var(--primario) transparent;
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px;
+      scrollbar-width: thin; scrollbar-color: var(--primario) transparent;
     }
-
-    .step-nav::-webkit-scrollbar {
-      height: 6px;
-    }
-    .step-nav::-webkit-scrollbar-thumb {
-      background-color: var(--primario);
-      border-radius: 10px;
-    }
+    .step-nav::-webkit-scrollbar { height: 6px; }
+    .step-nav::-webkit-scrollbar-thumb { background-color: var(--primario); border-radius: 10px; }
 
     .step-btn {
-      background-color: transparent;
-      border: 1px solid #c9a091; /* Color de contorno inspirado en tu imagen */
-      color: #6d4c41; /* Color de texto inspirado en tu imagen */
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      white-space: nowrap;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-      font-family: inherit;
+      background-color: transparent; border: 1px solid #c9a091; color: #6d4c41;
+      padding: 8px 16px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+      font-weight: 500; font-size: 0.95rem; transition: all 0.3s; font-family: inherit;
     }
-
-    /* Estilo del botón activo (como el "1 Comprar" de tu imagen) */
-    .step-btn.active {
-      background-color: #5d3a43; 
-      border-color: #5d3a43;
-      color: white;
-    }
-
-    .step-btn:hover:not(.active) {
-      background-color: #f5ece9;
-    }
-
-    body.dark .step-btn {
-      border-color: var(--secundario);
-      color: var(--texto-claro);
-    }
-    body.dark .step-btn.active {
-      background-color: var(--secundario);
-      border-color: var(--secundario);
-      color: #121212;
-    }
-    body.dark .step-btn:hover:not(.active) {
-      background-color: #2a2a2a;
-    }
-
-    /* Ocultar secciones no activas */
-    .step-section {
-      display: none;
-      animation: fadeIn 0.4s ease;
-    }
-    .step-section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* ======================================================== */
-
-    /* Botones de exportación */
-    .export-buttons {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-    }
+    .step-btn.active { background-color: #5d3a43; border-color: #5d3a43; color: white; }
+    .step-btn:hover:not(.active) { background-color: #f5ece9; }
     
+    body.dark .step-btn { border-color: var(--secundario); color: var(--texto-claro); }
+    body.dark .step-btn.active { background-color: var(--secundario); border-color: var(--secundario); color: #121212; }
+    body.dark .step-btn:hover:not(.active) { background-color: #2a2a2a; }
+
+    .step-section { display: none; animation: fadeIn 0.4s ease; }
+    .step-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* BOTONES */
+    .export-buttons { display: flex; gap: 15px; margin: 20px 0; }
     .export-btn {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
-      width: 100%;
-      justify-content: center;
+      padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s ease; font-size: 0.9rem; width: 100%; justify-content: center;
     }
-    
     .pdf-btn { background-color: #e74c3c; color: white; }
     .pdf-btn:hover { background-color: #c0392b; transform: translateY(-2px); }
     .excel-btn { background-color: var(--verde); color: white; }
     .excel-btn:hover { background-color: var(--verde-hover); transform: translateY(-2px); }
 
-    /* Estilos mejorados para tooltips */
+    /* TOOLTIPS */
     .tooltip-container { position: relative; display: inline-block; margin-left: 5px; }
     .tooltip-icon { color: var(--primario); cursor: help; font-size: 0.9rem; touch-action: manipulation; }
     .tooltip-text {
-      visibility: hidden; width: 200px; background-color: var(--primario); color: white;
-      text-align: left; border-radius: 6px; padding: 10px; position: absolute;
-      z-index: 1000; bottom: 125%; left: 50%; transform: translateX(-50%);
-      opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; font-weight: normal;
+      visibility: hidden; width: 200px; background-color: var(--primario); color: white; text-align: left;
+      border-radius: 6px; padding: 10px; position: absolute; z-index: 1000; bottom: 125%; left: 50%;
+      transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; font-weight: normal;
       line-height: 1.4; box-shadow: 0 2px 10px rgba(0,0,0,0.2); word-wrap: break-word; white-space: normal;
     }
     body.dark .tooltip-text { background-color: var(--secundario); }
     .tooltip-container:hover .tooltip-text, .tooltip-container:focus .tooltip-text { visibility: visible; opacity: 1; }
 
     @media (max-width: 768px) {
-      .tooltip-text {
-        width: 180px; font-size: 0.75rem; bottom: auto; top: 100%; left: 50%;
-        transform: translateX(-50%); margin-top: 8px; max-width: 80vw;
-      }
+      .tooltip-text { width: 180px; font-size: 0.75rem; bottom: auto; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px; }
       .tooltip-container .tooltip-text.right { left: auto; right: 0; transform: none; }
       .tooltip-container .tooltip-text.left { left: 0; transform: none; }
     }
   
-    .calculadora-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 15px;
-    }
-  
+    /* ESTRUCTURA GENERAL */
+    .calculadora-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
     .input-card, .result-card {
       background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
     .result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  
     body.dark .input-card, body.dark .result-card, body.dark .chart-container, body.dark .table-wrapper {
       background: #1e1e1e; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-color: #333;
     }
   
     .input-card h3, .result-card h3 {
       margin-top: 0; color: var(--primario); padding-bottom: 6px; margin-bottom: 12px;
-      font-size: 1.1rem; display: flex; align-items: center; gap: 6px; font-weight: 500; letter-spacing: 0.2px;
+      font-size: 1.1rem; display: flex; align-items: center; gap: 6px; font-weight: 500;
     }
   
     .input-group { margin-bottom: 12px; }
     .input-group label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.9rem; }
-  
     input, select {
       width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px;
       background-color: #fff; transition: all 0.3s; font-size: 0.95rem; -webkit-appearance: none; box-sizing: border-box;
     }
-  
     body.dark input, body.dark select { background-color: #2a2a2a; color: #e0e0e0; border-color: #555; }
 
-    /* Selectores de unidad */
+    /* UNIDADES Y SWITCHES */
     .unit-selector { display: flex; gap: 10px; margin-top: 5px; }
     .unit-option {
       flex: 1; text-align: center; padding: 8px 5px; border: 1px solid #ddd; border-radius: 6px;
@@ -265,14 +152,13 @@
     .unit-option.active { background-color: var(--primario); color: white; border-color: var(--primario); }
     body.dark .unit-option.active { background-color: var(--secundario); border-color: var(--secundario); }
   
-    /* Resumen tipo infografía */
+    /* RESUMEN DE RESULTADOS */
     .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
     .summary-item {
       background: white; border-radius: 8px; padding: 15px; display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--primario); transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--primario); transition: transform 0.3s ease;
     }
     body.dark .summary-item { background: #2a2a2a; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
-    .summary-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .summary-item.total { border-left-color: var(--verde); background-color: rgba(82, 171, 152, 0.05); }
     body.dark .summary-item.total { background-color: rgba(82, 171, 152, 0.1); }
     
@@ -289,47 +175,33 @@
     .summary-value { font-size: 1.1rem; font-weight: 600; color: var(--texto-claro); }
     .summary-item.total .summary-value { color: var(--verde); font-size: 1.2rem; }
   
-    .chart-container {
-      background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      height: 300px; margin-bottom: 15px; border: 1px solid #e0e0e0;
-    }
-  
+    .chart-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); height: 300px; margin-bottom: 15px; border: 1px solid #e0e0e0; }
     canvas { width: 100% !important; height: 100% !important; }
   
+    /* BOTONES FLOTANTES */
     .dark-mode-btn {
-      position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: #2b2b2b; color: white;
-      border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      font-size: 0.85rem; display: flex; align-items: center; gap: 4px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; transition: all 0.3s;
+      position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: #2b2b2b; color: white; border: none; padding: 8px 16px;
+      border-radius: 6px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 0.85rem; display: flex; align-items: center; gap: 4px;
+      text-transform: uppercase; font-weight: 500; transition: all 0.3s;
     }
     body.dark .dark-mode-btn { background-color: #f0f0f0; color: #2b2b2b; }
-    .dark-mode-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-  
     .whatsapp-btn {
-      position: fixed; bottom: 20px; right: 20px; z-index: 999; background-color: #25D366; color: white;
-      width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s;
+      position: fixed; bottom: 20px; right: 20px; z-index: 999; background-color: #25D366; color: white; width: 50px; height: 50px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s;
     }
     .whatsapp-btn:hover { background-color: #128C7E; transform: scale(1.1); }
     .whatsapp-btn i { font-size: 25px; }
   
-    .results-table-container { margin-top: 15px; }
-    .table-wrapper {
-      overflow-x: auto; max-height: 250px; overflow-y: auto; margin-top: 12px; border-radius: 6px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1); -webkit-overflow-scrolling: touch; border: 1px solid #e0e0e0;
-    }
-    
+    /* TABLAS Y FAQ */
+    .table-wrapper { overflow-x: auto; max-height: 250px; margin-top: 12px; border-radius: 6px; border: 1px solid #e0e0e0; }
     #tablaResultados { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     #tablaResultados th, #tablaResultados td { padding: 10px 12px; text-align: right; border-bottom: 1px solid #eee; }
-    #tablaResultados th { background-color: var(--primario); color: white; position: sticky; top: 0; text-align: center; font-size: 0.85rem; font-weight: 500; }
+    #tablaResultados th { background-color: var(--primario); color: white; position: sticky; top: 0; text-align: center; font-weight: 500; }
     #tablaResultados tr:nth-child(even) { background-color: #f9f9f9; }
-    #tablaResultados tr:hover { background-color: #f1f1f1; }
-    
     body.dark #tablaResultados th { background-color: var(--secundario); }
     body.dark #tablaResultados tr:nth-child(even) { background-color: #2a2a2a; }
-    body.dark #tablaResultados tr:hover { background-color: #333; }
     body.dark #tablaResultados th, body.dark #tablaResultados td { border-color: #444; }
     
-    /* FAQ */
     .faq-item { margin-bottom: 10px; border-radius: 6px; overflow: hidden; border: 1px solid #e0e0e0; }
     body.dark .faq-item { border-color: #444; }
     .faq-question {
@@ -344,15 +216,13 @@
     .faq-answer { padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out, padding 0.3s ease; background-color: white; }
     body.dark .faq-answer { background-color: #1e1e1e; }
     .faq-answer.show { padding: 15px; max-height: 1000px; }
-    .faq-answer p { margin-top: 0; margin-bottom: 10px; }
     
-    /* Responsive */
+    /* RESPONSIVE */
     @media (min-width: 768px) {
       .calculadora-grid { grid-template-columns: 1.1fr 2fr; }
       .chart-container { height: 400px; }
       .export-buttons { flex-direction: row; }
     }
-    
     @media (max-width: 768px) {
       body { padding: 10px; min-width: 100%; overflow-x: hidden; }
       .calculadora-grid { display: flex; flex-direction: column; gap: 10px; }
@@ -363,15 +233,8 @@
       .chart-container { height: 300px; padding: 10px; }
       .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .export-buttons { flex-direction: column; }
-      .export-btn { width: 100%; margin-bottom: 10px; }
     }
-
-    @media (max-width: 480px) {
-      .summary-grid { grid-template-columns: 1fr; }
-      .chart-container { height: 250px; }
-      input, select { font-size: 16px; } /* Ajuste de zoom iOS */
-    }
-
+    @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; }
     .calculadora-grid { width: 100%; overflow: hidden; }
   </style>
@@ -400,11 +263,8 @@
     <!-- Columna izquierda - Inputs -->
     <div class="input-section">
       
-      <!-- SECCIÓN 1: CERA -->
       <div id="sec-cera" class="input-card step-section active">
-        <h3><i class="fas fa-fire"></i> 1. Cera
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Información sobre los costos de cera para tus velas</span></div>
-        </h3>
+        <h3><i class="fas fa-fire"></i> 1. Cera</h3>
         <div class="input-group">
           <label for="costoCera">Costo de 1kg de cera ($):</label>
           <input type="number" id="costoCera" step="0.01" placeholder="0.00" value="100.00">
@@ -415,11 +275,8 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 2: FRAGANCIA -->
       <div id="sec-fragancia" class="input-card step-section">
-        <h3><i class="fas fa-wind"></i> 2. Fragancia
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Costos relacionados con las fragancias</span></div>
-        </h3>
+        <h3><i class="fas fa-wind"></i> 2. Fragancia</h3>
         <div class="input-group">
           <label for="costoFragancia">Costo de la fragancia ($):</label>
           <input type="number" id="costoFragancia" step="0.01" placeholder="0.00" value="200.00">
@@ -442,11 +299,8 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 3: COLORANTE -->
       <div id="sec-colorante" class="input-card step-section">
-        <h3><i class="fas fa-palette"></i> 3. Colorante
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Costos de colorantes para tus velas</span></div>
-        </h3>
+        <h3><i class="fas fa-palette"></i> 3. Colorante</h3>
         <div class="input-group">
           <label for="costoColorante">Costo del colorante ($):</label>
           <input type="number" id="costoColorante" step="0.01" placeholder="0.00" value="10.00">
@@ -470,18 +324,15 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 4: MATERIALES -->
       <div id="sec-materiales" class="input-card step-section">
-        <h3><i class="fas fa-tools"></i> 4. Materiales y Empaque
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Costos de materiales y empaque</span></div>
-        </h3>
+        <h3><i class="fas fa-tools"></i> 4. Materiales y Empaque</h3>
+        <div class="input-group">
+          <label for="costoFrasco">Costo del frasco/envase por vela ($):</label>
+          <input type="number" id="costoFrasco" step="0.01" placeholder="0.00" value="8.00">
+        </div>
         <div class="input-group">
           <label for="costoMecha">Costo de mecha por vela ($):</label>
           <input type="number" id="costoMecha" step="0.01" placeholder="0.00" value="2.50">
-        </div>
-        <div class="input-group">
-          <label for="costoFrasco">Costo del frasco por vela ($):</label>
-          <input type="number" id="costoFrasco" step="0.01" placeholder="0.00" value="8.00">
         </div>
         <div class="input-group">
           <label for="costoEtiqueta">Costo de etiqueta principal ($):</label>
@@ -501,11 +352,8 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 5: MANO DE OBRA -->
       <div id="sec-manoobra" class="input-card step-section">
-        <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Configuración de mano de obra y costos indirectos</span></div>
-        </h3>
+        <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos</h3>
         <div class="input-group">
           <label>Tipo de cálculo de mano de obra:</label>
           <div class="unit-selector">
@@ -527,15 +375,24 @@
         </div>
       </div>
 
-      <!-- SECCIÓN 6: PRODUCCIÓN Y EXPORTACIÓN -->
+      <!-- SECCIÓN 6 MODIFICADA CON EL SWITCH DE UTILIDAD -->
       <div id="sec-produccion" class="input-card step-section">
-        <h3><i class="fas fa-chart-line"></i> 6. Producción y Margen
-          <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Configuración de producción y márgenes de ganancia</span></div>
-        </h3>
+        <h3><i class="fas fa-chart-line"></i> 6. Producción y Margen</h3>
         <div class="input-group">
           <label for="margen">Margen de beneficio deseado (%):</label>
           <input type="number" id="margen" step="0.1" value="35" placeholder="35">
         </div>
+        
+        <!-- NUEVO: Selector de utilidad para el envase -->
+        <div class="input-group" style="margin-top: 15px; margin-bottom: 15px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
+          <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
+          <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto (ideal para envases de lujo).</span>
+          <div class="unit-selector">
+            <div class="unit-option active" data-unit="con-utilidad" data-target="utilidadEnvase">Sí (Todo el producto)</div>
+            <div class="unit-option" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo neto)</div>
+          </div>
+        </div>
+
         <div class="input-group">
           <label for="cantidadVelas">Número de velas a producir:</label>
           <input type="number" id="cantidadVelas" step="1" value="1" placeholder="1">
@@ -589,6 +446,12 @@
     <div class="input-card">
       <h3><i class="fas fa-question-circle"></i> Preguntas frecuentes</h3>
       <div class="faq-item">
+        <button class="faq-question">¿Por qué excluir el frasco de la utilidad?</button>
+        <div class="faq-answer">
+          <p>Si utilizas envases muy costosos (ej. cerámica artesanal o cristal cortado), aplicarles tu porcentaje de utilidad normal podría inflar demasiado el precio final, sacándote del mercado. Al seleccionar "No (Frasco al costo neto)", aseguras tu ganancia sobre tu trabajo y cera, pero el cliente paga el envase tal cual te costó a ti.</p>
+        </div>
+      </div>
+      <div class="faq-item">
         <button class="faq-question">¿Cómo calcular el porcentaje de fragancia?</button>
         <div class="faq-answer">
           <p>El porcentaje de fragancia se calcula en relación al peso de la cera. Por ejemplo:</p>
@@ -597,31 +460,6 @@
             <li>Para un bote de 500ml de fragancia a $15: $15 ÷ 500ml = $0.03 por ml</li>
             <li>Costo de fragancia por vela: 12g × $0.03 = $0.36</li>
           </ul>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">¿Qué incluyen los costos indirectos?</button>
-        <div class="faq-answer">
-          <p>Los costos indirectos son gastos generales de producción que no están directamente vinculados a una vela específica, pero que son necesarios para el funcionamiento de tu negocio:</p>
-          <ul>
-            <li>Electricidad para derretir la cera</li>
-            <li>Materiales de empaque adicionales</li>
-            <li>Mantenimiento de equipos</li>
-            <li>Gastos de taller o espacio de trabajo</li>
-            <li>Herramientas y utensilios</li>
-          </ul>
-        </div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question">¿Cómo determinar el margen de beneficio adecuado?</button>
-        <div class="faq-answer">
-          <p>El margen de beneficio depende de varios factores:</p>
-          <ul>
-            <li><strong>30-40%:</strong> Margen estándar para productos artesanales</li>
-            <li><strong>40-60%:</strong> Para productos premium o especializados</li>
-            <li><strong>20-30%:</strong> Para productos de entrada o promocionales</li>
-          </ul>
-          <p>Considera tus costos fijos, competencia y valor percibido al establecer tu margen.</p>
         </div>
       </div>
     </div>
@@ -635,24 +473,17 @@
     let chartCostos = null;
     let resultadosCalculo = {};
     
+    // Configuración que ahora incluye el estado de la utilidad del envase
     const unidadesConfig = {
       fragancia: { unidad: 'ml', factor: 1 },
       colorante: { unidad: 'ml', factor: 1 },
-      manoObra: { tipo: 'porcentaje' }
+      manoObra: { tipo: 'porcentaje' },
+      utilidadEnvase: { tipo: 'con-utilidad' } // NUEVA VARIABLE
     };
 
-    // Función de Lógica de Pestañas (Navegación)
     function mostrarSeccion(sectionId, btnElement) {
-      // Ocultar todos los formularios
-      document.querySelectorAll('.step-section').forEach(sec => {
-        sec.classList.remove('active');
-      });
-      // Quitar el color activo de todos los botones
-      document.querySelectorAll('.step-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      
-      // Mostrar el formulario deseado y pintar su botón
+      document.querySelectorAll('.step-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.step-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById(sectionId).classList.add('active');
       btnElement.classList.add('active');
     }
@@ -677,6 +508,8 @@
           if (target === 'manoObra') {
             unidadesConfig.manoObra.tipo = unit;
             actualizarVisibilidadManoObra();
+          } else if (target === 'utilidadEnvase') {
+            unidadesConfig.utilidadEnvase.tipo = unit; // GUARDA LA ELECCIÓN DEL USUARIO
           } else {
             unidadesConfig[target].unidad = unit;
             unidadesConfig[target].factor = unit === 'litros' ? 1000 : 1;
@@ -787,9 +620,20 @@
       }
 
       const costoTotalUnitario = costosMaterialesTotales + costoManoObraPorVela + costoIndirecto;
-      const precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
+      
+      // NUEVA LÓGICA DE PRECIO DE VENTA (Con o Sin Envase)
+      let precioVentaUnitario = 0;
+      
+      if (unidadesConfig.utilidadEnvase.tipo === 'sin-utilidad') {
+        // Restamos el frasco, aplicamos el margen a todo lo demás, y luego sumamos el frasco de nuevo
+        const costoBaseSinFrasco = costoTotalUnitario - costoFrasco;
+        precioVentaUnitario = (costoBaseSinFrasco * (1 + margen / 100)) + costoFrasco;
+      } else {
+        // Fórmula normal: Margen aplicado a todo
+        precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
+      }
+      
       const gananciaUnitario = precioVentaUnitario - costoTotalUnitario;
-
       const costoTotal = costoTotalUnitario * cantidadVelas;
       const precioTotalVenta = precioVentaUnitario * cantidadVelas;
       const gananciaTotal = gananciaUnitario * cantidadVelas;
