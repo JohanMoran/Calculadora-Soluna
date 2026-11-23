@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +11,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       /* TEMA VELAS (Por defecto) */
@@ -24,7 +24,7 @@
       --verde: #52ab98;
       --verde-hover: #429084;
     }
-  
+
     body.dark {
       --fondo-claro: #121212;
       --texto-claro: #e0e0e0;
@@ -47,7 +47,7 @@
       --secundario: #b0bec5;
       --terciario: #263238;
     }
-  
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--fondo-claro);
@@ -65,29 +65,25 @@
     .logo-hero-container {
       width: 100%;
       max-width: 750px;
-      height: 130px; 
+      height: 130px;
       margin: 15px auto 30px;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      overflow: hidden; 
+      overflow: hidden;
       background: white;
     }
-    
-    body.dark .logo-hero-container {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
-    
+
+    body.dark .logo-hero-container { box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+
     .hero-logo {
       width: 100%;
       height: 100%;
-      object-fit: cover; 
+      object-fit: cover;
       object-position: center;
       transition: all 0.3s ease;
     }
-    
-    .hero-logo:hover {
-      transform: scale(1.02); 
-    }
+
+    .hero-logo:hover { transform: scale(1.02); }
 
     /* SWITCHER PRINCIPAL DE APPS */
     .main-app-switcher {
@@ -117,7 +113,7 @@
     }
     .step-btn.active { background-color: var(--primario); border-color: var(--primario); color: white; }
     .step-btn:hover:not(.active) { background-color: var(--terciario); }
-    
+
     body.dark .step-btn { border-color: var(--secundario); color: var(--texto-claro); }
     body.dark .step-btn.active { background-color: var(--secundario); border-color: var(--secundario); color: #121212; }
     body.dark .step-btn:hover:not(.active) { background-color: #2a2a2a; }
@@ -127,25 +123,20 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     /* BOTONES */
-    .export-buttons { display: flex; gap: 15px; margin: 20px 0; }
-    .export-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-size: 0.9rem; width: 100%; justify-content: center; }
+    .export-buttons { display: flex; gap: 12px; margin: 15px 0; flex-wrap: wrap; }
+    .export-btn { padding: 12px 18px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-size: 0.9rem; flex: 1; min-width: 150px; justify-content: center; }
     .pdf-btn { background-color: #e74c3c; color: white; } .pdf-btn:hover { background-color: #c0392b; transform: translateY(-2px); }
     .excel-btn { background-color: var(--verde); color: white; } .excel-btn:hover { background-color: var(--verde-hover); transform: translateY(-2px); }
-
-    /* TOOLTIPS */
-    .tooltip-container { position: relative; display: inline-block; margin-left: 5px; }
-    .tooltip-icon { color: var(--primario); cursor: help; font-size: 0.9rem; touch-action: manipulation; }
-    .tooltip-text { visibility: hidden; width: 200px; background-color: var(--primario); color: white; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.3s; font-size: 0.8rem; font-weight: normal; line-height: 1.4; box-shadow: 0 2px 10px rgba(0,0,0,0.2); word-wrap: break-word; white-space: normal; }
-    body.dark .tooltip-text { background-color: var(--secundario); }
-    .tooltip-container:hover .tooltip-text, .tooltip-container:focus .tooltip-text { visibility: visible; opacity: 1; }
+    .add-cart-btn { background-color: var(--primario); color: white; width: 100%; margin-top: 10px; } .add-cart-btn:hover { background-color: var(--hover); transform: translateY(-2px); }
+    .wa-quote-btn { background-color: #25D366; color: white; } .wa-quote-btn:hover { background-color: #128C7E; transform: translateY(-2px); }
+    .clear-cart-btn { background-color: #6c757d; color: white; } .clear-cart-btn:hover { background-color: #5a6268; transform: translateY(-2px); }
 
     /* ESTRUCTURA GENERAL */
     .calculadora-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-    .input-card, .result-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    body.dark .input-card, body.dark .result-card, body.dark .chart-container, body.dark .table-wrapper { background: #1e1e1e; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-color: #333; }
-    .input-card h3, .result-card h3 { margin-top: 0; color: var(--primario); padding-bottom: 6px; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 6px; font-weight: 500; }
-  
+    .input-card, .result-card, .cart-card { background: white; border-radius: 8px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    body.dark .input-card, body.dark .result-card, body.dark .cart-card, body.dark .chart-container, body.dark .table-wrapper { background: #1e1e1e; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-color: #333; }
+    .input-card h3, .result-card h3, .cart-card h3 { margin-top: 0; color: var(--primario); padding-bottom: 6px; margin-bottom: 12px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+
     .input-group { margin-bottom: 12px; }
     .input-group label { display: block; margin-bottom: 4px; font-weight: 500; font-size: 0.9rem; }
     input, select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; background-color: #fff; transition: all 0.3s; font-size: 0.95rem; -webkit-appearance: none; box-sizing: border-box; }
@@ -156,59 +147,67 @@
     .unit-option { flex: 1; text-align: center; padding: 8px 5px; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; background: #f8f9fa; }
     body.dark .unit-option { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
     .unit-option.active { background-color: var(--primario); color: white; border-color: var(--primario); }
-    body.dark .unit-option.active { background-color: var(--secundario); border-color: var(--secundario); }
-  
+    body.dark .unit-option.active { background-color: var(--secundario); border-color: var(--secundario); color: #121212; }
+
     /* RESUMEN DE RESULTADOS */
-    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-    .summary-item { background: white; border-radius: 8px; padding: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--primario); transition: transform 0.3s ease; }
-    body.dark .summary-item { background: #2a2a2a; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 10px; }
+    .summary-item { background: white; border-radius: 8px; padding: 14px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid var(--primario); }
+    body.dark .summary-item { background: #2a2a2a; }
     .summary-item.total { border-left-color: var(--verde); background-color: rgba(82, 171, 152, 0.05); }
     body.dark .summary-item.total { background-color: rgba(82, 171, 152, 0.1); }
-    
-    .summary-icon { width: 40px; height: 40px; border-radius: 50%; background-color: var(--terciario); display: flex; align-items: center; justify-content: center; color: var(--primario); font-size: 1.1rem; flex-shrink: 0; }
+    .summary-icon { width: 38px; height: 38px; border-radius: 50%; background-color: var(--terciario); display: flex; align-items: center; justify-content: center; color: var(--primario); font-size: 1rem; flex-shrink: 0; }
     body.dark .summary-icon { background-color: #3a3a3a; }
     .summary-item.total .summary-icon { background-color: rgba(82, 171, 152, 0.2); color: var(--verde); }
-    
     .summary-content { flex-grow: 1; }
-    .summary-label { font-size: 0.85rem; color: #666; margin-bottom: 5px; }
+    .summary-label { font-size: 0.8rem; color: #666; margin-bottom: 3px; }
     body.dark .summary-label { color: #aaa; }
-    .summary-value { font-size: 1.1rem; font-weight: 600; color: var(--texto-claro); }
-    .summary-item.total .summary-value { color: var(--verde); font-size: 1.2rem; }
-  
-    .chart-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); height: 300px; margin-bottom: 15px; border: 1px solid #e0e0e0; }
+    .summary-value { font-size: 1.05rem; font-weight: 600; color: var(--texto-claro); }
+    .summary-item.total .summary-value { color: var(--verde); font-size: 1.15rem; }
+
+    .chart-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); height: 280px; margin-bottom: 15px; border: 1px solid #e0e0e0; }
     canvas { width: 100% !important; height: 100% !important; }
-  
+
+    /* CARRITO DE COTIZACIÓN */
+    .cart-card { margin-top: 25px; border-top: 4px solid var(--primario); }
+    .cart-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .cart-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 15px; }
+    .cart-table th, .cart-table td { padding: 10px 8px; border-bottom: 1px solid #eee; text-align: left; }
+    .cart-table th { background-color: var(--terciario); color: var(--primario); font-weight: 600; }
+    body.dark .cart-table th { background-color: #2a2a2a; }
+    body.dark .cart-table td { border-color: #333; }
+    .btn-del-item { background: #e74c3c; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.8rem; }
+    .btn-del-item:hover { background: #c0392b; }
+
+    .cart-totals-box { background: var(--terciario); padding: 15px; border-radius: 8px; margin-top: 10px; }
+    body.dark .cart-totals-box { background: #262626; }
+    .total-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; }
+    .total-row.grand-total { font-size: 1.2rem; font-weight: 700; color: var(--primario); border-top: 1px solid #ccc; padding-top: 8px; margin-top: 8px; }
+    body.dark .total-row.grand-total { border-color: #444; }
+
+    .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .badge-count { background: var(--primario); color: white; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px; }
+
     /* BOTONES FLOTANTES */
     .dark-mode-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: #2b2b2b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 0.85rem; display: flex; align-items: center; gap: 4px; text-transform: uppercase; font-weight: 500; transition: all 0.3s; }
     body.dark .dark-mode-btn { background-color: #f0f0f0; color: #2b2b2b; }
-    .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background-color: #25D366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; }
+    .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background-color: #25D366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; text-decoration: none; }
     .whatsapp-btn:hover { background-color: #128C7E; transform: scale(1.1); }
     .whatsapp-btn i { font-size: 25px; }
-  
-    /* TABLAS Y FAQ */
-    .table-wrapper { overflow-x: auto; max-height: 250px; margin-top: 12px; border-radius: 6px; border: 1px solid #e0e0e0; }
-    #tablaResultados, #tablaResultadosConcreto { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    #tablaResultados th, #tablaResultados td, #tablaResultadosConcreto th, #tablaResultadosConcreto td { padding: 10px 12px; text-align: right; border-bottom: 1px solid #eee; }
-    #tablaResultados th, #tablaResultadosConcreto th { background-color: var(--primario); color: white; position: sticky; top: 0; text-align: center; font-weight: 500; }
-    #tablaResultados tr:nth-child(even), #tablaResultadosConcreto tr:nth-child(even) { background-color: #f9f9f9; }
-    body.dark #tablaResultados th, body.dark #tablaResultadosConcreto th { background-color: var(--secundario); }
-    body.dark #tablaResultados tr:nth-child(even), body.dark #tablaResultadosConcreto tr:nth-child(even) { background-color: #2a2a2a; }
-    body.dark #tablaResultados th, body.dark #tablaResultados td, body.dark #tablaResultadosConcreto th, body.dark #tablaResultadosConcreto td { border-color: #444; }
-    
+
     /* RESPONSIVE */
-    @media (min-width: 768px) { .calculadora-grid { grid-template-columns: 1.1fr 2fr; } .chart-container { height: 400px; } .export-buttons { flex-direction: row; } }
-    @media (max-width: 768px) { 
-      body { padding: 10px; min-width: 100%; overflow-x: hidden; } 
-      .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } 
-      .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } 
-      .table-wrapper { width: 100%; display: block; } 
-      .chart-container { height: 300px; padding: 10px; } 
-      .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } 
-      .export-buttons { flex-direction: column; } 
+    @media (min-width: 768px) {
+      .calculadora-grid { grid-template-columns: 1.1fr 2fr; }
+      .cart-grid { grid-template-columns: 1.5fr 1fr; }
+      .chart-container { height: 340px; }
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; min-width: 100%; overflow-x: hidden; }
+      .calculadora-grid { display: flex; flex-direction: column; gap: 10px; }
+      .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .logo-hero-container { height: 85px; margin: 10px auto 20px; width: calc(100% - 20px); }
     }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
-    * { max-width: 100%; box-sizing: border-box; } .calculadora-grid { width: 100%; overflow: hidden; }
+    * { max-width: 100%; box-sizing: border-box; }
   </style>
 </head>
 <body>
@@ -240,7 +239,8 @@
         <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-colorante', this)">3 Colorante</button>
         <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-materiales', this)">4 Materiales</button>
         <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-manoobra', this)">5 Mano de Obra</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-produccion', this)">6 Producción</button>
+        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-margen', this)">6 Margen</button>
+        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-cotizacion', this)">7 Cotización</button>
       </div>
     </div>
 
@@ -299,15 +299,16 @@
               <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
             </div>
           </div>
-          <div class="input-group" id="manoObraFijo-group"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
+          <div class="input-group" id="manoObraFijo-group" style="display:none;"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
           <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
           <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
         </div>
 
-        <div id="sec-produccion" class="input-card step-section-velas">
-          <h3><i class="fas fa-chart-line"></i> 6. Producción, Margen y Cotización</h3>
+        <!-- PASO 6: SOLO MARGEN / UTILIDAD -->
+        <div id="sec-margen" class="input-card step-section-velas">
+          <h3><i class="fas fa-percentage"></i> 6. Margen y Utilidad</h3>
           <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
-          <div class="input-group" style="margin-top: 15px; margin-bottom: 15px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
+          <div class="input-group" style="margin-top: 12px; margin-bottom: 12px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
             <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
             <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
             <div class="unit-selector">
@@ -315,20 +316,16 @@
               <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
             </div>
           </div>
-          <div class="input-group"><label for="cantidadVelas">Número de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
-          
-          <!-- DATOS DEL CLIENTE PARA PDF -->
-          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
-            <h4 style="margin: 0 0 10px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente (Opcional para Cotización PDF)</h4>
-            <div class="input-group"><input type="text" id="clienteNombreVelas" placeholder="Nombre del Cliente"></div>
-            <div class="input-group"><input type="text" id="clienteContactoVelas" placeholder="Teléfono o Correo"></div>
-            <div class="input-group"><input type="text" id="clienteDomicilioVelas" placeholder="Domicilio / Ciudad"></div>
-          </div>
+        </div>
 
-          <div class="export-buttons">
-            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
-            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel Interno</button>
-          </div>
+        <!-- PASO 7: SOLO COTIZACIÓN -->
+        <div id="sec-cotizacion" class="input-card step-section-velas">
+          <h3><i class="fas fa-file-invoice-dollar"></i> 7. Cotización</h3>
+          <div class="input-group"><label for="cantidadVelas">Cantidad de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
+          <div class="input-group"><label for="descVelas">Descripción para la cotización:</label><input type="text" id="descVelas" value="Vela Artesanal Aromática"></div>
+          <button onclick="agregarAlCarrito('velas')" class="export-btn add-cart-btn">
+            <i class="fas fa-cart-plus"></i> Agregar a la Cotización
+          </button>
         </div>
       </div>
 
@@ -349,7 +346,6 @@
     </div>
   </div>
 
-
   <!-- ==========================================
        INICIO APP CONCRETO
        ========================================== -->
@@ -362,20 +358,20 @@
         <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-pigmento', this)">3 Pigmentos</button>
         <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-acabado', this)">4 Acabado / Molde</button>
         <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-manoobra', this)">5 Mano de Obra</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-produccion', this)">6 Producción</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-margen', this)">6 Margen</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-cotizacion', this)">7 Cotización</button>
       </div>
     </div>
 
     <div class="calculadora-grid">
       <div class="input-section">
-        
         <div id="sec-conc-mezcla" class="input-card step-section-conc active">
           <h3><i class="fas fa-cubes"></i> 1. Mezcla Base</h3>
           <div class="input-group"><label for="costoCemento">Costo de 1kg de Cemento/Jesmonite ($):</label><input type="number" id="costoCemento" step="0.01" value="20.00"></div>
           <div class="input-group"><label for="gramosCemento">Gramos de Cemento por pieza:</label><input type="number" id="gramosCemento" step="1" value="300"></div>
           <div class="input-group"><label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label><input type="number" id="costoArena" step="0.01" value="5.00"></div>
           <div class="input-group"><label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label><input type="number" id="gramosArena" step="1" value="200"></div>
-          <div class="input-group"><label for="costoAgua">Costo de Aditivo/Líquido por pieza ($) (Opcional):</label><input type="number" id="costoAgua" step="0.01" value="2.00"></div>
+          <div class="input-group"><label for="costoAgua">Costo de Aditivo/Líquido por pieza ($):</label><input type="number" id="costoAgua" step="0.01" value="2.00"></div>
         </div>
 
         <div id="sec-conc-quimicos" class="input-card step-section-conc">
@@ -402,22 +398,20 @@
           <div class="input-group"><label for="indirectosConc">Costos indirectos (Lijas, luz, agua) ($):</label><input type="number" id="indirectosConc" step="0.01" value="4.00"></div>
         </div>
 
-        <div id="sec-conc-produccion" class="input-card step-section-conc">
-          <h3><i class="fas fa-chart-line"></i> 6. Producción, Margen y Cotización</h3>
+        <!-- PASO 6 CONCRETO: SOLO MARGEN -->
+        <div id="sec-conc-margen" class="input-card step-section-conc">
+          <h3><i class="fas fa-percentage"></i> 6. Margen y Utilidad</h3>
           <div class="input-group"><label for="margenConc">Margen de beneficio deseado (%):</label><input type="number" id="margenConc" step="0.1" value="40"></div>
-          <div class="input-group"><label for="cantidadConc">Piezas a cotizar:</label><input type="number" id="cantidadConc" step="1" value="1"></div>
-          
-          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #ddd;">
-            <h4 style="margin: 0 0 10px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente (Opcional para Cotización PDF)</h4>
-            <div class="input-group"><input type="text" id="clienteNombreConc" placeholder="Nombre del Cliente"></div>
-            <div class="input-group"><input type="text" id="clienteContactoConc" placeholder="Teléfono o Correo"></div>
-            <div class="input-group"><input type="text" id="clienteDomicilioConc" placeholder="Domicilio / Ciudad"></div>
-          </div>
+        </div>
 
-          <div class="export-buttons">
-            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
-            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel Interno</button>
-          </div>
+        <!-- PASO 7 CONCRETO: SOLO COTIZACIÓN -->
+        <div id="sec-conc-cotizacion" class="input-card step-section-conc">
+          <h3><i class="fas fa-file-invoice-dollar"></i> 7. Cotización</h3>
+          <div class="input-group"><label for="cantidadConc">Cantidad de piezas a cotizar:</label><input type="number" id="cantidadConc" step="1" value="1"></div>
+          <div class="input-group"><label for="descConc">Descripción para la cotización:</label><input type="text" id="descConc" value="Pieza Artesanal de Concreto"></div>
+          <button onclick="agregarAlCarrito('concreto')" class="export-btn add-cart-btn">
+            <i class="fas fa-cart-plus"></i> Agregar a la Cotización
+          </button>
         </div>
       </div>
 
@@ -438,6 +432,76 @@
     </div>
   </div>
 
+  <!-- ==========================================
+       CARRITO DE COTIZACIÓN UNIFICADO (PDF + WHATSAPP)
+       ========================================== -->
+  <div class="cart-card" id="panel-carrito">
+    <h3>
+      <i class="fas fa-file-invoice-dollar"></i> Cotización Final (Carrito)
+      <span class="badge-count" id="cart-badge">0 artículos</span>
+    </h3>
+
+    <div class="cart-grid">
+      <div>
+        <div style="overflow-x: auto;">
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Artículo</th>
+                <th>Descripción</th>
+                <th>Cant.</th>
+                <th>P. Unitario</th>
+                <th>Importe</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cart-tbody">
+              <tr><td colspan="6" style="text-align:center; color:#888; padding: 15px;">Aún no agregas productos. Puedes agregar varios desde el paso 7 o exportar directamente el cálculo actual.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin: 15px 0 8px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente y Folio</h4>
+        <div class="client-grid">
+          <div class="input-group"><input type="text" id="cotFolio" placeholder="No. Cotización (ej. 100)" value="100"></div>
+          <div class="input-group"><input type="text" id="clienteNombre" placeholder="Nombre del Cliente"></div>
+          <div class="input-group"><input type="text" id="clienteContacto" placeholder="Teléfono o Correo"></div>
+          <div class="input-group"><input type="text" id="clienteDomicilio" placeholder="Domicilio / Ciudad"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="input-group">
+          <label for="descuentoPct">Descuento por volumen (%):</label>
+          <input type="number" id="descuentoPct" step="0.5" min="0" max="100" value="0">
+        </div>
+
+        <div class="input-group">
+          <label for="modoIva">Configuración de IVA (16%):</label>
+          <select id="modoIva">
+            <option value="sumar">Sumar +16% de IVA al subtotal</option>
+            <option value="incluido">IVA (16%) ya incluido en precios</option>
+            <option value="sin-iva">Sin IVA (0%)</option>
+          </select>
+        </div>
+
+        <div class="cart-totals-box">
+          <div class="total-row"><span>Subtotal bruto:</span><span id="cart-bruto">$0.00</span></div>
+          <div class="total-row" id="row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="lbl-desc-pct">0</span>%):</span><span id="cart-descuento">-$0.00</span></div>
+          <div class="total-row"><span>Subtotal neto:</span><span id="cart-subtotal">$0.00</span></div>
+          <div class="total-row" id="row-iva"><span>IVA (16%):</span><span id="cart-iva">$0.00</span></div>
+          <div class="total-row grand-total"><span>TOTAL:</span><span id="cart-total">$0.00</span></div>
+        </div>
+
+        <div class="export-buttons">
+          <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+          <button onclick="enviarWhatsAppCotizacion()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+          <button onclick="vaciarCarrito()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <a href="https://wa.me/523331490596" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
@@ -446,15 +510,18 @@
     let chartCostos = null;
     let resultadosCalculo = {};
     const unidadesConfig = {
-      fragancia: { unidad: 'ml', factor: 1 }, colorante: { unidad: 'ml', factor: 1 },
-      manoObra: { tipo: 'porcentaje' }, utilidadEnvase: { tipo: 'con-utilidad' }
+      fragancia: { unidad: 'ml', factor: 1 },
+      colorante: { unidad: 'ml', factor: 1 },
+      manoObra: { tipo: 'porcentaje' },
+      utilidadEnvase: { tipo: 'con-utilidad' }
     };
 
     let chartCostosConcreto = null;
     let resultadosConcreto = {};
+    let carritoCotizacion = [];
 
     function switchApp(app) {
-      if(app === 'velas') {
+      if (app === 'velas') {
         document.getElementById('app-velas').style.display = 'block';
         document.getElementById('app-concreto').style.display = 'none';
         document.body.classList.remove('theme-concreto');
@@ -469,6 +536,7 @@
         document.getElementById('btn-app-velas').classList.remove('active-main');
         calcularCostosConcreto();
       }
+      actualizarResumenCarrito();
     }
 
     function mostrarSeccionVelas(sectionId, btnElement) {
@@ -487,7 +555,7 @@
 
     function obtenerValorNumerico(id, valorPorDefecto = 0) {
       const elemento = document.getElementById(id);
-      if(!elemento) return valorPorDefecto;
+      if (!elemento) return valorPorDefecto;
       const valor = parseFloat(elemento.value);
       return isNaN(valor) || valor < 0 ? valorPorDefecto : valor;
     }
@@ -510,13 +578,16 @@
           const unit = this.getAttribute('data-unit');
           document.querySelectorAll(`.unit-velas[data-target="${target}"]`).forEach(opt => opt.classList.remove('active'));
           this.classList.add('active');
-          
+
           if (target === 'manoObra') {
             unidadesConfig.manoObra.tipo = unit;
             document.getElementById('manoObraFijo-group').style.display = (unit === 'porcentaje') ? 'none' : 'block';
             document.getElementById('manoObraPorcentaje-group').style.display = (unit === 'porcentaje') ? 'block' : 'none';
           } else if (target === 'utilidadEnvase') {
             unidadesConfig.utilidadEnvase.tipo = unit;
+          } else {
+            unidadesConfig[target].unidad = unit;
+            unidadesConfig[target].factor = (unit === 'litros') ? 1000 : 1;
           }
           calcularCostos();
         });
@@ -524,6 +595,8 @@
 
       document.querySelectorAll('#app-velas input').forEach(input => input.addEventListener('input', calcularCostos));
       document.querySelectorAll('#app-concreto input').forEach(input => input.addEventListener('input', calcularCostosConcreto));
+      document.getElementById('descuentoPct').addEventListener('input', actualizarResumenCarrito);
+      document.getElementById('modoIva').addEventListener('change', actualizarResumenCarrito);
 
       calcularCostos();
       calcularCostosConcreto();
@@ -562,6 +635,7 @@
       document.getElementById('res-conc-precio').textContent = formatCurrency(precioVenta);
 
       generarGraficoConcreto();
+      if (carritoCotizacion.length === 0) actualizarResumenCarrito();
     }
 
     function generarGraficoConcreto() {
@@ -572,7 +646,7 @@
         data: {
           labels: ['Mezcla', 'Químicos', 'Pigmento', 'Acabados/Molde', 'Mano Obra', 'Indirectos'],
           datasets: [{
-            data: [ resultadosConcreto.costoMezcla, resultadosConcreto.costoQuimicos, resultadosConcreto.costoPigmento, resultadosConcreto.costoAcabados, resultadosConcreto.manoObra, resultadosConcreto.indirectos ],
+            data: [resultadosConcreto.costoMezcla, resultadosConcreto.costoQuimicos, resultadosConcreto.costoPigmento, resultadosConcreto.costoAcabados, resultadosConcreto.manoObra, resultadosConcreto.indirectos],
             backgroundColor: ['#546e7a', '#a3b7c2', '#78909c', '#90a4ae', '#b0bec5', '#cfd8dc']
           }]
         },
@@ -606,10 +680,10 @@
       const costoColorantePorVela = usoColorante * (cantidadColorante > 0 ? costoColorante / (cantidadColorante * unidadesConfig.colorante.factor) : 0);
       const costosMateriales = costoMecha + costoFrasco + costoEtiqueta + costoRotulacion + costoEmpaque + costoProtector;
       const costosTotalesSinMano = costoCeraPorVela + costoFraganciaPorVela + costoColorantePorVela + costosMateriales;
-      
+
       const costoManoObraPorVela = (unidadesConfig.manoObra.tipo === 'porcentaje') ? (costosTotalesSinMano * (manoObraPorcentaje / 100)) : manoObraFijo;
       const costoTotalUnitario = costosTotalesSinMano + costoManoObraPorVela + costoIndirecto;
-      
+
       let precioVentaUnitario = 0;
       if (unidadesConfig.utilidadEnvase.tipo === 'sin-utilidad') {
         precioVentaUnitario = ((costoTotalUnitario - costoFrasco) * (1 + margen / 100)) + costoFrasco;
@@ -627,6 +701,7 @@
       document.getElementById('res-precio-venta').textContent = formatCurrency(precioVentaUnitario);
 
       generarGraficoVelas();
+      if (carritoCotizacion.length === 0) actualizarResumenCarrito();
     }
 
     function generarGraficoVelas() {
@@ -637,7 +712,7 @@
         data: {
           labels: ['Cera', 'Fragancia', 'Colorante', 'Materiales', 'Mano Obra', 'Indirectos'],
           datasets: [{
-            data: [ resultadosCalculo.costoCeraPorVela, resultadosCalculo.costoFraganciaPorVela, resultadosCalculo.costoColorantePorVela, resultadosCalculo.costosMateriales, resultadosCalculo.costoManoObraPorVela, resultadosCalculo.costoIndirecto ],
+            data: [resultadosCalculo.costoCeraPorVela, resultadosCalculo.costoFraganciaPorVela, resultadosCalculo.costoColorantePorVela, resultadosCalculo.costosMateriales, resultadosCalculo.costoManoObraPorVela, resultadosCalculo.costoIndirecto],
             backgroundColor: ['rgba(217, 122, 155, 0.8)', 'rgba(227, 141, 168, 0.8)', 'rgba(255, 234, 240, 0.8)', 'rgba(82, 171, 152, 0.8)', 'rgba(155, 89, 182, 0.8)', 'rgba(52, 152, 219, 0.8)']
           }]
         },
@@ -646,16 +721,138 @@
     }
 
     // ==========================================
-    // NUEVA EXPORTACIÓN A PDF EXACTA AL TEMPLATE DOCX
+    // LÓGICA DEL CARRITO, DESCUENTO E IVA
+    // ==========================================
+    function agregarAlCarrito(tipo) {
+      if (tipo === 'velas') {
+        const gramos = obtenerValorNumerico('gramosCera', 0);
+        const desc = document.getElementById('descVelas').value.trim() || `Vela Artesanal Aromática (${gramos}g)`;
+        carritoCotizacion.push({
+          articulo: 'VELA AROMATICA',
+          descripcion: desc,
+          cantidad: resultadosCalculo.cantidad || 1,
+          precioUnitario: resultadosCalculo.precioVentaUnitario || 0
+        });
+      } else {
+        const desc = document.getElementById('descConc').value.trim() || 'Pieza Artesanal de Concreto';
+        carritoCotizacion.push({
+          articulo: 'PIEZA DE CONCRETO',
+          descripcion: desc,
+          cantidad: resultadosConcreto.cantidad || 1,
+          precioUnitario: resultadosConcreto.precioVenta || 0
+        });
+      }
+      renderizarCarrito();
+      document.getElementById('panel-carrito').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function eliminarDelCarrito(index) {
+      carritoCotizacion.splice(index, 1);
+      renderizarCarrito();
+    }
+
+    function vaciarCarrito() {
+      if (carritoCotizacion.length === 0) return;
+      if (confirm('¿Vaciar todos los artículos de la cotización?')) {
+        carritoCotizacion = [];
+        renderizarCarrito();
+      }
+    }
+
+    function obtenerItemsActivos() {
+      if (carritoCotizacion.length > 0) return carritoCotizacion;
+      const esVelas = document.getElementById('app-velas').style.display !== 'none';
+      if (esVelas) {
+        return [{
+          articulo: 'VELA AROMATICA',
+          descripcion: document.getElementById('descVelas').value.trim() || 'Vela Artesanal Aromática',
+          cantidad: resultadosCalculo.cantidad || 1,
+          precioUnitario: resultadosCalculo.precioVentaUnitario || 0
+        }];
+      } else {
+        return [{
+          articulo: 'PIEZA DE CONCRETO',
+          descripcion: document.getElementById('descConc').value.trim() || 'Pieza Artesanal de Concreto',
+          cantidad: resultadosConcreto.cantidad || 1,
+          precioUnitario: resultadosConcreto.precioVenta || 0
+        }];
+      }
+    }
+
+    function calcularTotalesCotizacion() {
+      const items = obtenerItemsActivos();
+      const bruto = items.reduce((acc, item) => acc + (item.precioUnitario * item.cantidad), 0);
+      const descPct = Math.min(obtenerValorNumerico('descuentoPct', 0), 100);
+      const descuento = bruto * (descPct / 100);
+      const trasDescuento = bruto - descuento;
+      const modoIva = document.getElementById('modoIva').value;
+
+      let subtotal = trasDescuento;
+      let iva = 0;
+      let total = trasDescuento;
+
+      if (modoIva === 'sumar') {
+        subtotal = trasDescuento;
+        iva = subtotal * 0.16;
+        total = subtotal + iva;
+      } else if (modoIva === 'incluido') {
+        total = trasDescuento;
+        subtotal = total / 1.16;
+        iva = total - subtotal;
+      } else {
+        subtotal = trasDescuento;
+        iva = 0;
+        total = trasDescuento;
+      }
+
+      return { items, bruto, descPct, descuento, subtotal, iva, total, modoIva };
+    }
+
+    function renderizarCarrito() {
+      const tbody = document.getElementById('cart-tbody');
+      const badge = document.getElementById('cart-badge');
+      badge.textContent = `${carritoCotizacion.length} artículo${carritoCotizacion.length === 1 ? '' : 's'}`;
+
+      if (carritoCotizacion.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding: 15px;">Aún no agregas productos. Puedes agregar varios desde el paso 7 o exportar directamente el cálculo actual.</td></tr>';
+      } else {
+        tbody.innerHTML = carritoCotizacion.map((item, i) => `
+          <tr>
+            <td><strong>${item.articulo}</strong></td>
+            <td>${item.descripcion}</td>
+            <td>${item.cantidad}</td>
+            <td>${formatCurrency(item.precioUnitario)}</td>
+            <td>${formatCurrency(item.precioUnitario * item.cantidad)}</td>
+            <td><button class="btn-del-item" onclick="eliminarDelCarrito(${i})" title="Quitar"><i class="fas fa-times"></i></button></td>
+          </tr>
+        `).join('');
+      }
+      actualizarResumenCarrito();
+    }
+
+    function actualizarResumenCarrito() {
+      const t = calcularTotalesCotizacion();
+      document.getElementById('cart-bruto').textContent = formatCurrency(t.bruto);
+      document.getElementById('lbl-desc-pct').textContent = t.descPct;
+      document.getElementById('cart-descuento').textContent = `-${formatCurrency(t.descuento)}`;
+      document.getElementById('row-descuento').style.display = t.descPct > 0 ? 'flex' : 'none';
+      document.getElementById('cart-subtotal').textContent = formatCurrency(t.subtotal);
+      document.getElementById('cart-iva').textContent = formatCurrency(t.iva);
+      document.getElementById('row-iva').style.display = t.modoIva === 'sin-iva' ? 'none' : 'flex';
+      document.getElementById('cart-total').textContent = formatCurrency(t.total);
+    }
+
+    // ==========================================
+    // EXPORTACIÓN A PDF OFICIAL (MULTI-PRODUCTO)
     // ==========================================
     async function exportToPDF() {
       const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
-      
       const primaryColor = esVelas ? '#d97a9b' : '#546e7a';
-      
-      // 1. HEADER (TUS DATOS OFICIALES)
+      const t = calcularTotalesCotizacion();
+
+      // 1. HEADER
       doc.setFontSize(8);
       doc.setTextColor(80);
       doc.text("ANA PAULA VILLASEÑOR GONZALEZ", 15, 20);
@@ -664,7 +861,8 @@
       doc.text("CEL: 33 3149 0596", 15, 32);
 
       const fechaActual = new Date().toLocaleDateString('es-MX');
-      doc.text(`No. COTIZACION: #${Math.floor(Math.random() * 1000) + 100}`, 160, 20);
+      const folio = document.getElementById('cotFolio').value.trim() || "100";
+      doc.text(`No. COTIZACION: #${folio}`, 160, 20);
       doc.text(`FECHA: ${fechaActual}`, 160, 24);
 
       // LOGO CENTRADO
@@ -675,77 +873,93 @@
         canvas.height = logoImg.naturalHeight;
         canvas.getContext('2d').drawImage(logoImg, 0, 0);
         const logoData = canvas.toDataURL('image/jpeg');
-        // Ajuste de tamaño y posición (x, y, w, h)
-        doc.addImage(logoData, 'JPEG', 58, 40, 100, 30);
-      } catch(e) {
-        console.error("No se pudo cargar el logo al PDF.");
-      }
+        doc.addImage(logoData, 'JPEG', 58, 38, 100, 30);
+      } catch (e) { console.error("No se pudo cargar el logo al PDF."); }
 
       // 2. DATOS DEL CLIENTE
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(primaryColor);
-      doc.text("DATOS DE CLIENTE", 15, 85);
+      doc.text("DATOS DE CLIENTE", 15, 80);
       doc.setDrawColor(esVelas ? 217 : 84, esVelas ? 122 : 110, esVelas ? 155 : 122);
-      doc.line(15, 87, 195, 87);
+      doc.line(15, 82, 195, 82);
 
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(50);
-      
-      const cNombre = document.getElementById(esVelas ? 'clienteNombreVelas' : 'clienteNombreConc').value || "___________________________";
-      const cDom = document.getElementById(esVelas ? 'clienteDomicilioVelas' : 'clienteDomicilioConc').value || "___________________________";
-      const cCont = document.getElementById(esVelas ? 'clienteContactoVelas' : 'clienteContactoConc').value || "___________________________";
+      const cNombre = document.getElementById('clienteNombre').value.trim() || "___________________________";
+      const cDom = document.getElementById('clienteDomicilio').value.trim() || "___________________________";
+      const cCont = document.getElementById('clienteContacto').value.trim() || "___________________________";
 
-      doc.text(`NOMBRE: ${cNombre}`, 15, 95);
-      doc.text(`Domicilio: ${cDom}`, 15, 101);
-      doc.text("Lugar de Emisión: Zapopan, Jalisco", 15, 107);
-      doc.text(`Contacto: ${cCont}`, 15, 113);
+      doc.text(`NOMBRE: ${cNombre}`, 15, 89);
+      doc.text(`Domicilio: ${cDom}`, 15, 95);
+      doc.text("Lugar de Emisión: Zapopan, Jalisco", 15, 101);
+      doc.text(`Contacto: ${cCont}`, 15, 107);
 
       // 3. DATOS DE COTIZACIÓN
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(primaryColor);
-      doc.text("DATOS DE COTIZACION", 15, 125);
-      doc.line(15, 127, 195, 127);
+      doc.text("DATOS DE COTIZACION", 15, 118);
+      doc.line(15, 120, 195, 120);
 
-      const precioUnitario = esVelas ? resultadosCalculo.precioVentaUnitario : resultadosConcreto.precioVenta;
-      const cantidad = esVelas ? resultadosCalculo.cantidad : resultadosConcreto.cantidad;
-      const importe = precioUnitario * cantidad;
-      
-      // Cálculo estándar de México: El precio sugerido incluye IVA
-      const subtotal = importe / 1.16;
-      const iva = importe - subtotal;
+      const bodyRows = t.items.map(item => [
+        item.articulo,
+        item.descripcion,
+        item.cantidad.toString(),
+        formatCurrency(item.precioUnitario),
+        formatCurrency(item.precioUnitario * item.cantidad)
+      ]);
 
-      const articulo = esVelas ? "VELA AROMATICA" : "PIEZA DE CONCRETO";
-      const descripcion = esVelas ? "Vela Artesanal Aromatica" : "Pieza Artesanal de Concreto / Jesmonite";
+      if (t.descPct > 0) {
+        bodyRows.push([
+          'DESCUENTO',
+          `Descuento por volumen (${t.descPct}%)`,
+          '1',
+          `${t.descPct}%`,
+          `-${formatCurrency(t.descuento)}`
+        ]);
+      }
 
       doc.autoTable({
-        startY: 135,
+        startY: 125,
         head: [['Articulo', 'Descripción', 'Cantidad', 'Precio Unitario', 'Importe']],
-        body: [
-          [articulo, descripcion, cantidad, formatCurrency(precioUnitario), formatCurrency(importe)]
-        ],
+        body: bodyRows,
         theme: 'plain',
-        headStyles: { fillColor: [255, 255, 255], textColor: [0,0,0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [200,200,200] },
-        bodyStyles: { textColor: [50,50,50] },
+        headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold', lineWidth: 0.1, lineColor: [200, 200, 200] },
+        bodyStyles: { textColor: [50, 50, 50], fontSize: 9 },
         styles: { cellPadding: 3 }
       });
 
-      const finalY = doc.lastAutoTable.finalY + 10;
+      let finalY = doc.lastAutoTable.finalY + 8;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text("SUBTOTAL", 140, finalY); doc.text(formatCurrency(subtotal), 170, finalY);
-      doc.text("IVA 16%", 140, finalY + 6); doc.text(formatCurrency(iva), 170, finalY + 6);
-      doc.text("TOTAL", 140, finalY + 12); doc.text(formatCurrency(importe), 170, finalY + 12);
+      doc.setTextColor(50);
+
+      doc.text("SUBTOTAL", 138, finalY);
+      doc.text(formatCurrency(t.subtotal), 195, finalY, { align: 'right' });
+
+      if (t.modoIva !== 'sin-iva') {
+        finalY += 6;
+        doc.text("IVA 16%", 138, finalY);
+        doc.text(formatCurrency(t.iva), 195, finalY, { align: 'right' });
+      }
+
+      finalY += 7;
+      doc.setTextColor(primaryColor);
+      doc.text("TOTAL", 138, finalY);
+      doc.text(formatCurrency(t.total), 195, finalY, { align: 'right' });
 
       // 4. CONDICIONES DE VENTA
+      let cy = finalY + 15;
+      if (cy > 220) { doc.addPage(); cy = 20; }
+
       doc.setTextColor(primaryColor);
-      doc.text("CONDICIONES DE VENTA", 15, finalY + 30);
-      doc.line(15, finalY + 32, 195, finalY + 32);
+      doc.text("CONDICIONES DE VENTA", 15, cy);
+      doc.line(15, cy + 2, 195, cy + 2);
 
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(80);
       doc.setFontSize(8);
-      
+
       const condiciones = [
         "Estimado Cliente se le informa que:",
         "La presente cotización tiene vigencia de 30 días naturales.",
@@ -755,33 +969,51 @@
         "Cualquier cambio o modificación en el pedido posterior a la fecha de confirmación podrá causar demoras en el tiempo de entrega, así como generar un costo adicional.",
         "La manufactura de nuestras piezas es completamente artesanal, por lo que pueden presentarse sutiles variaciones en su apariencia final, sin que ello afecte su calidad. Estas diferencias naturales no se consideran defectos, sino parte del valor y la autenticidad que distingue a cada pieza."
       ];
-      
-      let cy = finalY + 40;
+
+      cy += 8;
       condiciones.forEach(c => {
-        // Envolver texto para que no se salga del margen
         const lines = doc.splitTextToSize(c, 180);
         doc.text(lines, 15, cy);
-        cy += (lines.length * 4) + 2; 
+        cy += (lines.length * 4) + 1.5;
       });
 
       doc.setFont('helvetica', 'bold');
-      doc.text("GRACIAS POR SU PREFERENCIA.", 105, cy + 10, { align: 'center' });
+      doc.text("GRACIAS POR SU PREFERENCIA.", 105, cy + 8, { align: 'center' });
 
-      doc.save(`Cotizacion_${esVelas ? 'Velas' : 'Concreto'}_Soluna.pdf`);
+      doc.save(`Cotizacion_Soluna_${folio}.pdf`);
     }
 
-    function exportToExcel() {
-      // Excel Interno (se mantiene para análisis de costos)
-      const esVelas = document.getElementById('app-velas').style.display !== 'none';
-      const wb = XLSX.utils.book_new();
-      const title = esVelas ? 'REPORTE INTERNO - COSTOS VELAS' : 'REPORTE INTERNO - COSTOS CONCRETO';
-      
-      const summaryData = [[title], ['Generado el:', new Date().toLocaleDateString()], []];
-      
-      const ws = XLSX.utils.aoa_to_sheet([...summaryData]);
-      XLSX.utils.book_append_sheet(wb, ws, "Costos"); 
-      XLSX.writeFile(wb, `Reporte_Interno_${esVelas ? 'Velas' : 'Concreto'}.xlsx`);
-      alert("La exportación detallada a Excel se está configurando en la nueva versión.");
+    // ==========================================
+    // COTIZACIÓN RÁPIDA POR WHATSAPP
+    // ==========================================
+    function enviarWhatsAppCotizacion() {
+      const t = calcularTotalesCotizacion();
+      const cliente = document.getElementById('clienteNombre').value.trim();
+      const folio = document.getElementById('cotFolio').value.trim() || "100";
+
+      let msg = `*SOLUNA - Recuerdos y Decoración* ✨\n`;
+      msg += `*Cotización #${folio}*`;
+      if (cliente) msg += ` | Cliente: ${cliente}`;
+      msg += `\n\n`;
+
+      t.items.forEach(item => {
+        msg += `• *${item.cantidad}x ${item.descripcion}*\n`;
+        msg += `   ${formatCurrency(item.precioUnitario)} c/u = *${formatCurrency(item.precioUnitario * item.cantidad)}*\n`;
+      });
+
+      msg += `\n`;
+      if (t.descPct > 0) {
+        msg += `Descuento (${t.descPct}%): -${formatCurrency(t.descuento)}\n`;
+      }
+      msg += `Subtotal: ${formatCurrency(t.subtotal)}\n`;
+      if (t.modoIva !== 'sin-iva') {
+        msg += `IVA (16%): ${formatCurrency(t.iva)}\n`;
+      }
+      msg += `*TOTAL: ${formatCurrency(t.total)} MXN*\n\n`;
+      msg += `_Vigencia de 30 días. Se requiere 50% de anticipo para confirmar fecha de entrega._`;
+
+      const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
     }
   </script>
 </body>
