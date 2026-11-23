@@ -61,18 +61,35 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* LOGO SOLUCIONADO */
-    .logo-hero { width: 100%; max-width: 1200px; margin: 0 auto 15px; padding: 10px; display: flex; justify-content: center; align-items: center; background: transparent; }
+    /* LOGO ESTÉTICO Y PROPORCIONAL */
+    .logo-hero { 
+      width: 100%; 
+      max-width: 1200px; 
+      margin: 15px auto 30px; /* Más espacio abajo para respirar */
+      padding: 0 15px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+    }
+    
     .hero-logo { 
       width: 100%; 
-      max-width: 900px; 
-      height: auto; 
-      max-height: 140px; /* Más altura permitida */
-      object-fit: contain; /* Evita que se recorte */
-      object-position: center; 
+      max-width: 750px; /* Ancho ideal para destacar sin comerse la pantalla */
+      height: auto; /* Se ajusta solo, sin restricciones que lo hagan miniatura */
+      object-fit: contain; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08); /* Sombra suave y elegante */
       transition: all 0.3s ease; 
     }
-    .hero-logo:hover { transform: translateY(-1px); }
+    
+    body.dark .hero-logo { 
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+    }
+    
+    .hero-logo:hover { 
+      transform: translateY(-3px); 
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12); 
+    }
 
     /* SWITCHER PRINCIPAL DE APPS */
     .main-app-switcher {
@@ -182,7 +199,7 @@
     
     /* RESPONSIVE */
     @media (min-width: 768px) { .calculadora-grid { grid-template-columns: 1.1fr 2fr; } .chart-container { height: 400px; } .export-buttons { flex-direction: row; } }
-    @media (max-width: 768px) { body { padding: 10px; min-width: 100%; overflow-x: hidden; } .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } .hero-logo { max-height: 90px; } .table-wrapper { width: 100%; display: block; } .chart-container { height: 300px; padding: 10px; } .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .export-buttons { flex-direction: column; } }
+    @media (max-width: 768px) { body { padding: 10px; min-width: 100%; overflow-x: hidden; } .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } .table-wrapper { width: 100%; display: block; } .chart-container { height: 300px; padding: 10px; } .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .export-buttons { flex-direction: column; } }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; } .calculadora-grid { width: 100%; overflow: hidden; }
   </style>
