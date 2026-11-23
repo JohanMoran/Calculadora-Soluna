@@ -103,11 +103,12 @@
     body.dark .step-btn.active { background-color: var(--secundario); border-color: var(--secundario); color: #121212; }
     body.dark .step-btn:hover:not(.active) { background-color: #2a2a2a; }
 
-    .step-section { display: none; animation: fadeIn 0.4s ease; }
-    .step-section.active { display: block; }
+    /* CORRECCIÓN: OCULTAR Y MOSTRAR SECCIONES */
+    .step-section-velas, .step-section-conc { display: none; animation: fadeIn 0.4s ease; }
+    .step-section-velas.active, .step-section-conc.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* BOTONES */
+    /* BOTONES EXPORTACIÓN */
     .export-buttons { display: flex; gap: 15px; margin: 20px 0; }
     .export-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-size: 0.9rem; width: 100%; justify-content: center; }
     .pdf-btn { background-color: #e74c3c; color: white; } .pdf-btn:hover { background-color: #c0392b; transform: translateY(-2px); }
@@ -764,6 +765,73 @@
     }
     
     // (Mantener las funciones exportToPDF y exportToExcel intactas para Velas)
+    async function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const primaryColor = '#d97a9b'; const accentColor = '#52ab98'; const textColor = '#333333';
+      const margin = 15; const pageWidth = doc.internal.pageSize.getWidth(); const contentWidth = pageWidth - margin * 2; let yPosition = margin;
+
+      doc.setFontSize(18); doc.setTextColor(primaryColor); doc.setFont('helvetica', 'bold');
+      doc.text('Reporte de Costos de Velas - Soluna', pageWidth / 2, yPosition, { align: 'center' });
+      doc.setFontSize(10); doc.setTextColor(100); doc.setFont('helvetica', 'normal'); yPosition += 8;
+      doc.text(`Generado el: ${new Date().toLocaleDateString('es-MX')}`, pageWidth / 2, yPosition, { align: 'center' });
+      yPosition += 15; doc.setFontSize(14); doc.setTextColor(primaryColor);
+      doc.text('Resumen de Costos', margin, yPosition); doc.setDrawColor(primaryColor); doc.setLineWidth(0.3);
+      doc.line(margin, yPosition + 2, margin + 40, yPosition + 2); yPosition += 10;
+
+      const totalVenta = document.getElementById('res-precio-venta').textContent;
+      const totalCosto = document.getElementById('res-total-unitario').textContent;
+
+      const summaryData = [
+        { label: 'Costo unitario total', value: totalCosto },
+        { label: 'Precio de venta sugerido', value: totalVenta }
+      ];
+
+      summaryData.forEach((item, i) => {
+        doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(accentColor);
+        doc.text(item.label, margin, yPosition); doc.text(item.value, pageWidth - margin, yPosition, { align: 'right' }); yPosition += 6;
+      });
+      yPosition += 10;
+
+      try {
+        const canvas = document.getElementById('graficaCostos');
+        const canvasImage = await html2canvas(canvas, { scale: 2, logging: false, useCORS: true });
+        const imgData = canvasImage.toDataURL('image/png');
+        const imgProps = doc.getImageProperties(imgData);
+        const imgWidth = contentWidth * 0.6; const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+        doc.addImage(imgData, 'PNG', margin + (contentWidth - imgWidth) / 2, yPosition, imgWidth, imgHeight); yPosition += imgHeight + 10;
+      } catch (error) { console.error("Error al generar gráfico:", error); }
+
+      doc.setFontSize(14); doc.setTextColor(primaryColor); doc.text('Desglose de Costos Unitarios', margin, yPosition);
+      doc.setDrawColor(primaryColor); doc.line(margin, yPosition + 2, margin + 60, yPosition + 2); yPosition += 10;
+
+      const tableData = []; const headers = ['Concepto', 'Costo Unitario', 'Porcentaje'];
+      const rows = document.querySelectorAll('#tablaResultados tbody tr');
+      rows.forEach(row => { const cells = row.querySelectorAll('td'); if (cells.length === 3) { tableData.push([cells[0].textContent.trim(), cells[1].textContent.trim(), cells[2].textContent.trim()]); } });
+
+      doc.autoTable({
+        head: [headers], body: tableData, startY: yPosition, theme: 'grid',
+        headStyles: { fillColor: primaryColor, textColor: 255, fontStyle: 'bold', fontSize: 9 }, bodyStyles: { fontSize: 8, cellPadding: 2 },
+        columnStyles: { 0: { cellWidth: 'auto', halign: 'left' }, 1: { cellWidth: 'auto', halign: 'right' }, 2: { cellWidth: 'auto', halign: 'right' } },
+        margin: { left: margin, right: margin }, tableWidth: contentWidth
+      });
+      doc.save(`Reporte_Costos_Velas_${new Date().toISOString().slice(0,10)}.pdf`);
+    }
+
+    function exportToExcel() {
+      const wb = XLSX.utils.book_new();
+      const summaryData = [
+        ['REPORTE DE COSTOS DE VELAS - SOLUNA'], ['Generado el:', new Date().toLocaleDateString()], [],
+        ['DESGLOSE DE COSTOS UNITARIOS']
+      ];
+      const tableHeaders = ['Concepto', 'Costo Unitario', 'Porcentaje']; const tableData = [tableHeaders];
+      document.querySelectorAll('#tablaResultados tbody tr').forEach(row => { const rowData = []; row.querySelectorAll('td').forEach(cell => { rowData.push(cell.textContent.trim()); }); tableData.push(rowData); });
+      const ws = XLSX.utils.aoa_to_sheet([...summaryData, ...tableData]);
+      if(!ws['!merges']) ws['!merges'] = [];
+      ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }); ws['!merges'].push({ s: { r: 3, c: 0 }, e: { r: 3, c: 2 } });
+      ws['!cols'] = [{ wch: 25 }, { wch: 20 }, { wch: 15 }];
+      XLSX.utils.book_append_sheet(wb, ws, "Reporte de Costos"); XLSX.writeFile(wb, 'Reporte_Costos_Velas.xlsx');
+    }
   </script>
 </body>
 </html>
