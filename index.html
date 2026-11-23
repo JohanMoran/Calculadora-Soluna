@@ -61,10 +61,18 @@
       -webkit-text-size-adjust: 100%;
     }
 
+    /* LOGO SOLUCIONADO */
     .logo-hero { width: 100%; max-width: 1200px; margin: 0 auto 15px; padding: 10px; display: flex; justify-content: center; align-items: center; background: transparent; }
-    .hero-logo { width: 100%; max-width: 900px; height: auto; max-height: 80px; object-fit: cover; object-position: center; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
-    body.dark .hero-logo { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); }
-    .hero-logo:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
+    .hero-logo { 
+      width: 100%; 
+      max-width: 900px; 
+      height: auto; 
+      max-height: 140px; /* Más altura permitida */
+      object-fit: contain; /* Evita que se recorte */
+      object-position: center; 
+      transition: all 0.3s ease; 
+    }
+    .hero-logo:hover { transform: translateY(-1px); }
 
     /* SWITCHER PRINCIPAL DE APPS */
     .main-app-switcher {
@@ -75,12 +83,8 @@
       background: white; color: #666; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
     }
     body.dark .app-btn { background: #1e1e1e; border-color: #444; color: #aaa; }
-    
     .app-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    
-    .app-btn.active-main {
-      border-color: var(--primario); background: var(--terciario); color: var(--primario);
-    }
+    .app-btn.active-main { border-color: var(--primario); background: var(--terciario); color: var(--primario); }
     body.dark .app-btn.active-main { background: var(--terciario); color: var(--primario); border-color: var(--primario); }
 
     /* NAVEGACIÓN PASO A PASO */
@@ -103,12 +107,11 @@
     body.dark .step-btn.active { background-color: var(--secundario); border-color: var(--secundario); color: #121212; }
     body.dark .step-btn:hover:not(.active) { background-color: #2a2a2a; }
 
-    /* CORRECCIÓN: OCULTAR Y MOSTRAR SECCIONES */
     .step-section-velas, .step-section-conc { display: none; animation: fadeIn 0.4s ease; }
     .step-section-velas.active, .step-section-conc.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* BOTONES EXPORTACIÓN */
+    /* BOTONES */
     .export-buttons { display: flex; gap: 15px; margin: 20px 0; }
     .export-btn { padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; font-size: 0.9rem; width: 100%; justify-content: center; }
     .pdf-btn { background-color: #e74c3c; color: white; } .pdf-btn:hover { background-color: #c0392b; transform: translateY(-2px); }
@@ -179,7 +182,7 @@
     
     /* RESPONSIVE */
     @media (min-width: 768px) { .calculadora-grid { grid-template-columns: 1.1fr 2fr; } .chart-container { height: 400px; } .export-buttons { flex-direction: row; } }
-    @media (max-width: 768px) { body { padding: 10px; min-width: 100%; overflow-x: hidden; } .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } .hero-logo { max-height: 70px; } .table-wrapper { width: 100%; display: block; } .chart-container { height: 300px; padding: 10px; } .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .export-buttons { flex-direction: column; } }
+    @media (max-width: 768px) { body { padding: 10px; min-width: 100%; overflow-x: hidden; } .calculadora-grid { display: flex; flex-direction: column; gap: 10px; } .input-card, .result-card, .chart-container { width: 100%; box-sizing: border-box; } .hero-logo { max-height: 90px; } .table-wrapper { width: 100%; display: block; } .chart-container { height: 300px; padding: 10px; } .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; } .export-buttons { flex-direction: column; } }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; } .calculadora-grid { width: 100%; overflow: hidden; }
   </style>
@@ -205,7 +208,6 @@
        INICIO APP VELAS
        ========================================== -->
   <div id="app-velas">
-    <!-- NAVEGACIÓN PASO A PASO VELAS -->
     <div class="step-nav-container">
       <h3 class="step-nav-title">Guía paso a paso · Velas</h3>
       <div class="step-nav">
@@ -219,9 +221,7 @@
     </div>
 
     <div class="calculadora-grid">
-      <!-- Columna izquierda - Inputs Velas -->
       <div class="input-section">
-        
         <div id="sec-cera" class="input-card step-section-velas active">
           <h3><i class="fas fa-fire"></i> 1. Cera</h3>
           <div class="input-group">
@@ -337,7 +337,6 @@
             <label for="margen">Margen de beneficio deseado (%):</label>
             <input type="number" id="margen" step="0.1" value="35">
           </div>
-          
           <div class="input-group" style="margin-top: 15px; margin-bottom: 15px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
             <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
             <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
@@ -346,12 +345,10 @@
               <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
             </div>
           </div>
-
           <div class="input-group">
             <label for="cantidadVelas">Número de velas a producir:</label>
             <input type="number" id="cantidadVelas" step="1" value="1">
           </div>
-          
           <div class="export-buttons">
             <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF</button>
             <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel</button>
@@ -359,7 +356,6 @@
         </div>
       </div>
 
-      <!-- Columna derecha - Resultados Velas -->
       <div class="results-section">
         <div class="result-card">
           <h3><i class="fas fa-calculator"></i> Resumen Velas</h3>
@@ -393,15 +389,15 @@
        INICIO APP CONCRETO
        ========================================== -->
   <div id="app-concreto" style="display: none;">
-    
     <div class="step-nav-container">
       <h3 class="step-nav-title">Guía paso a paso · Concreto</h3>
       <div class="step-nav">
         <button class="step-btn step-conc active" onclick="mostrarSeccionConcreto('sec-conc-mezcla', this)">1 Mezcla Base</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-pigmento', this)">2 Pigmentos</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-acabado', this)">3 Acabado / Molde</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-manoobra', this)">4 Mano de Obra</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-produccion', this)">5 Producción</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-quimicos', this)">2 Químicos</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-pigmento', this)">3 Pigmentos</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-acabado', this)">4 Acabado / Molde</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-manoobra', this)">5 Mano de Obra</button>
+        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-produccion', this)">6 Producción</button>
       </div>
     </div>
 
@@ -416,8 +412,17 @@
             <input type="number" id="costoCemento" step="0.01" value="20.00">
           </div>
           <div class="input-group">
-            <label for="gramosCemento">Gramos por pieza:</label>
+            <label for="gramosCemento">Gramos de Cemento por pieza:</label>
             <input type="number" id="gramosCemento" step="1" value="300">
+          </div>
+          <!-- NUEVO: Arena/Marmolina -->
+          <div class="input-group">
+            <label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label>
+            <input type="number" id="costoArena" step="0.01" value="5.00">
+          </div>
+          <div class="input-group">
+            <label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label>
+            <input type="number" id="gramosArena" step="1" value="200">
           </div>
           <div class="input-group">
             <label for="costoAgua">Costo de Aditivo/Líquido por pieza ($) (Opcional):</label>
@@ -425,8 +430,23 @@
           </div>
         </div>
 
+        <!-- NUEVO: Químicos -->
+        <div id="sec-conc-quimicos" class="input-card step-section-conc">
+          <h3><i class="fas fa-flask"></i> 2. Químicos</h3>
+          <div class="input-group">
+            <label for="costoAcido">Ácido muriático por pieza ($):
+              <div class="tooltip-container"><i class="fas fa-question-circle tooltip-icon"></i><span class="tooltip-text">Costo proporcional por pieza para lavado y neutralizado.</span></div>
+            </label>
+            <input type="number" id="costoAcido" step="0.01" value="1.00">
+          </div>
+          <div class="input-group">
+            <label for="costoCarbonato">Carbonato de sodio por pieza ($):</label>
+            <input type="number" id="costoCarbonato" step="0.01" value="0.50">
+          </div>
+        </div>
+
         <div id="sec-conc-pigmento" class="input-card step-section-conc">
-          <h3><i class="fas fa-palette"></i> 2. Pigmento / Color</h3>
+          <h3><i class="fas fa-palette"></i> 3. Pigmento / Color</h3>
           <div class="input-group">
             <label for="costoPigmentoConc">Costo del Pigmento por pieza ($):</label>
             <input type="number" id="costoPigmentoConc" step="0.01" value="1.50">
@@ -434,7 +454,7 @@
         </div>
 
         <div id="sec-conc-acabado" class="input-card step-section-conc">
-          <h3><i class="fas fa-paint-roller"></i> 3. Acabado, Sellador y Moldes</h3>
+          <h3><i class="fas fa-paint-roller"></i> 4. Acabado, Sellador y Moldes</h3>
           <div class="input-group">
             <label for="costoSellador">Sellador / Barniz por pieza ($):</label>
             <input type="number" id="costoSellador" step="0.01" value="3.00">
@@ -452,7 +472,7 @@
         </div>
 
         <div id="sec-conc-manoobra" class="input-card step-section-conc">
-          <h3><i class="fas fa-user-tie"></i> 4. Mano de Obra e Indirectos</h3>
+          <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos</h3>
           <div class="input-group">
             <label for="manoObraConc">Mano de obra fija por pieza ($):</label>
             <input type="number" id="manoObraConc" step="0.01" value="15.00">
@@ -464,7 +484,7 @@
         </div>
 
         <div id="sec-conc-produccion" class="input-card step-section-conc">
-          <h3><i class="fas fa-chart-line"></i> 5. Producción y Margen</h3>
+          <h3><i class="fas fa-chart-line"></i> 6. Producción y Margen</h3>
           <div class="input-group">
             <label for="margenConc">Margen de beneficio deseado (%):</label>
             <input type="number" id="margenConc" step="0.1" value="40">
@@ -472,6 +492,10 @@
           <div class="input-group">
             <label for="cantidadConc">Piezas a producir:</label>
             <input type="number" id="cantidadConc" step="1" value="1">
+          </div>
+          <div class="export-buttons">
+            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF</button>
+            <button onclick="exportToExcel()" class="export-btn excel-btn"><i class="fas fa-file-excel"></i> Excel</button>
           </div>
         </div>
       </div>
@@ -482,6 +506,7 @@
           <h3><i class="fas fa-calculator"></i> Resumen Concreto</h3>
           <div class="summary-grid">
             <div class="summary-item"><div class="summary-icon"><i class="fas fa-cubes"></i></div><div class="summary-content"><div class="summary-label">Costo Mezcla</div><div class="summary-value" id="res-conc-mezcla">$0.00</div></div></div>
+            <div class="summary-item"><div class="summary-icon"><i class="fas fa-flask"></i></div><div class="summary-content"><div class="summary-label">Químicos</div><div class="summary-value" id="res-conc-quimicos">$0.00</div></div></div>
             <div class="summary-item"><div class="summary-icon"><i class="fas fa-paint-roller"></i></div><div class="summary-content"><div class="summary-label">Acabados/Molde</div><div class="summary-value" id="res-conc-acabado">$0.00</div></div></div>
             <div class="summary-item"><div class="summary-icon"><i class="fas fa-user-tie"></i></div><div class="summary-content"><div class="summary-label">Mano de Obra</div><div class="summary-value" id="res-conc-manoobra">$0.00</div></div></div>
             <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-conc-total">$0.00</div></div></div>
@@ -506,7 +531,6 @@
     </div>
   </div>
 
-
   <a href="https://wa.me/523331490596" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
@@ -524,9 +548,7 @@
     let chartCostosConcreto = null;
     let resultadosConcreto = {};
 
-    // ==========================================
-    // LÓGICA DEL SWITCHER PRINCIPAL
-    // ==========================================
+    // SWITCHER PRINCIPAL
     function switchApp(app) {
       if(app === 'velas') {
         document.getElementById('app-velas').style.display = 'block';
@@ -545,9 +567,7 @@
       }
     }
 
-    // ==========================================
-    // LÓGICA DE PESTAÑAS (VELAS Y CONCRETO)
-    // ==========================================
+    // PESTAÑAS
     function mostrarSeccionVelas(sectionId, btnElement) {
       document.querySelectorAll('.step-section-velas').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.step-velas').forEach(btn => btn.classList.remove('active'));
@@ -562,9 +582,6 @@
       btnElement.classList.add('active');
     }
 
-    // ==========================================
-    // UTILIDADES
-    // ==========================================
     function obtenerValorNumerico(id, valorPorDefecto = 0) {
       const elemento = document.getElementById(id);
       if(!elemento) return valorPorDefecto;
@@ -583,11 +600,7 @@
       if (chartCostosConcreto) chartCostosConcreto.update();
     }
 
-    // ==========================================
-    // EVENTOS INICIALES
-    // ==========================================
     document.addEventListener('DOMContentLoaded', function() {
-      // Configs de Velas (Selectores)
       document.querySelectorAll('.unit-velas').forEach(option => {
         option.addEventListener('click', function() {
           const target = this.getAttribute('data-target');
@@ -606,7 +619,6 @@
         });
       });
 
-      // Listeners Globales
       document.querySelectorAll('#app-velas input').forEach(input => input.addEventListener('input', calcularCostos));
       document.querySelectorAll('#app-concreto input').forEach(input => input.addEventListener('input', calcularCostosConcreto));
 
@@ -620,7 +632,14 @@
     function calcularCostosConcreto() {
       const costoCemento = obtenerValorNumerico('costoCemento', 0);
       const gramosCemento = obtenerValorNumerico('gramosCemento', 0);
+      
+      const costoArena = obtenerValorNumerico('costoArena', 0);
+      const gramosArena = obtenerValorNumerico('gramosArena', 0);
       const costoAgua = obtenerValorNumerico('costoAgua', 0);
+      
+      const costoAcido = obtenerValorNumerico('costoAcido', 0);
+      const costoCarbonato = obtenerValorNumerico('costoCarbonato', 0);
+
       const costoPigmento = obtenerValorNumerico('costoPigmentoConc', 0);
       
       const costoSellador = obtenerValorNumerico('costoSellador', 0);
@@ -632,22 +651,24 @@
       const margen = obtenerValorNumerico('margenConc', 40);
 
       // Math
-      const costoMezcla = (costoCemento / 1000 * gramosCemento) + costoAgua;
+      const costoMezcla = (costoCemento / 1000 * gramosCemento) + (costoArena / 1000 * gramosArena) + costoAgua;
+      const costoQuimicos = costoAcido + costoCarbonato;
       const costoAcabados = costoSellador + costoBaseCorcho + desgasteMolde;
-      const costoTotalUnitario = costoMezcla + costoPigmento + costoAcabados + manoObra + indirectos;
+      const costoTotalUnitario = costoMezcla + costoQuimicos + costoPigmento + costoAcabados + manoObra + indirectos;
       const precioVenta = costoTotalUnitario * (1 + margen / 100);
 
-      resultadosConcreto = { costoMezcla, costoPigmento, costoAcabados, manoObra, indirectos, costoTotalUnitario };
+      resultadosConcreto = { costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos, costoTotalUnitario, precioVenta };
 
       // DOM
-      document.getElementById('res-conc-mezcla').textContent = formatCurrency(costoMezcla + costoPigmento);
+      document.getElementById('res-conc-mezcla').textContent = formatCurrency(costoMezcla);
+      document.getElementById('res-conc-quimicos').textContent = formatCurrency(costoQuimicos);
       document.getElementById('res-conc-acabado').textContent = formatCurrency(costoAcabados);
       document.getElementById('res-conc-manoobra').textContent = formatCurrency(manoObra + indirectos);
       document.getElementById('res-conc-total').textContent = formatCurrency(costoTotalUnitario);
       document.getElementById('res-conc-precio').textContent = formatCurrency(precioVenta);
 
       generarGraficoConcreto();
-      generarTablaConcreto(costoTotalUnitario, costoMezcla, costoPigmento, costoAcabados, manoObra, indirectos);
+      generarTablaConcreto(costoTotalUnitario, costoMezcla, costoQuimicos, costoPigmento, costoAcabados, manoObra, indirectos);
     }
 
     function generarGraficoConcreto() {
@@ -656,22 +677,26 @@
       chartCostosConcreto = new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: ['Mezcla', 'Pigmento', 'Acabados/Molde', 'Mano Obra', 'Indirectos'],
+          labels: ['Mezcla', 'Químicos', 'Pigmento', 'Acabados/Molde', 'Mano Obra', 'Indirectos'],
           datasets: [{
-            data: [ resultadosConcreto.costoMezcla, resultadosConcreto.costoPigmento, resultadosConcreto.costoAcabados, resultadosConcreto.manoObra, resultadosConcreto.indirectos ],
-            backgroundColor: ['#546e7a', '#78909c', '#90a4ae', '#b0bec5', '#cfd8dc']
+            data: [ resultadosConcreto.costoMezcla, resultadosConcreto.costoQuimicos, resultadosConcreto.costoPigmento, resultadosConcreto.costoAcabados, resultadosConcreto.manoObra, resultadosConcreto.indirectos ],
+            backgroundColor: ['#546e7a', '#a3b7c2', '#78909c', '#90a4ae', '#b0bec5', '#cfd8dc']
           }]
         },
         options: { responsive: true, maintainAspectRatio: false }
       });
     }
 
-    function generarTablaConcreto(total, mezcla, pigmento, acabados, mano, ind) {
+    function generarTablaConcreto(total, mezcla, quimicos, pigmento, acabados, mano, ind) {
       const tbody = document.querySelector('#tablaResultadosConcreto tbody');
       tbody.innerHTML = '';
       const datos = [
-        { nombre: 'Mezcla (Cemento + Líquido)', valor: mezcla }, { nombre: 'Pigmentos', valor: pigmento },
-        { nombre: 'Sellador / Molde / Corcho', valor: acabados }, { nombre: 'Mano de Obra', valor: mano }, { nombre: 'Indirectos', valor: ind }
+        { nombre: 'Mezcla (Cemento + Arena + Líquido)', valor: mezcla },
+        { nombre: 'Químicos (Ácido + Carbonato)', valor: quimicos },
+        { nombre: 'Pigmentos', valor: pigmento },
+        { nombre: 'Sellador / Molde / Corcho', valor: acabados }, 
+        { nombre: 'Mano de Obra', valor: mano }, 
+        { nombre: 'Indirectos', valor: ind }
       ];
       datos.forEach(d => {
         if(d.valor > 0) {
@@ -679,14 +704,13 @@
           tbody.innerHTML += `<tr><td style="text-align:left">${d.nombre}</td><td>${formatCurrency(d.valor)}</td><td>${pct}%</td></tr>`;
         }
       });
-      tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(82,171,152,0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
+      tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(84, 110, 122, 0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
     }
 
     // ==========================================
-    // CALCULADORA VELAS (Ya existente)
+    // CALCULADORA VELAS
     // ==========================================
     function calcularCostos() {
-      // (Se mantiene la lógica matemática exacta de tu versión de velas que me pasaste antes)
       const costoCera = obtenerValorNumerico('costoCera', 0);
       const gramosCera = obtenerValorNumerico('gramosCera', 0);
       const costoFragancia = obtenerValorNumerico('costoFragancia', 0);
@@ -722,7 +746,7 @@
         precioVentaUnitario = costoTotalUnitario * (1 + margen / 100);
       }
 
-      resultadosCalculo = { costoCeraPorVela, costoFraganciaPorVela, costoColorantePorVela, costosMateriales, costoManoObraPorVela, costoIndirecto, costoTotalUnitario };
+      resultadosCalculo = { costoCeraPorVela, costoFraganciaPorVela, costoColorantePorVela, costosMateriales, costoManoObraPorVela, costoIndirecto, costoTotalUnitario, precioVentaUnitario };
 
       document.getElementById('res-cera').textContent = formatCurrency(costoCeraPorVela);
       document.getElementById('res-fragancia').textContent = formatCurrency(costoFraganciaPorVela);
@@ -764,23 +788,29 @@
       tbody.innerHTML += `<tr style="font-weight:bold; background:rgba(82,171,152,0.1);"><td style="text-align:left">TOTAL</td><td>${formatCurrency(total)}</td><td>100%</td></tr>`;
     }
     
-    // (Mantener las funciones exportToPDF y exportToExcel intactas para Velas)
+    // ==========================================
+    // EXPORTACIÓN INTELIGENTE (Velas o Concreto)
+    // ==========================================
     async function exportToPDF() {
+      const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-      const primaryColor = '#d97a9b'; const accentColor = '#52ab98'; const textColor = '#333333';
+      
+      const primaryColor = esVelas ? '#d97a9b' : '#546e7a'; 
+      const accentColor = esVelas ? '#52ab98' : '#78909c'; 
+      const textColor = '#333333';
       const margin = 15; const pageWidth = doc.internal.pageSize.getWidth(); const contentWidth = pageWidth - margin * 2; let yPosition = margin;
 
       doc.setFontSize(18); doc.setTextColor(primaryColor); doc.setFont('helvetica', 'bold');
-      doc.text('Reporte de Costos de Velas - Soluna', pageWidth / 2, yPosition, { align: 'center' });
+      doc.text(esVelas ? 'Reporte de Costos de Velas - Soluna' : 'Reporte de Costos de Concreto - Soluna', pageWidth / 2, yPosition, { align: 'center' });
       doc.setFontSize(10); doc.setTextColor(100); doc.setFont('helvetica', 'normal'); yPosition += 8;
       doc.text(`Generado el: ${new Date().toLocaleDateString('es-MX')}`, pageWidth / 2, yPosition, { align: 'center' });
       yPosition += 15; doc.setFontSize(14); doc.setTextColor(primaryColor);
       doc.text('Resumen de Costos', margin, yPosition); doc.setDrawColor(primaryColor); doc.setLineWidth(0.3);
       doc.line(margin, yPosition + 2, margin + 40, yPosition + 2); yPosition += 10;
 
-      const totalVenta = document.getElementById('res-precio-venta').textContent;
-      const totalCosto = document.getElementById('res-total-unitario').textContent;
+      const totalVenta = formatCurrency(esVelas ? resultadosCalculo.precioVentaUnitario : resultadosConcreto.precioVenta);
+      const totalCosto = formatCurrency(esVelas ? resultadosCalculo.costoTotalUnitario : resultadosConcreto.costoTotalUnitario);
 
       const summaryData = [
         { label: 'Costo unitario total', value: totalCosto },
@@ -794,7 +824,8 @@
       yPosition += 10;
 
       try {
-        const canvas = document.getElementById('graficaCostos');
+        const canvasId = esVelas ? 'graficaCostos' : 'graficaCostosConcreto';
+        const canvas = document.getElementById(canvasId);
         const canvasImage = await html2canvas(canvas, { scale: 2, logging: false, useCORS: true });
         const imgData = canvasImage.toDataURL('image/png');
         const imgProps = doc.getImageProperties(imgData);
@@ -806,7 +837,9 @@
       doc.setDrawColor(primaryColor); doc.line(margin, yPosition + 2, margin + 60, yPosition + 2); yPosition += 10;
 
       const tableData = []; const headers = ['Concepto', 'Costo Unitario', 'Porcentaje'];
-      const rows = document.querySelectorAll('#tablaResultados tbody tr');
+      const tableId = esVelas ? '#tablaResultados tbody tr' : '#tablaResultadosConcreto tbody tr';
+      const rows = document.querySelectorAll(tableId);
+      
       rows.forEach(row => { const cells = row.querySelectorAll('td'); if (cells.length === 3) { tableData.push([cells[0].textContent.trim(), cells[1].textContent.trim(), cells[2].textContent.trim()]); } });
 
       doc.autoTable({
@@ -815,22 +848,36 @@
         columnStyles: { 0: { cellWidth: 'auto', halign: 'left' }, 1: { cellWidth: 'auto', halign: 'right' }, 2: { cellWidth: 'auto', halign: 'right' } },
         margin: { left: margin, right: margin }, tableWidth: contentWidth
       });
-      doc.save(`Reporte_Costos_Velas_${new Date().toISOString().slice(0,10)}.pdf`);
+      
+      const fileName = esVelas ? 'Reporte_Velas' : 'Reporte_Concreto';
+      doc.save(`${fileName}_${new Date().toISOString().slice(0,10)}.pdf`);
     }
 
     function exportToExcel() {
+      const esVelas = document.getElementById('app-velas').style.display !== 'none';
       const wb = XLSX.utils.book_new();
+      
+      const title = esVelas ? 'REPORTE DE COSTOS DE VELAS - SOLUNA' : 'REPORTE DE COSTOS DE CONCRETO - SOLUNA';
       const summaryData = [
-        ['REPORTE DE COSTOS DE VELAS - SOLUNA'], ['Generado el:', new Date().toLocaleDateString()], [],
+        [title], ['Generado el:', new Date().toLocaleDateString()], [],
         ['DESGLOSE DE COSTOS UNITARIOS']
       ];
+      
       const tableHeaders = ['Concepto', 'Costo Unitario', 'Porcentaje']; const tableData = [tableHeaders];
-      document.querySelectorAll('#tablaResultados tbody tr').forEach(row => { const rowData = []; row.querySelectorAll('td').forEach(cell => { rowData.push(cell.textContent.trim()); }); tableData.push(rowData); });
+      const tableId = esVelas ? '#tablaResultados tbody tr' : '#tablaResultadosConcreto tbody tr';
+      
+      document.querySelectorAll(tableId).forEach(row => { const rowData = []; row.querySelectorAll('td').forEach(cell => { rowData.push(cell.textContent.trim()); }); tableData.push(rowData); });
+      
       const ws = XLSX.utils.aoa_to_sheet([...summaryData, ...tableData]);
       if(!ws['!merges']) ws['!merges'] = [];
       ws['!merges'].push({ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }); ws['!merges'].push({ s: { r: 3, c: 0 }, e: { r: 3, c: 2 } });
       ws['!cols'] = [{ wch: 25 }, { wch: 20 }, { wch: 15 }];
-      XLSX.utils.book_append_sheet(wb, ws, "Reporte de Costos"); XLSX.writeFile(wb, 'Reporte_Costos_Velas.xlsx');
+      
+      const sheetName = esVelas ? "Costos Velas" : "Costos Concreto";
+      const fileName = esVelas ? 'Reporte_Costos_Velas.xlsx' : 'Reporte_Costos_Concreto.xlsx';
+      
+      XLSX.utils.book_append_sheet(wb, ws, sheetName); 
+      XLSX.writeFile(wb, fileName);
     }
   </script>
 </body>
