@@ -118,18 +118,8 @@
       margin-bottom: 15px;
     }
 
-    .pin-card h2 {
-      margin: 0 0 6px;
-      font-size: 1.25rem;
-      color: var(--primario);
-    }
-
-    .pin-card p {
-      margin: 0 0 18px;
-      font-size: 0.88rem;
-      color: #666;
-    }
-
+    .pin-card h2 { margin: 0 0 6px; font-size: 1.25rem; color: var(--primario); }
+    .pin-card p { margin: 0 0 18px; font-size: 0.88rem; color: #666; }
     body.dark .pin-card p { color: #aaa; }
 
     #pin-input {
@@ -149,10 +139,7 @@
       font-weight: 500;
     }
 
-    /* CONTENEDOR PRINCIPAL OCULTO HASTA INGRESAR PIN */
-    #main-content {
-      display: none;
-    }
+    #main-content { display: none; }
 
     /* LOGO ENMARCADO Y RECORTADO */
     .logo-hero-container {
@@ -180,7 +167,7 @@
 
     /* SWITCHER PRINCIPAL DE APPS */
     .main-app-switcher {
-      display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
     }
     .app-btn {
       padding: 11px 22px; font-size: 1rem; font-weight: 700; border-radius: 30px; border: 2px solid #ddd;
@@ -190,6 +177,73 @@
     .app-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     .app-btn.active-main { border-color: var(--primario); background: var(--terciario); color: var(--primario); }
     body.dark .app-btn.active-main { background: var(--terciario); color: var(--primario); border-color: var(--primario); }
+
+    /* SUB-CATEGORÍAS DE VELAS */
+    .velas-type-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      padding: 12px;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    body.dark .velas-type-bar {
+      background: #1e1e1e;
+      border-color: #333;
+    }
+
+    .vela-type-btn {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--secundario);
+      background: transparent;
+      color: var(--texto-claro);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .vela-type-btn:hover:not(.active) {
+      background: var(--terciario);
+    }
+
+    .vela-type-btn.active {
+      background: var(--primario);
+      border-color: var(--primario);
+      color: white;
+      box-shadow: 0 3px 8px rgba(217, 122, 155, 0.35);
+    }
+
+    body.dark .vela-type-btn.active {
+      color: #121212;
+    }
+
+    .vela-subapp { display: none; animation: fadeIn 0.35s ease; }
+    .vela-subapp.active { display: block; }
+
+    .placeholder-card {
+      background: white;
+      border-radius: 10px;
+      padding: 40px 20px;
+      text-align: center;
+      border: 2px dashed var(--secundario);
+      margin-bottom: 20px;
+    }
+    body.dark .placeholder-card { background: #1e1e1e; }
+    .placeholder-card i { font-size: 2.5rem; color: var(--primario); margin-bottom: 12px; }
+    .placeholder-card h3 { margin: 0 0 8px; color: var(--primario); }
+    .placeholder-card p { margin: 0; color: #666; font-size: 0.92rem; }
+    body.dark .placeholder-card p { color: #aaa; }
 
     /* NAVEGACIÓN PASO A PASO */
     .step-nav-container { margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; }
@@ -335,6 +389,7 @@
       .top-floating-btns { top: 8px; right: 8px; }
       .dark-mode-btn, .logout-btn { padding: 6px 9px; font-size: 0.72rem; }
       .app-btn { padding: 9px 16px; font-size: 0.92rem; }
+      .vela-type-btn { font-size: 0.8rem; padding: 7px 11px; }
     }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; }
@@ -385,114 +440,172 @@
     </div>
 
     <!-- ==========================================
-         INICIO APP VELAS
+         INICIO APP VELAS (CON 5 SUB-CATEGORÍAS)
          ========================================== -->
     <div id="app-velas">
-      <div class="step-nav-container">
-        <h3 class="step-nav-title">Guía paso a paso · Velas</h3>
-        <div class="step-nav">
-          <button class="step-btn step-velas active" onclick="mostrarSeccionVelas('sec-cera-fragancia', this)">1 Cera y Fragancia</button>
-          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-colorante', this)">2 Colorante</button>
-          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-materiales', this)">3 Materiales</button>
-          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-manoobra', this)">4 Mano de Obra</button>
-          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-margen', this)">5 Margen</button>
-          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-cotizacion', this)">6 Cotización</button>
+      <!-- BARRA DE TIPOS DE VELA -->
+      <div class="velas-type-bar">
+        <button class="vela-type-btn active" onclick="switchVelaType('frasco', this)">
+          <i class="fas fa-jar"></i> Vela de Frasco
+        </button>
+        <button class="vela-type-btn" onclick="switchVelaType('ramos', this)">
+          <i class="fas fa-spa"></i> Ramos / Bouquet
+        </button>
+        <button class="vela-type-btn" onclick="switchVelaType('recuerditos', this)">
+          <i class="fas fa-gift"></i> Recuerditos
+        </button>
+        <button class="vela-type-btn" onclick="switchVelaType('decorativas', this)">
+          <i class="fas fa-star"></i> Velas Decorativas
+        </button>
+        <button class="vela-type-btn" onclick="switchVelaType('corporativas', this)">
+          <i class="fas fa-building"></i> Corporativas
+        </button>
+      </div>
+
+      <!-- 1. SUB-APP: VELA DE FRASCO (COMPLETA) -->
+      <div id="vela-sub-frasco" class="vela-subapp active">
+        <div class="step-nav-container">
+          <h3 class="step-nav-title">Guía paso a paso · Vela de Frasco</h3>
+          <div class="step-nav">
+            <button class="step-btn step-velas active" onclick="mostrarSeccionVelas('sec-cera-fragancia', this)">1 Cera y Fragancia</button>
+            <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-colorante', this)">2 Colorante</button>
+            <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-materiales', this)">3 Materiales</button>
+            <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-manoobra', this)">4 Mano de Obra</button>
+            <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-margen', this)">5 Margen</button>
+            <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-cotizacion', this)">6 Cotización</button>
+          </div>
+        </div>
+
+        <div class="calculadora-grid">
+          <div class="input-section">
+            <div id="sec-cera-fragancia" class="input-card step-section-velas active">
+              <h3><i class="fas fa-fire"></i> 1. Cera y Fragancia</h3>
+              <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
+              <div class="input-group"><label for="gramosCera">Cera por vela (gramos):</label><input type="number" id="gramosCera" step="0.1" value="150"></div>
+
+              <div class="sub-divider"><i class="fas fa-wind"></i> Fragancia</div>
+              <div class="input-group"><label for="costoFragancia">Costo de la fragancia ($):</label><input type="number" id="costoFragancia" step="0.01" value="250.00"></div>
+              <div class="input-group">
+                <label>Unidad de medida:</label>
+                <div class="unit-selector">
+                  <div class="unit-option unit-velas active" data-unit="ml" data-target="fragancia">Mililitros (ml)</div>
+                  <div class="unit-option unit-velas" data-unit="litros" data-target="fragancia">Litros (L)</div>
+                </div>
+              </div>
+              <div class="input-group"><label for="tamanoFragancia">Tamaño del envase:</label><input type="number" id="tamanoFragancia" step="1" value="250"></div>
+              <div class="input-group"><label for="porcentajeFragancia">Porcentaje de fragancia (%):</label><input type="number" id="porcentajeFragancia" step="0.1" value="10"></div>
+            </div>
+
+            <div id="sec-colorante" class="input-card step-section-velas">
+              <h3><i class="fas fa-palette"></i> 2. Colorante</h3>
+              <div class="input-group"><label for="costoColorante">Costo del colorante ($):</label><input type="number" id="costoColorante" step="0.01" value="10.00"></div>
+              <div class="input-group">
+                <label>Unidad de medida:</label>
+                <div class="unit-selector">
+                  <div class="unit-option unit-velas active" data-unit="ml" data-target="colorante">Mililitros (ml)</div>
+                  <div class="unit-option unit-velas" data-unit="gramos" data-target="colorante">Gramos (g)</div>
+                </div>
+              </div>
+              <div class="input-group"><label for="cantidadColorante">Tamaño del envase:</label><input type="number" id="cantidadColorante" step="1" value="10"></div>
+              <div class="input-group"><label for="usoColorante">Uso por vela:</label><input type="number" id="usoColorante" step="0.1" value="0.1"></div>
+            </div>
+
+            <div id="sec-materiales" class="input-card step-section-velas">
+              <h3><i class="fas fa-tools"></i> 3. Materiales y Empaque</h3>
+              <div class="input-group"><label for="costoFrasco">Costo del frasco/envase por vela ($):</label><input type="number" id="costoFrasco" step="0.01" value="8.00"></div>
+              <div class="input-group"><label for="costoMecha">Costo de mecha por vela ($):</label><input type="number" id="costoMecha" step="0.01" value="2.50"></div>
+              <div class="input-group"><label for="costoEtiqueta">Costo de etiqueta principal ($):</label><input type="number" id="costoEtiqueta" step="0.01" value="1.50"></div>
+              <div class="input-group"><label for="costoRotulacion">Rotulación de tapa/frasco ($):</label><input type="number" id="costoRotulacion" step="0.01" value="0.50"></div>
+              <div class="input-group"><label for="costoEmpaque">Coste de empaque ($):</label><input type="number" id="costoEmpaque" step="0.01" value="2.00"></div>
+              <div class="input-group"><label for="costoProtector">Protectores de cera ($):</label><input type="number" id="costoProtector" step="0.01" value="0.75"></div>
+            </div>
+
+            <div id="sec-manoobra" class="input-card step-section-velas">
+              <h3><i class="fas fa-user-tie"></i> 4. Mano de Obra e Indirectos</h3>
+              <div class="input-group">
+                <label>Tipo de cálculo de mano de obra:</label>
+                <div class="unit-selector">
+                  <div class="unit-option unit-velas" data-unit="fijo" data-target="manoObra">Monto Fijo</div>
+                  <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
+                </div>
+              </div>
+              <div class="input-group" id="manoObraFijo-group" style="display:none;"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
+              <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
+              <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
+            </div>
+
+            <div id="sec-margen" class="input-card step-section-velas">
+              <h3><i class="fas fa-percentage"></i> 5. Margen y Utilidad</h3>
+              <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
+              <div class="input-group" style="margin-top: 12px; margin-bottom: 12px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
+                <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
+                <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
+                <div class="unit-selector">
+                  <div class="unit-option unit-velas active" data-unit="con-utilidad" data-target="utilidadEnvase">Sí (Todo)</div>
+                  <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="sec-cotizacion" class="input-card step-section-velas">
+              <h3><i class="fas fa-file-invoice-dollar"></i> 6. Cotización</h3>
+              <div class="input-group"><label for="cantidadVelas">Cantidad de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
+              <div class="input-group"><label for="descVelas">Descripción para la cotización:</label><input type="text" id="descVelas" value="Vela Artesanal Aromática"></div>
+              <button onclick="agregarAlCarrito('velas')" class="export-btn add-cart-btn">
+                <i class="fas fa-cart-plus"></i> Agregar a la Cotización
+              </button>
+            </div>
+          </div>
+
+          <div class="results-section">
+            <div class="result-card">
+              <h3><i class="fas fa-calculator"></i> Resumen Vela de Frasco</h3>
+              <div class="summary-grid">
+                <div class="summary-item"><div class="summary-icon"><i class="fas fa-fire"></i></div><div class="summary-content"><div class="summary-label">Cera</div><div class="summary-value" id="res-cera">$0.00</div></div></div>
+                <div class="summary-item"><div class="summary-icon"><i class="fas fa-wind"></i></div><div class="summary-content"><div class="summary-label">Fragancia</div><div class="summary-value" id="res-fragancia">$0.00</div></div></div>
+                <div class="summary-item"><div class="summary-icon"><i class="fas fa-palette"></i></div><div class="summary-content"><div class="summary-label">Colorante</div><div class="summary-value" id="res-colorante">$0.00</div></div></div>
+                <div class="summary-item"><div class="summary-icon"><i class="fas fa-box"></i></div><div class="summary-content"><div class="summary-label">Materiales</div><div class="summary-value" id="res-materiales">$0.00</div></div></div>
+                <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-total-unitario">$0.00</div></div></div>
+                <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio de venta</div><div class="summary-value" id="res-precio-venta">$0.00</div></div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="calculadora-grid">
-        <div class="input-section">
-          <div id="sec-cera-fragancia" class="input-card step-section-velas active">
-            <h3><i class="fas fa-fire"></i> 1. Cera y Fragancia</h3>
-            <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
-            <div class="input-group"><label for="gramosCera">Cera por vela (gramos):</label><input type="number" id="gramosCera" step="0.1" value="150"></div>
-
-            <div class="sub-divider"><i class="fas fa-wind"></i> Fragancia</div>
-            <div class="input-group"><label for="costoFragancia">Costo de la fragancia ($):</label><input type="number" id="costoFragancia" step="0.01" value="250.00"></div>
-            <div class="input-group">
-              <label>Unidad de medida:</label>
-              <div class="unit-selector">
-                <div class="unit-option unit-velas active" data-unit="ml" data-target="fragancia">Mililitros (ml)</div>
-                <div class="unit-option unit-velas" data-unit="litros" data-target="fragancia">Litros (L)</div>
-              </div>
-            </div>
-            <div class="input-group"><label for="tamanoFragancia">Tamaño del envase:</label><input type="number" id="tamanoFragancia" step="1" value="250"></div>
-            <div class="input-group"><label for="porcentajeFragancia">Porcentaje de fragancia (%):</label><input type="number" id="porcentajeFragancia" step="0.1" value="10"></div>
-          </div>
-
-          <div id="sec-colorante" class="input-card step-section-velas">
-            <h3><i class="fas fa-palette"></i> 2. Colorante</h3>
-            <div class="input-group"><label for="costoColorante">Costo del colorante ($):</label><input type="number" id="costoColorante" step="0.01" value="10.00"></div>
-            <div class="input-group">
-              <label>Unidad de medida:</label>
-              <div class="unit-selector">
-                <div class="unit-option unit-velas active" data-unit="ml" data-target="colorante">Mililitros (ml)</div>
-                <div class="unit-option unit-velas" data-unit="gramos" data-target="colorante">Gramos (g)</div>
-              </div>
-            </div>
-            <div class="input-group"><label for="cantidadColorante">Tamaño del envase:</label><input type="number" id="cantidadColorante" step="1" value="10"></div>
-            <div class="input-group"><label for="usoColorante">Uso por vela:</label><input type="number" id="usoColorante" step="0.1" value="0.1"></div>
-          </div>
-
-          <div id="sec-materiales" class="input-card step-section-velas">
-            <h3><i class="fas fa-tools"></i> 3. Materiales y Empaque</h3>
-            <div class="input-group"><label for="costoFrasco">Costo del frasco/envase por vela ($):</label><input type="number" id="costoFrasco" step="0.01" value="8.00"></div>
-            <div class="input-group"><label for="costoMecha">Costo de mecha por vela ($):</label><input type="number" id="costoMecha" step="0.01" value="2.50"></div>
-            <div class="input-group"><label for="costoEtiqueta">Costo de etiqueta principal ($):</label><input type="number" id="costoEtiqueta" step="0.01" value="1.50"></div>
-            <div class="input-group"><label for="costoRotulacion">Rotulación de tapa/frasco ($):</label><input type="number" id="costoRotulacion" step="0.01" value="0.50"></div>
-            <div class="input-group"><label for="costoEmpaque">Coste de empaque ($):</label><input type="number" id="costoEmpaque" step="0.01" value="2.00"></div>
-            <div class="input-group"><label for="costoProtector">Protectores de cera ($):</label><input type="number" id="costoProtector" step="0.01" value="0.75"></div>
-          </div>
-
-          <div id="sec-manoobra" class="input-card step-section-velas">
-            <h3><i class="fas fa-user-tie"></i> 4. Mano de Obra e Indirectos</h3>
-            <div class="input-group">
-              <label>Tipo de cálculo de mano de obra:</label>
-              <div class="unit-selector">
-                <div class="unit-option unit-velas" data-unit="fijo" data-target="manoObra">Monto Fijo</div>
-                <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
-              </div>
-            </div>
-            <div class="input-group" id="manoObraFijo-group" style="display:none;"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
-            <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
-            <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
-          </div>
-
-          <div id="sec-margen" class="input-card step-section-velas">
-            <h3><i class="fas fa-percentage"></i> 5. Margen y Utilidad</h3>
-            <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
-            <div class="input-group" style="margin-top: 12px; margin-bottom: 12px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
-              <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
-              <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
-              <div class="unit-selector">
-                <div class="unit-option unit-velas active" data-unit="con-utilidad" data-target="utilidadEnvase">Sí (Todo)</div>
-                <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
-              </div>
-            </div>
-          </div>
-
-          <div id="sec-cotizacion" class="input-card step-section-velas">
-            <h3><i class="fas fa-file-invoice-dollar"></i> 6. Cotización</h3>
-            <div class="input-group"><label for="cantidadVelas">Cantidad de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
-            <div class="input-group"><label for="descVelas">Descripción para la cotización:</label><input type="text" id="descVelas" value="Vela Artesanal Aromática"></div>
-            <button onclick="agregarAlCarrito('velas')" class="export-btn add-cart-btn">
-              <i class="fas fa-cart-plus"></i> Agregar a la Cotización
-            </button>
-          </div>
+      <!-- 2. SUB-APP: RAMOS / BOUQUET (LISTA PARA CONFIGURAR) -->
+      <div id="vela-sub-ramos" class="vela-subapp">
+        <div class="placeholder-card">
+          <i class="fas fa-spa"></i>
+          <h3>Ramos / Bouquet</h3>
+          <p>Espacio listo para configurar su paso a paso, materiales y fórmulas personalizadas.</p>
         </div>
+      </div>
 
-        <div class="results-section">
-          <div class="result-card">
-            <h3><i class="fas fa-calculator"></i> Resumen Velas</h3>
-            <div class="summary-grid">
-              <div class="summary-item"><div class="summary-icon"><i class="fas fa-fire"></i></div><div class="summary-content"><div class="summary-label">Cera</div><div class="summary-value" id="res-cera">$0.00</div></div></div>
-              <div class="summary-item"><div class="summary-icon"><i class="fas fa-wind"></i></div><div class="summary-content"><div class="summary-label">Fragancia</div><div class="summary-value" id="res-fragancia">$0.00</div></div></div>
-              <div class="summary-item"><div class="summary-icon"><i class="fas fa-palette"></i></div><div class="summary-content"><div class="summary-label">Colorante</div><div class="summary-value" id="res-colorante">$0.00</div></div></div>
-              <div class="summary-item"><div class="summary-icon"><i class="fas fa-box"></i></div><div class="summary-content"><div class="summary-label">Materiales</div><div class="summary-value" id="res-materiales">$0.00</div></div></div>
-              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-total-unitario">$0.00</div></div></div>
-              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio de venta</div><div class="summary-value" id="res-precio-venta">$0.00</div></div></div>
-            </div>
-          </div>
+      <!-- 3. SUB-APP: RECUERDITOS (LISTA PARA CONFIGURAR) -->
+      <div id="vela-sub-recuerditos" class="vela-subapp">
+        <div class="placeholder-card">
+          <i class="fas fa-gift"></i>
+          <h3>Recuerditos</h3>
+          <p>Espacio listo para configurar su paso a paso, materiales y fórmulas personalizadas.</p>
+        </div>
+      </div>
+
+      <!-- 4. SUB-APP: VELAS DECORATIVAS (LISTA PARA CONFIGURAR) -->
+      <div id="vela-sub-decorativas" class="vela-subapp">
+        <div class="placeholder-card">
+          <i class="fas fa-star"></i>
+          <h3>Velas Decorativas</h3>
+          <p>Espacio listo para configurar su paso a paso, materiales y fórmulas personalizadas.</p>
+        </div>
+      </div>
+
+      <!-- 5. SUB-APP: CORPORATIVAS (LISTA PARA CONFIGURAR) -->
+      <div id="vela-sub-corporativas" class="vela-subapp">
+        <div class="placeholder-card">
+          <i class="fas fa-building"></i>
+          <h3>Corporativas</h3>
+          <p>Espacio listo para configurar su paso a paso, materiales y fórmulas personalizadas.</p>
         </div>
       </div>
     </div>
@@ -772,11 +885,9 @@
     // ==========================================
     // CONFIGURACIÓN DE PINS Y PERMISOS
     // ==========================================
-    // Cambia los números entre comillas por tus PINs reales.
-    // Permisos disponibles: "velas", "concreto", "manual"
     const USUARIOS_PIN = {
-      "1234": { rol: "maestro", permisos: ["velas", "concreto", "manual"] }, // TU PIN MAESTRO
-      "0000": { rol: "trabajador", permisos: ["manual"] }                    // PIN PARA TRABAJADORES
+      "1234": { rol: "maestro", permisos: ["velas", "concreto", "manual"] },
+      "0000": { rol: "trabajador", permisos: ["manual"] }
     };
 
     let usuarioActual = null;
@@ -807,10 +918,7 @@
       document.getElementById('btn-app-concreto').style.display = permisos.includes('concreto') ? 'flex' : 'none';
       document.getElementById('btn-app-manual').style.display = permisos.includes('manual') ? 'flex' : 'none';
 
-      // Abrir automáticamente la primera pestaña permitida para este usuario
-      if (permisos.length > 0) {
-        switchApp(permisos[0]);
-      }
+      if (permisos.length > 0) switchApp(permisos[0]);
     }
 
     function cerrarSesion() {
@@ -819,6 +927,16 @@
       document.getElementById('main-content').style.display = 'none';
       document.getElementById('pin-overlay').style.display = 'flex';
       document.getElementById('pin-input').focus();
+    }
+
+    // ==========================================
+    // CAMBIO DE SUB-CATEGORÍA EN VELAS
+    // ==========================================
+    function switchVelaType(tipo, btnElement) {
+      document.querySelectorAll('.vela-subapp').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.vela-type-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`vela-sub-${tipo}`).classList.add('active');
+      btnElement.classList.add('active');
     }
 
     // ==========================================
@@ -837,7 +955,6 @@
     let carritoManual = [];
 
     function switchApp(app) {
-      // Protección extra: no permitir cambiar a una pestaña sin permiso
       if (usuarioActual && !usuarioActual.permisos.includes(app)) return;
 
       document.getElementById('app-velas').style.display = 'none';
@@ -902,12 +1019,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-      // Permitir ingresar con la tecla Enter en el PIN
       document.getElementById('pin-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') verificarPin();
       });
 
-      // Revisar si ya hay sesión iniciada en esta pestaña
       const pinGuardado = sessionStorage.getItem('soluna_pin_activo');
       if (pinGuardado && USUARIOS_PIN[pinGuardado]) {
         usuarioActual = USUARIOS_PIN[pinGuardado];
@@ -937,7 +1052,7 @@
         });
       });
 
-      document.querySelectorAll('#app-velas input').forEach(input => input.addEventListener('input', calcularCostos));
+      document.querySelectorAll('#vela-sub-frasco input').forEach(input => input.addEventListener('input', calcularCostos));
       document.querySelectorAll('#app-concreto input').forEach(input => input.addEventListener('input', calcularCostosConcreto));
       document.getElementById('descuentoPct').addEventListener('input', actualizarResumenCarrito);
       document.getElementById('modoIva').addEventListener('change', actualizarResumenCarrito);
@@ -1154,14 +1269,8 @@
       const precio = obtenerValorNumerico('manPrecio', 0);
       const cantidad = obtenerValorNumerico('manCantidad', 1);
 
-      if (!descripcion) {
-        alert('Por favor escribe una descripción para el artículo.');
-        return;
-      }
-      if (precio <= 0) {
-        alert('Por favor ingresa un costo unitario mayor a 0.');
-        return;
-      }
+      if (!descripcion) { alert('Por favor escribe una descripción para el artículo.'); return; }
+      if (precio <= 0) { alert('Por favor ingresa un costo unitario mayor a 0.'); return; }
 
       carritoManual.push({
         articulo: articulo.toUpperCase(),
