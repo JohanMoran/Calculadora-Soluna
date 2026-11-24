@@ -80,6 +80,80 @@
       -webkit-text-size-adjust: 100%;
     }
 
+    /* ==========================================
+       PANTALLA DE BLOQUEO CON PIN
+       ========================================== */
+    #pin-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: var(--fondo-claro);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .pin-card {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      border: 1px solid #e0e0e0;
+    }
+
+    body.dark .pin-card {
+      background: #1e1e1e;
+      border-color: #333;
+    }
+
+    .pin-card img {
+      width: 100%;
+      max-height: 75px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .pin-card h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+      color: var(--primario);
+    }
+
+    .pin-card p {
+      margin: 0 0 18px;
+      font-size: 0.88rem;
+      color: #666;
+    }
+
+    body.dark .pin-card p { color: #aaa; }
+
+    #pin-input {
+      text-align: center;
+      font-size: 1.4rem;
+      letter-spacing: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    #pin-error {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* CONTENEDOR PRINCIPAL OCULTO HASTA INGRESAR PIN */
+    #main-content {
+      display: none;
+    }
+
     /* LOGO ENMARCADO Y RECORTADO */
     .logo-hero-container {
       width: 100%;
@@ -220,9 +294,25 @@
     .manual-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .badge-count { background: var(--primario); color: white; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px; }
 
-    /* BOTONES FLOTANTES */
-    .dark-mode-btn { position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: #2b2b2b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 0.85rem; display: flex; align-items: center; gap: 4px; text-transform: uppercase; font-weight: 500; transition: all 0.3s; }
+    /* BOTONES FLOTANTES SUPERIORES */
+    .top-floating-btns {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      display: flex;
+      gap: 8px;
+    }
+
+    .dark-mode-btn, .logout-btn {
+      background-color: #2b2b2b; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 0.8rem; display: flex; align-items: center; gap: 5px;
+      text-transform: uppercase; font-weight: 500; transition: all 0.3s;
+    }
+    .logout-btn { background-color: #c0392b; }
+    .logout-btn:hover { background-color: #a93226; }
     body.dark .dark-mode-btn { background-color: #f0f0f0; color: #2b2b2b; }
+
     .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background-color: #25D366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; text-decoration: none; }
     .whatsapp-btn:hover { background-color: #128C7E; transform: scale(1.1); }
     .whatsapp-btn i { font-size: 25px; }
@@ -236,13 +326,14 @@
       body { padding: 10px; min-width: 100%; overflow-x: hidden; }
       .calculadora-grid { display: flex; flex-direction: column; gap: 10px; }
       .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-      .logo-hero-container { height: 85px; margin: 10px auto 20px; width: calc(100% - 20px); }
+      .logo-hero-container { height: 85px; margin: 45px auto 20px; width: calc(100% - 20px); }
       .client-grid, .manual-row-3 { grid-template-columns: 1fr; }
       .export-buttons { flex-direction: column; }
       .export-btn { width: 100%; min-width: 0; }
       .cart-table { font-size: 0.78rem; }
       .cart-table th, .cart-table td { padding: 6px 4px; }
-      .dark-mode-btn { top: 10px; right: 10px; padding: 6px 10px; font-size: 0.75rem; }
+      .top-floating-btns { top: 8px; right: 8px; }
+      .dark-mode-btn, .logout-btn { padding: 6px 9px; font-size: 0.72rem; }
       .app-btn { padding: 9px 16px; font-size: 0.92rem; }
     }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
@@ -250,351 +341,256 @@
   </style>
 </head>
 <body>
-  <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Modo Oscuro</button>
-
-  <div class="logo-hero-container">
-    <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo" id="main-logo">
-  </div>
-
-  <!-- SELECTOR PRINCIPAL: VELAS | CONCRETO | COTIZACIÓN MANUAL -->
-  <div class="main-app-switcher">
-    <button id="btn-app-velas" class="app-btn active-main" onclick="switchApp('velas')">
-      <i class="fas fa-fire"></i> Velas
-    </button>
-    <button id="btn-app-concreto" class="app-btn" onclick="switchApp('concreto')">
-      <i class="fas fa-cubes"></i> Concreto
-    </button>
-    <button id="btn-app-manual" class="app-btn" onclick="switchApp('manual')">
-      <i class="fas fa-file-signature"></i> Cotización Manual
-    </button>
-  </div>
 
   <!-- ==========================================
-       INICIO APP VELAS
+       PANTALLA DE BLOQUEO POR PIN
        ========================================== -->
-  <div id="app-velas">
-    <div class="step-nav-container">
-      <h3 class="step-nav-title">Guía paso a paso · Velas</h3>
-      <div class="step-nav">
-        <button class="step-btn step-velas active" onclick="mostrarSeccionVelas('sec-cera-fragancia', this)">1 Cera y Fragancia</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-colorante', this)">2 Colorante</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-materiales', this)">3 Materiales</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-manoobra', this)">4 Mano de Obra</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-margen', this)">5 Margen</button>
-        <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-cotizacion', this)">6 Cotización</button>
-      </div>
-    </div>
-
-    <div class="calculadora-grid">
-      <div class="input-section">
-        <div id="sec-cera-fragancia" class="input-card step-section-velas active">
-          <h3><i class="fas fa-fire"></i> 1. Cera y Fragancia</h3>
-          <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
-          <div class="input-group"><label for="gramosCera">Cera por vela (gramos):</label><input type="number" id="gramosCera" step="0.1" value="150"></div>
-
-          <div class="sub-divider"><i class="fas fa-wind"></i> Fragancia</div>
-          <div class="input-group"><label for="costoFragancia">Costo de la fragancia ($):</label><input type="number" id="costoFragancia" step="0.01" value="250.00"></div>
-          <div class="input-group">
-            <label>Unidad de medida:</label>
-            <div class="unit-selector">
-              <div class="unit-option unit-velas active" data-unit="ml" data-target="fragancia">Mililitros (ml)</div>
-              <div class="unit-option unit-velas" data-unit="litros" data-target="fragancia">Litros (L)</div>
-            </div>
-          </div>
-          <div class="input-group"><label for="tamanoFragancia">Tamaño del envase:</label><input type="number" id="tamanoFragancia" step="1" value="250"></div>
-          <div class="input-group"><label for="porcentajeFragancia">Porcentaje de fragancia (%):</label><input type="number" id="porcentajeFragancia" step="0.1" value="10"></div>
-        </div>
-
-        <div id="sec-colorante" class="input-card step-section-velas">
-          <h3><i class="fas fa-palette"></i> 2. Colorante</h3>
-          <div class="input-group"><label for="costoColorante">Costo del colorante ($):</label><input type="number" id="costoColorante" step="0.01" value="10.00"></div>
-          <div class="input-group">
-            <label>Unidad de medida:</label>
-            <div class="unit-selector">
-              <div class="unit-option unit-velas active" data-unit="ml" data-target="colorante">Mililitros (ml)</div>
-              <div class="unit-option unit-velas" data-unit="gramos" data-target="colorante">Gramos (g)</div>
-            </div>
-          </div>
-          <div class="input-group"><label for="cantidadColorante">Tamaño del envase:</label><input type="number" id="cantidadColorante" step="1" value="10"></div>
-          <div class="input-group"><label for="usoColorante">Uso por vela:</label><input type="number" id="usoColorante" step="0.1" value="0.1"></div>
-        </div>
-
-        <div id="sec-materiales" class="input-card step-section-velas">
-          <h3><i class="fas fa-tools"></i> 3. Materiales y Empaque</h3>
-          <div class="input-group"><label for="costoFrasco">Costo del frasco/envase por vela ($):</label><input type="number" id="costoFrasco" step="0.01" value="8.00"></div>
-          <div class="input-group"><label for="costoMecha">Costo de mecha por vela ($):</label><input type="number" id="costoMecha" step="0.01" value="2.50"></div>
-          <div class="input-group"><label for="costoEtiqueta">Costo de etiqueta principal ($):</label><input type="number" id="costoEtiqueta" step="0.01" value="1.50"></div>
-          <div class="input-group"><label for="costoRotulacion">Rotulación de tapa/frasco ($):</label><input type="number" id="costoRotulacion" step="0.01" value="0.50"></div>
-          <div class="input-group"><label for="costoEmpaque">Coste de empaque ($):</label><input type="number" id="costoEmpaque" step="0.01" value="2.00"></div>
-          <div class="input-group"><label for="costoProtector">Protectores de cera ($):</label><input type="number" id="costoProtector" step="0.01" value="0.75"></div>
-        </div>
-
-        <div id="sec-manoobra" class="input-card step-section-velas">
-          <h3><i class="fas fa-user-tie"></i> 4. Mano de Obra e Indirectos</h3>
-          <div class="input-group">
-            <label>Tipo de cálculo de mano de obra:</label>
-            <div class="unit-selector">
-              <div class="unit-option unit-velas" data-unit="fijo" data-target="manoObra">Monto Fijo</div>
-              <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
-            </div>
-          </div>
-          <div class="input-group" id="manoObraFijo-group" style="display:none;"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
-          <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
-          <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
-        </div>
-
-        <div id="sec-margen" class="input-card step-section-velas">
-          <h3><i class="fas fa-percentage"></i> 5. Margen y Utilidad</h3>
-          <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
-          <div class="input-group" style="margin-top: 12px; margin-bottom: 12px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
-            <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
-            <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
-            <div class="unit-selector">
-              <div class="unit-option unit-velas active" data-unit="con-utilidad" data-target="utilidadEnvase">Sí (Todo)</div>
-              <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
-            </div>
-          </div>
-        </div>
-
-        <div id="sec-cotizacion" class="input-card step-section-velas">
-          <h3><i class="fas fa-file-invoice-dollar"></i> 6. Cotización</h3>
-          <div class="input-group"><label for="cantidadVelas">Cantidad de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
-          <div class="input-group"><label for="descVelas">Descripción para la cotización:</label><input type="text" id="descVelas" value="Vela Artesanal Aromática"></div>
-          <button onclick="agregarAlCarrito('velas')" class="export-btn add-cart-btn">
-            <i class="fas fa-cart-plus"></i> Agregar a la Cotización
-          </button>
-        </div>
-      </div>
-
-      <div class="results-section">
-        <div class="result-card">
-          <h3><i class="fas fa-calculator"></i> Resumen Velas</h3>
-          <div class="summary-grid">
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-fire"></i></div><div class="summary-content"><div class="summary-label">Cera</div><div class="summary-value" id="res-cera">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-wind"></i></div><div class="summary-content"><div class="summary-label">Fragancia</div><div class="summary-value" id="res-fragancia">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-palette"></i></div><div class="summary-content"><div class="summary-label">Colorante</div><div class="summary-value" id="res-colorante">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-box"></i></div><div class="summary-content"><div class="summary-label">Materiales</div><div class="summary-value" id="res-materiales">$0.00</div></div></div>
-            <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-total-unitario">$0.00</div></div></div>
-            <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio de venta</div><div class="summary-value" id="res-precio-venta">$0.00</div></div></div>
-          </div>
-        </div>
-      </div>
+  <div id="pin-overlay">
+    <div class="pin-card">
+      <img src="SOLUNA OFICIAL.jpg" alt="Soluna">
+      <h2><i class="fas fa-lock"></i> Acceso Soluna</h2>
+      <p>Ingresa tu PIN de acceso para continuar</p>
+      <input type="password" id="pin-input" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off">
+      <div id="pin-error"><i class="fas fa-exclamation-circle"></i> PIN incorrecto. Intenta de nuevo.</div>
+      <button onclick="verificarPin()" class="export-btn add-cart-btn" style="margin-top: 0;">
+        <i class="fas fa-sign-in-alt"></i> Ingresar
+      </button>
     </div>
   </div>
 
   <!-- ==========================================
-       INICIO APP CONCRETO
+       CONTENIDO PRINCIPAL (OCULTO HASTA LOGIN)
        ========================================== -->
-  <div id="app-concreto" style="display: none;">
-    <div class="step-nav-container">
-      <h3 class="step-nav-title">Guía paso a paso · Concreto</h3>
-      <div class="step-nav">
-        <button class="step-btn step-conc active" onclick="mostrarSeccionConcreto('sec-conc-mezcla', this)">1 Mezcla Base</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-quimicos', this)">2 Químicos</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-pigmento', this)">3 Pigmentos</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-acabado', this)">4 Acabado / Molde</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-manoobra', this)">5 Mano de Obra</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-margen', this)">6 Margen</button>
-        <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-cotizacion', this)">7 Cotización</button>
-      </div>
+  <div id="main-content">
+    <div class="top-floating-btns">
+      <button class="dark-mode-btn" onclick="toggleDarkMode()"><i class="fas fa-moon"></i> Oscuro</button>
+      <button class="logout-btn" onclick="cerrarSesion()" title="Bloquear pantalla"><i class="fas fa-lock"></i> Salir</button>
     </div>
 
-    <div class="calculadora-grid">
-      <div class="input-section">
-        <div id="sec-conc-mezcla" class="input-card step-section-conc active">
-          <h3><i class="fas fa-cubes"></i> 1. Mezcla Base</h3>
-          <div class="input-group"><label for="costoCemento">Costo de 1kg de Cemento/Jesmonite ($):</label><input type="number" id="costoCemento" step="0.01" value="20.00"></div>
-          <div class="input-group"><label for="gramosCemento">Gramos de Cemento por pieza:</label><input type="number" id="gramosCemento" step="1" value="300"></div>
-          <div class="input-group"><label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label><input type="number" id="costoArena" step="0.01" value="5.00"></div>
-          <div class="input-group"><label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label><input type="number" id="gramosArena" step="1" value="200"></div>
-          <div class="input-group"><label for="costoAgua">Costo de Aditivo/Líquido por pieza ($):</label><input type="number" id="costoAgua" step="0.01" value="2.00"></div>
-        </div>
-
-        <div id="sec-conc-quimicos" class="input-card step-section-conc">
-          <h3><i class="fas fa-flask"></i> 2. Químicos</h3>
-          <div class="input-group"><label for="costoAcido">Ácido muriático por pieza ($):</label><input type="number" id="costoAcido" step="0.01" value="1.00"></div>
-          <div class="input-group"><label for="costoCarbonato">Carbonato de sodio por pieza ($):</label><input type="number" id="costoCarbonato" step="0.01" value="0.50"></div>
-        </div>
-
-        <div id="sec-conc-pigmento" class="input-card step-section-conc">
-          <h3><i class="fas fa-palette"></i> 3. Pigmento / Color</h3>
-          <div class="input-group"><label for="costoPigmentoConc">Costo del Pigmento por pieza ($):</label><input type="number" id="costoPigmentoConc" step="0.01" value="1.50"></div>
-        </div>
-
-        <div id="sec-conc-acabado" class="input-card step-section-conc">
-          <h3><i class="fas fa-paint-roller"></i> 4. Acabado, Sellador y Moldes</h3>
-          <div class="input-group"><label for="costoSellador">Sellador / Barniz por pieza ($):</label><input type="number" id="costoSellador" step="0.01" value="3.00"></div>
-          <div class="input-group"><label for="costoBaseCorcho">Base protectora (Corcho/Fieltro) ($):</label><input type="number" id="costoBaseCorcho" step="0.01" value="1.50"></div>
-          <div class="input-group"><label for="desgasteMolde">Desgaste de molde por pieza ($):</label><input type="number" id="desgasteMolde" step="0.01" value="5.00"></div>
-        </div>
-
-        <div id="sec-conc-manoobra" class="input-card step-section-conc">
-          <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos</h3>
-          <div class="input-group"><label for="manoObraConc">Mano de obra fija por pieza ($):</label><input type="number" id="manoObraConc" step="0.01" value="15.00"></div>
-          <div class="input-group"><label for="indirectosConc">Costos indirectos (Lijas, luz, agua) ($):</label><input type="number" id="indirectosConc" step="0.01" value="4.00"></div>
-        </div>
-
-        <div id="sec-conc-margen" class="input-card step-section-conc">
-          <h3><i class="fas fa-percentage"></i> 6. Margen y Utilidad</h3>
-          <div class="input-group"><label for="margenConc">Margen de beneficio deseado (%):</label><input type="number" id="margenConc" step="0.1" value="40"></div>
-        </div>
-
-        <div id="sec-conc-cotizacion" class="input-card step-section-conc">
-          <h3><i class="fas fa-file-invoice-dollar"></i> 7. Cotización</h3>
-          <div class="input-group"><label for="cantidadConc">Cantidad de piezas a cotizar:</label><input type="number" id="cantidadConc" step="1" value="1"></div>
-          <div class="input-group"><label for="descConc">Descripción para la cotización:</label><input type="text" id="descConc" value="Pieza Artesanal de Concreto"></div>
-          <button onclick="agregarAlCarrito('concreto')" class="export-btn add-cart-btn">
-            <i class="fas fa-cart-plus"></i> Agregar a la Cotización
-          </button>
-        </div>
-      </div>
-
-      <div class="results-section">
-        <div class="result-card">
-          <h3><i class="fas fa-calculator"></i> Resumen Concreto</h3>
-          <div class="summary-grid">
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-cubes"></i></div><div class="summary-content"><div class="summary-label">Costo Mezcla</div><div class="summary-value" id="res-conc-mezcla">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-flask"></i></div><div class="summary-content"><div class="summary-label">Químicos</div><div class="summary-value" id="res-conc-quimicos">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-paint-roller"></i></div><div class="summary-content"><div class="summary-label">Acabados/Molde</div><div class="summary-value" id="res-conc-acabado">$0.00</div></div></div>
-            <div class="summary-item"><div class="summary-icon"><i class="fas fa-user-tie"></i></div><div class="summary-content"><div class="summary-label">Mano de Obra</div><div class="summary-value" id="res-conc-manoobra">$0.00</div></div></div>
-            <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-conc-total">$0.00</div></div></div>
-            <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio Sugerido</div><div class="summary-value" id="res-conc-precio">$0.00</div></div></div>
-          </div>
-        </div>
-      </div>
+    <div class="logo-hero-container">
+      <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo" id="main-logo">
     </div>
-  </div>
 
-  <!-- ==========================================
-       CARRITO DE COTIZACIÓN PARA CALCULADORAS
-       ========================================== -->
-  <div class="cart-card" id="panel-carrito">
-    <h3>
-      <i class="fas fa-file-invoice-dollar"></i> Cotización Final (Carrito)
-      <span class="badge-count" id="cart-badge">0 artículos</span>
-    </h3>
-
-    <div class="cart-grid">
-      <div>
-        <div style="overflow-x: auto;">
-          <table class="cart-table">
-            <thead>
-              <tr>
-                <th>Artículo</th>
-                <th>Descripción</th>
-                <th>Cant.</th>
-                <th>P. Unitario</th>
-                <th>Importe</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="cart-tbody">
-              <tr><td colspan="6" style="text-align:center; color:#888; padding: 15px;">Aún no agregas productos. Puedes agregar varios desde el apartado de Cotización o exportar directamente el cálculo actual.</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h4 style="margin: 15px 0 8px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente y Folio</h4>
-        <div class="client-grid">
-          <div class="input-group"><input type="text" id="cotFolio" placeholder="No. Cotización (ej. 100)" value="100"></div>
-          <div class="input-group"><input type="text" id="clienteNombre" placeholder="Nombre del Cliente"></div>
-          <div class="input-group"><input type="text" id="clienteContacto" placeholder="Teléfono o Correo"></div>
-          <div class="input-group"><input type="text" id="clienteDomicilio" placeholder="Domicilio / Ciudad"></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="input-group">
-          <label for="descuentoPct">Descuento por volumen (%):</label>
-          <input type="number" id="descuentoPct" step="0.5" min="0" max="100" value="0">
-        </div>
-
-        <div class="input-group">
-          <label for="modoIva">Configuración de IVA (16%):</label>
-          <select id="modoIva">
-            <option value="sumar">Sumar +16% de IVA al subtotal</option>
-            <option value="sin-iva">Sin IVA (0%)</option>
-          </select>
-        </div>
-
-        <div class="cart-totals-box">
-          <div class="total-row"><span>Subtotal bruto:</span><span id="cart-bruto">$0.00</span></div>
-          <div class="total-row" id="row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="lbl-desc-pct">0</span>%):</span><span id="cart-descuento">-$0.00</span></div>
-          <div class="total-row"><span>Subtotal neto:</span><span id="cart-subtotal">$0.00</span></div>
-          <div class="total-row" id="row-iva"><span>IVA (16%):</span><span id="cart-iva">$0.00</span></div>
-          <div class="total-row grand-total"><span>TOTAL:</span><span id="cart-total">$0.00</span></div>
-        </div>
-
-        <div class="export-buttons">
-          <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
-          <button onclick="enviarWhatsAppCotizacion()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
-          <button onclick="vaciarCarrito()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
-        </div>
-      </div>
+    <!-- SELECTOR PRINCIPAL: VELAS | CONCRETO | COTIZACIÓN MANUAL -->
+    <div class="main-app-switcher">
+      <button id="btn-app-velas" class="app-btn active-main" onclick="switchApp('velas')">
+        <i class="fas fa-fire"></i> Velas
+      </button>
+      <button id="btn-app-concreto" class="app-btn" onclick="switchApp('concreto')">
+        <i class="fas fa-cubes"></i> Concreto
+      </button>
+      <button id="btn-app-manual" class="app-btn" onclick="switchApp('manual')">
+        <i class="fas fa-file-signature"></i> Cotización Manual
+      </button>
     </div>
-  </div>
 
-  <!-- ==========================================
-       INICIO APP COTIZACIÓN MANUAL (INDEPENDIENTE)
-       ========================================== -->
-  <div id="app-manual" style="display: none;">
-    <div class="calculadora-grid">
-      <!-- Columna izquierda: Agregar artículo manual -->
-      <div class="input-section">
-        <div class="input-card">
-          <h3><i class="fas fa-plus-circle"></i> Agregar Artículo Manual</h3>
-          <div class="input-group">
-            <label for="manArticulo">Artículo / Título:</label>
-            <input type="text" id="manArticulo" placeholder="Ej. VELA AROMATICA, BANDEJA..." value="VELA AROMATICA">
-          </div>
-          <div class="input-group">
-            <label for="manDescripcion">Descripción:</label>
-            <input type="text" id="manDescripcion" placeholder="Ej. Vela de soya 170g en frasco Mónaco con tapa dorada">
-          </div>
-          <div class="manual-row-2">
+    <!-- ==========================================
+         INICIO APP VELAS
+         ========================================== -->
+    <div id="app-velas">
+      <div class="step-nav-container">
+        <h3 class="step-nav-title">Guía paso a paso · Velas</h3>
+        <div class="step-nav">
+          <button class="step-btn step-velas active" onclick="mostrarSeccionVelas('sec-cera-fragancia', this)">1 Cera y Fragancia</button>
+          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-colorante', this)">2 Colorante</button>
+          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-materiales', this)">3 Materiales</button>
+          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-manoobra', this)">4 Mano de Obra</button>
+          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-margen', this)">5 Margen</button>
+          <button class="step-btn step-velas" onclick="mostrarSeccionVelas('sec-cotizacion', this)">6 Cotización</button>
+        </div>
+      </div>
+
+      <div class="calculadora-grid">
+        <div class="input-section">
+          <div id="sec-cera-fragancia" class="input-card step-section-velas active">
+            <h3><i class="fas fa-fire"></i> 1. Cera y Fragancia</h3>
+            <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
+            <div class="input-group"><label for="gramosCera">Cera por vela (gramos):</label><input type="number" id="gramosCera" step="0.1" value="150"></div>
+
+            <div class="sub-divider"><i class="fas fa-wind"></i> Fragancia</div>
+            <div class="input-group"><label for="costoFragancia">Costo de la fragancia ($):</label><input type="number" id="costoFragancia" step="0.01" value="250.00"></div>
             <div class="input-group">
-              <label for="manPrecio">Costo unitario ($):</label>
-              <input type="number" id="manPrecio" step="0.01" min="0" placeholder="0.00">
+              <label>Unidad de medida:</label>
+              <div class="unit-selector">
+                <div class="unit-option unit-velas active" data-unit="ml" data-target="fragancia">Mililitros (ml)</div>
+                <div class="unit-option unit-velas" data-unit="litros" data-target="fragancia">Litros (L)</div>
+              </div>
             </div>
+            <div class="input-group"><label for="tamanoFragancia">Tamaño del envase:</label><input type="number" id="tamanoFragancia" step="1" value="250"></div>
+            <div class="input-group"><label for="porcentajeFragancia">Porcentaje de fragancia (%):</label><input type="number" id="porcentajeFragancia" step="0.1" value="10"></div>
+          </div>
+
+          <div id="sec-colorante" class="input-card step-section-velas">
+            <h3><i class="fas fa-palette"></i> 2. Colorante</h3>
+            <div class="input-group"><label for="costoColorante">Costo del colorante ($):</label><input type="number" id="costoColorante" step="0.01" value="10.00"></div>
             <div class="input-group">
-              <label for="manCantidad">Cantidad:</label>
-              <input type="number" id="manCantidad" step="1" min="1" value="1">
+              <label>Unidad de medida:</label>
+              <div class="unit-selector">
+                <div class="unit-option unit-velas active" data-unit="ml" data-target="colorante">Mililitros (ml)</div>
+                <div class="unit-option unit-velas" data-unit="gramos" data-target="colorante">Gramos (g)</div>
+              </div>
+            </div>
+            <div class="input-group"><label for="cantidadColorante">Tamaño del envase:</label><input type="number" id="cantidadColorante" step="1" value="10"></div>
+            <div class="input-group"><label for="usoColorante">Uso por vela:</label><input type="number" id="usoColorante" step="0.1" value="0.1"></div>
+          </div>
+
+          <div id="sec-materiales" class="input-card step-section-velas">
+            <h3><i class="fas fa-tools"></i> 3. Materiales y Empaque</h3>
+            <div class="input-group"><label for="costoFrasco">Costo del frasco/envase por vela ($):</label><input type="number" id="costoFrasco" step="0.01" value="8.00"></div>
+            <div class="input-group"><label for="costoMecha">Costo de mecha por vela ($):</label><input type="number" id="costoMecha" step="0.01" value="2.50"></div>
+            <div class="input-group"><label for="costoEtiqueta">Costo de etiqueta principal ($):</label><input type="number" id="costoEtiqueta" step="0.01" value="1.50"></div>
+            <div class="input-group"><label for="costoRotulacion">Rotulación de tapa/frasco ($):</label><input type="number" id="costoRotulacion" step="0.01" value="0.50"></div>
+            <div class="input-group"><label for="costoEmpaque">Coste de empaque ($):</label><input type="number" id="costoEmpaque" step="0.01" value="2.00"></div>
+            <div class="input-group"><label for="costoProtector">Protectores de cera ($):</label><input type="number" id="costoProtector" step="0.01" value="0.75"></div>
+          </div>
+
+          <div id="sec-manoobra" class="input-card step-section-velas">
+            <h3><i class="fas fa-user-tie"></i> 4. Mano de Obra e Indirectos</h3>
+            <div class="input-group">
+              <label>Tipo de cálculo de mano de obra:</label>
+              <div class="unit-selector">
+                <div class="unit-option unit-velas" data-unit="fijo" data-target="manoObra">Monto Fijo</div>
+                <div class="unit-option unit-velas active" data-unit="porcentaje" data-target="manoObra">Porcentaje</div>
+              </div>
+            </div>
+            <div class="input-group" id="manoObraFijo-group" style="display:none;"><label for="manoObraFijo">Mano de obra fija por vela ($):</label><input type="number" id="manoObraFijo" step="0.01" value="0.00"></div>
+            <div class="input-group" id="manoObraPorcentaje-group"><label for="manoObraPorcentaje">Porcentaje de mano de obra (%):</label><input type="number" id="manoObraPorcentaje" step="0.1" value="25"></div>
+            <div class="input-group"><label for="costoIndirecto">Costos indirectos por vela ($):</label><input type="number" id="costoIndirecto" step="0.01" value="3.00"></div>
+          </div>
+
+          <div id="sec-margen" class="input-card step-section-velas">
+            <h3><i class="fas fa-percentage"></i> 5. Margen y Utilidad</h3>
+            <div class="input-group"><label for="margen">Margen de beneficio deseado (%):</label><input type="number" id="margen" step="0.1" value="35"></div>
+            <div class="input-group" style="margin-top: 12px; margin-bottom: 12px; background: rgba(82,171,152,0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(82,171,152,0.2);">
+              <label style="color: var(--primario); font-weight: 600;">¿Aplicar margen de utilidad al frasco?</label>
+              <span style="display:block; font-size: 0.8rem; color:#666; margin-bottom: 8px;">Si eliges "No", el frasco se cobrará al costo neto.</span>
+              <div class="unit-selector">
+                <div class="unit-option unit-velas active" data-unit="con-utilidad" data-target="utilidadEnvase">Sí (Todo)</div>
+                <div class="unit-option unit-velas" data-unit="sin-utilidad" data-target="utilidadEnvase">No (Frasco al costo)</div>
+              </div>
             </div>
           </div>
-          <button onclick="agregarItemManual()" class="export-btn add-cart-btn">
-            <i class="fas fa-cart-plus"></i> Agregar al Carrito Manual
-          </button>
+
+          <div id="sec-cotizacion" class="input-card step-section-velas">
+            <h3><i class="fas fa-file-invoice-dollar"></i> 6. Cotización</h3>
+            <div class="input-group"><label for="cantidadVelas">Cantidad de velas a cotizar:</label><input type="number" id="cantidadVelas" step="1" value="1"></div>
+            <div class="input-group"><label for="descVelas">Descripción para la cotización:</label><input type="text" id="descVelas" value="Vela Artesanal Aromática"></div>
+            <button onclick="agregarAlCarrito('velas')" class="export-btn add-cart-btn">
+              <i class="fas fa-cart-plus"></i> Agregar a la Cotización
+            </button>
+          </div>
         </div>
 
-        <div class="input-card">
-          <h3><i class="fas fa-user"></i> Datos del Cliente</h3>
-          <div class="input-group">
-            <label for="manFolio">No. Cotización (Folio):</label>
-            <input type="text" id="manFolio" value="100" placeholder="Ej. 100">
-          </div>
-          <div class="input-group">
-            <label for="manClienteNombre">Nombre del Cliente:</label>
-            <input type="text" id="manClienteNombre" placeholder="Nombre o empresa">
-          </div>
-          <div class="input-group">
-            <label for="manClienteTel">Teléfono:</label>
-            <input type="text" id="manClienteTel" placeholder="Ej. 33 1234 5678">
-          </div>
-          <div class="input-group">
-            <label for="manClienteDom">Domicilio / Ciudad:</label>
-            <input type="text" id="manClienteDom" placeholder="Dirección, colonia y ciudad">
+        <div class="results-section">
+          <div class="result-card">
+            <h3><i class="fas fa-calculator"></i> Resumen Velas</h3>
+            <div class="summary-grid">
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-fire"></i></div><div class="summary-content"><div class="summary-label">Cera</div><div class="summary-value" id="res-cera">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-wind"></i></div><div class="summary-content"><div class="summary-label">Fragancia</div><div class="summary-value" id="res-fragancia">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-palette"></i></div><div class="summary-content"><div class="summary-label">Colorante</div><div class="summary-value" id="res-colorante">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-box"></i></div><div class="summary-content"><div class="summary-label">Materiales</div><div class="summary-value" id="res-materiales">$0.00</div></div></div>
+              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-total-unitario">$0.00</div></div></div>
+              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio de venta</div><div class="summary-value" id="res-precio-venta">$0.00</div></div></div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Columna derecha: Carrito manual y totales -->
-      <div class="results-section">
-        <div class="cart-card" style="margin-top: 0;">
-          <h3>
-            <i class="fas fa-shopping-cart"></i> Carrito de Cotización Manual
-            <span class="badge-count" id="man-cart-badge">0 artículos</span>
-          </h3>
+    <!-- ==========================================
+         INICIO APP CONCRETO
+         ========================================== -->
+    <div id="app-concreto" style="display: none;">
+      <div class="step-nav-container">
+        <h3 class="step-nav-title">Guía paso a paso · Concreto</h3>
+        <div class="step-nav">
+          <button class="step-btn step-conc active" onclick="mostrarSeccionConcreto('sec-conc-mezcla', this)">1 Mezcla Base</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-quimicos', this)">2 Químicos</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-pigmento', this)">3 Pigmentos</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-acabado', this)">4 Acabado / Molde</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-manoobra', this)">5 Mano de Obra</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-margen', this)">6 Margen</button>
+          <button class="step-btn step-conc" onclick="mostrarSeccionConcreto('sec-conc-cotizacion', this)">7 Cotización</button>
+        </div>
+      </div>
 
+      <div class="calculadora-grid">
+        <div class="input-section">
+          <div id="sec-conc-mezcla" class="input-card step-section-conc active">
+            <h3><i class="fas fa-cubes"></i> 1. Mezcla Base</h3>
+            <div class="input-group"><label for="costoCemento">Costo de 1kg de Cemento/Jesmonite ($):</label><input type="number" id="costoCemento" step="0.01" value="20.00"></div>
+            <div class="input-group"><label for="gramosCemento">Gramos de Cemento por pieza:</label><input type="number" id="gramosCemento" step="1" value="300"></div>
+            <div class="input-group"><label for="costoArena">Costo de 1kg de Arena/Marmolina ($):</label><input type="number" id="costoArena" step="0.01" value="5.00"></div>
+            <div class="input-group"><label for="gramosArena">Gramos de Arena/Marmolina por pieza:</label><input type="number" id="gramosArena" step="1" value="200"></div>
+            <div class="input-group"><label for="costoAgua">Costo de Aditivo/Líquido por pieza ($):</label><input type="number" id="costoAgua" step="0.01" value="2.00"></div>
+          </div>
+
+          <div id="sec-conc-quimicos" class="input-card step-section-conc">
+            <h3><i class="fas fa-flask"></i> 2. Químicos</h3>
+            <div class="input-group"><label for="costoAcido">Ácido muriático por pieza ($):</label><input type="number" id="costoAcido" step="0.01" value="1.00"></div>
+            <div class="input-group"><label for="costoCarbonato">Carbonato de sodio por pieza ($):</label><input type="number" id="costoCarbonato" step="0.01" value="0.50"></div>
+          </div>
+
+          <div id="sec-conc-pigmento" class="input-card step-section-conc">
+            <h3><i class="fas fa-palette"></i> 3. Pigmento / Color</h3>
+            <div class="input-group"><label for="costoPigmentoConc">Costo del Pigmento por pieza ($):</label><input type="number" id="costoPigmentoConc" step="0.01" value="1.50"></div>
+          </div>
+
+          <div id="sec-conc-acabado" class="input-card step-section-conc">
+            <h3><i class="fas fa-paint-roller"></i> 4. Acabado, Sellador y Moldes</h3>
+            <div class="input-group"><label for="costoSellador">Sellador / Barniz por pieza ($):</label><input type="number" id="costoSellador" step="0.01" value="3.00"></div>
+            <div class="input-group"><label for="costoBaseCorcho">Base protectora (Corcho/Fieltro) ($):</label><input type="number" id="costoBaseCorcho" step="0.01" value="1.50"></div>
+            <div class="input-group"><label for="desgasteMolde">Desgaste de molde por pieza ($):</label><input type="number" id="desgasteMolde" step="0.01" value="5.00"></div>
+          </div>
+
+          <div id="sec-conc-manoobra" class="input-card step-section-conc">
+            <h3><i class="fas fa-user-tie"></i> 5. Mano de Obra e Indirectos</h3>
+            <div class="input-group"><label for="manoObraConc">Mano de obra fija por pieza ($):</label><input type="number" id="manoObraConc" step="0.01" value="15.00"></div>
+            <div class="input-group"><label for="indirectosConc">Costos indirectos (Lijas, luz, agua) ($):</label><input type="number" id="indirectosConc" step="0.01" value="4.00"></div>
+          </div>
+
+          <div id="sec-conc-margen" class="input-card step-section-conc">
+            <h3><i class="fas fa-percentage"></i> 6. Margen y Utilidad</h3>
+            <div class="input-group"><label for="margenConc">Margen de beneficio deseado (%):</label><input type="number" id="margenConc" step="0.1" value="40"></div>
+          </div>
+
+          <div id="sec-conc-cotizacion" class="input-card step-section-conc">
+            <h3><i class="fas fa-file-invoice-dollar"></i> 7. Cotización</h3>
+            <div class="input-group"><label for="cantidadConc">Cantidad de piezas a cotizar:</label><input type="number" id="cantidadConc" step="1" value="1"></div>
+            <div class="input-group"><label for="descConc">Descripción para la cotización:</label><input type="text" id="descConc" value="Pieza Artesanal de Concreto"></div>
+            <button onclick="agregarAlCarrito('concreto')" class="export-btn add-cart-btn">
+              <i class="fas fa-cart-plus"></i> Agregar a la Cotización
+            </button>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <div class="result-card">
+            <h3><i class="fas fa-calculator"></i> Resumen Concreto</h3>
+            <div class="summary-grid">
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-cubes"></i></div><div class="summary-content"><div class="summary-label">Costo Mezcla</div><div class="summary-value" id="res-conc-mezcla">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-flask"></i></div><div class="summary-content"><div class="summary-label">Químicos</div><div class="summary-value" id="res-conc-quimicos">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-paint-roller"></i></div><div class="summary-content"><div class="summary-label">Acabados/Molde</div><div class="summary-value" id="res-conc-acabado">$0.00</div></div></div>
+              <div class="summary-item"><div class="summary-icon"><i class="fas fa-user-tie"></i></div><div class="summary-content"><div class="summary-label">Mano de Obra</div><div class="summary-value" id="res-conc-manoobra">$0.00</div></div></div>
+              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-dollar-sign"></i></div><div class="summary-content"><div class="summary-label">Costo Unitario</div><div class="summary-value" id="res-conc-total">$0.00</div></div></div>
+              <div class="summary-item total"><div class="summary-icon"><i class="fas fa-tag"></i></div><div class="summary-content"><div class="summary-label">Precio Sugerido</div><div class="summary-value" id="res-conc-precio">$0.00</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         CARRITO DE COTIZACIÓN PARA CALCULADORAS
+         ========================================== -->
+    <div class="cart-card" id="panel-carrito">
+      <h3>
+        <i class="fas fa-file-invoice-dollar"></i> Cotización Final (Carrito)
+        <span class="badge-count" id="cart-badge">0 artículos</span>
+      </h3>
+
+      <div class="cart-grid">
+        <div>
           <div style="overflow-x: auto;">
             <table class="cart-table">
               <thead>
@@ -607,54 +603,227 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="man-cart-tbody">
-                <tr><td colspan="6" style="text-align:center; color:#888; padding: 20px;">Agrega uno o más artículos desde el formulario para armar tu cotización manual.</td></tr>
+              <tbody id="cart-tbody">
+                <tr><td colspan="6" style="text-align:center; color:#888; padding: 15px;">Aún no agregas productos. Puedes agregar varios desde el apartado de Cotización o exportar directamente el cálculo actual.</td></tr>
               </tbody>
             </table>
           </div>
 
-          <div class="manual-row-3" style="margin-top: 15px;">
-            <div class="input-group">
-              <label for="manDescuentoPct">Descuento (%):</label>
-              <input type="number" id="manDescuentoPct" step="0.5" min="0" max="100" value="0">
-            </div>
-            <div class="input-group">
-              <label for="manEnvio">Costo de envío ($):</label>
-              <input type="number" id="manEnvio" step="1" min="0" value="0" placeholder="0.00">
-            </div>
-            <div class="input-group">
-              <label for="manModoIva">IVA (16%):</label>
-              <select id="manModoIva">
-                <option value="sumar">Sumar +16% IVA</option>
-                <option value="sin-iva">Sin IVA (0%)</option>
-              </select>
-            </div>
+          <h4 style="margin: 15px 0 8px 0; color: var(--primario); font-size: 0.95rem;">Datos del Cliente y Folio</h4>
+          <div class="client-grid">
+            <div class="input-group"><input type="text" id="cotFolio" placeholder="No. Cotización (ej. 100)" value="100"></div>
+            <div class="input-group"><input type="text" id="clienteNombre" placeholder="Nombre del Cliente"></div>
+            <div class="input-group"><input type="text" id="clienteContacto" placeholder="Teléfono o Correo"></div>
+            <div class="input-group"><input type="text" id="clienteDomicilio" placeholder="Domicilio / Ciudad"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="input-group">
+            <label for="descuentoPct">Descuento por volumen (%):</label>
+            <input type="number" id="descuentoPct" step="0.5" min="0" max="100" value="0">
+          </div>
+
+          <div class="input-group">
+            <label for="modoIva">Configuración de IVA (16%):</label>
+            <select id="modoIva">
+              <option value="sumar">Sumar +16% de IVA al subtotal</option>
+              <option value="sin-iva">Sin IVA (0%)</option>
+            </select>
           </div>
 
           <div class="cart-totals-box">
-            <div class="total-row"><span>Subtotal bruto:</span><span id="man-bruto">$0.00</span></div>
-            <div class="total-row" id="man-row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="man-lbl-desc">0</span>%):</span><span id="man-descuento">-$0.00</span></div>
-            <div class="total-row"><span>Subtotal neto:</span><span id="man-subtotal">$0.00</span></div>
-            <div class="total-row" id="man-row-iva"><span>IVA (16%):</span><span id="man-iva">$0.00</span></div>
-            <div class="total-row" id="man-row-envio" style="display:none;"><span>Costo de envío:</span><span id="man-envio">$0.00</span></div>
-            <div class="total-row grand-total"><span>TOTAL:</span><span id="man-total">$0.00</span></div>
+            <div class="total-row"><span>Subtotal bruto:</span><span id="cart-bruto">$0.00</span></div>
+            <div class="total-row" id="row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="lbl-desc-pct">0</span>%):</span><span id="cart-descuento">-$0.00</span></div>
+            <div class="total-row"><span>Subtotal neto:</span><span id="cart-subtotal">$0.00</span></div>
+            <div class="total-row" id="row-iva"><span>IVA (16%):</span><span id="cart-iva">$0.00</span></div>
+            <div class="total-row grand-total"><span>TOTAL:</span><span id="cart-total">$0.00</span></div>
           </div>
 
           <div class="export-buttons">
-            <button onclick="exportarPDFManual()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
-            <button onclick="enviarWhatsAppManual()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
-            <button onclick="vaciarCarritoManual()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
+            <button onclick="exportToPDF()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+            <button onclick="enviarWhatsAppCotizacion()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+            <button onclick="vaciarCarrito()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- ==========================================
+         INICIO APP COTIZACIÓN MANUAL (INDEPENDIENTE)
+         ========================================== -->
+    <div id="app-manual" style="display: none;">
+      <div class="calculadora-grid">
+        <div class="input-section">
+          <div class="input-card">
+            <h3><i class="fas fa-plus-circle"></i> Agregar Artículo Manual</h3>
+            <div class="input-group">
+              <label for="manArticulo">Artículo / Título:</label>
+              <input type="text" id="manArticulo" placeholder="Ej. VELA AROMATICA, BANDEJA..." value="VELA AROMATICA">
+            </div>
+            <div class="input-group">
+              <label for="manDescripcion">Descripción:</label>
+              <input type="text" id="manDescripcion" placeholder="Ej. Vela de soya 170g en frasco Mónaco con tapa dorada">
+            </div>
+            <div class="manual-row-2">
+              <div class="input-group">
+                <label for="manPrecio">Costo unitario ($):</label>
+                <input type="number" id="manPrecio" step="0.01" min="0" placeholder="0.00">
+              </div>
+              <div class="input-group">
+                <label for="manCantidad">Cantidad:</label>
+                <input type="number" id="manCantidad" step="1" min="1" value="1">
+              </div>
+            </div>
+            <button onclick="agregarItemManual()" class="export-btn add-cart-btn">
+              <i class="fas fa-cart-plus"></i> Agregar al Carrito Manual
+            </button>
+          </div>
+
+          <div class="input-card">
+            <h3><i class="fas fa-user"></i> Datos del Cliente</h3>
+            <div class="input-group">
+              <label for="manFolio">No. Cotización (Folio):</label>
+              <input type="text" id="manFolio" value="100" placeholder="Ej. 100">
+            </div>
+            <div class="input-group">
+              <label for="manClienteNombre">Nombre del Cliente:</label>
+              <input type="text" id="manClienteNombre" placeholder="Nombre o empresa">
+            </div>
+            <div class="input-group">
+              <label for="manClienteTel">Teléfono:</label>
+              <input type="text" id="manClienteTel" placeholder="Ej. 33 1234 5678">
+            </div>
+            <div class="input-group">
+              <label for="manClienteDom">Domicilio / Ciudad:</label>
+              <input type="text" id="manClienteDom" placeholder="Dirección, colonia y ciudad">
+            </div>
+          </div>
+        </div>
+
+        <div class="results-section">
+          <div class="cart-card" style="margin-top: 0;">
+            <h3>
+              <i class="fas fa-shopping-cart"></i> Carrito de Cotización Manual
+              <span class="badge-count" id="man-cart-badge">0 artículos</span>
+            </h3>
+
+            <div style="overflow-x: auto;">
+              <table class="cart-table">
+                <thead>
+                  <tr>
+                    <th>Artículo</th>
+                    <th>Descripción</th>
+                    <th>Cant.</th>
+                    <th>P. Unitario</th>
+                    <th>Importe</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="man-cart-tbody">
+                  <tr><td colspan="6" style="text-align:center; color:#888; padding: 20px;">Agrega uno o más artículos desde el formulario para armar tu cotización manual.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="manual-row-3" style="margin-top: 15px;">
+              <div class="input-group">
+                <label for="manDescuentoPct">Descuento (%):</label>
+                <input type="number" id="manDescuentoPct" step="0.5" min="0" max="100" value="0">
+              </div>
+              <div class="input-group">
+                <label for="manEnvio">Costo de envío ($):</label>
+                <input type="number" id="manEnvio" step="1" min="0" value="0" placeholder="0.00">
+              </div>
+              <div class="input-group">
+                <label for="manModoIva">IVA (16%):</label>
+                <select id="manModoIva">
+                  <option value="sumar">Sumar +16% IVA</option>
+                  <option value="sin-iva">Sin IVA (0%)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="cart-totals-box">
+              <div class="total-row"><span>Subtotal bruto:</span><span id="man-bruto">$0.00</span></div>
+              <div class="total-row" id="man-row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="man-lbl-desc">0</span>%):</span><span id="man-descuento">-$0.00</span></div>
+              <div class="total-row"><span>Subtotal neto:</span><span id="man-subtotal">$0.00</span></div>
+              <div class="total-row" id="man-row-iva"><span>IVA (16%):</span><span id="man-iva">$0.00</span></div>
+              <div class="total-row" id="man-row-envio" style="display:none;"><span>Costo de envío:</span><span id="man-envio">$0.00</span></div>
+              <div class="total-row grand-total"><span>TOTAL:</span><span id="man-total">$0.00</span></div>
+            </div>
+
+            <div class="export-buttons">
+              <button onclick="exportarPDFManual()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+              <button onclick="enviarWhatsAppManual()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+              <button onclick="vaciarCarritoManual()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="https://wa.me/523331490596" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+    </a>
   </div>
 
-  <a href="https://wa.me/523331490596" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-
   <script>
+    // ==========================================
+    // CONFIGURACIÓN DE PINS Y PERMISOS
+    // ==========================================
+    // Cambia los números entre comillas por tus PINs reales.
+    // Permisos disponibles: "velas", "concreto", "manual"
+    const USUARIOS_PIN = {
+      "1234": { rol: "maestro", permisos: ["velas", "concreto", "manual"] }, // TU PIN MAESTRO
+      "0000": { rol: "trabajador", permisos: ["manual"] }                    // PIN PARA TRABAJADORES
+    };
+
+    let usuarioActual = null;
+
+    function verificarPin() {
+      const pinIngresado = document.getElementById('pin-input').value.trim();
+      const errorEl = document.getElementById('pin-error');
+
+      if (USUARIOS_PIN[pinIngresado]) {
+        usuarioActual = USUARIOS_PIN[pinIngresado];
+        sessionStorage.setItem('soluna_pin_activo', pinIngresado);
+        errorEl.style.display = 'none';
+        document.getElementById('pin-input').value = '';
+        aplicarPermisos(usuarioActual);
+      } else {
+        errorEl.style.display = 'block';
+        document.getElementById('pin-input').value = '';
+        document.getElementById('pin-input').focus();
+      }
+    }
+
+    function aplicarPermisos(usuario) {
+      document.getElementById('pin-overlay').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+
+      const permisos = usuario.permisos;
+      document.getElementById('btn-app-velas').style.display = permisos.includes('velas') ? 'flex' : 'none';
+      document.getElementById('btn-app-concreto').style.display = permisos.includes('concreto') ? 'flex' : 'none';
+      document.getElementById('btn-app-manual').style.display = permisos.includes('manual') ? 'flex' : 'none';
+
+      // Abrir automáticamente la primera pestaña permitida para este usuario
+      if (permisos.length > 0) {
+        switchApp(permisos[0]);
+      }
+    }
+
+    function cerrarSesion() {
+      sessionStorage.removeItem('soluna_pin_activo');
+      usuarioActual = null;
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('pin-overlay').style.display = 'flex';
+      document.getElementById('pin-input').focus();
+    }
+
+    // ==========================================
+    // VARIABLES DE CALCULADORAS
+    // ==========================================
     let resultadosCalculo = {};
     const unidadesConfig = {
       fragancia: { unidad: 'ml', factor: 1 },
@@ -668,6 +837,9 @@
     let carritoManual = [];
 
     function switchApp(app) {
+      // Protección extra: no permitir cambiar a una pestaña sin permiso
+      if (usuarioActual && !usuarioActual.permisos.includes(app)) return;
+
       document.getElementById('app-velas').style.display = 'none';
       document.getElementById('app-concreto').style.display = 'none';
       document.getElementById('app-manual').style.display = 'none';
@@ -730,6 +902,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+      // Permitir ingresar con la tecla Enter en el PIN
+      document.getElementById('pin-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') verificarPin();
+      });
+
+      // Revisar si ya hay sesión iniciada en esta pestaña
+      const pinGuardado = sessionStorage.getItem('soluna_pin_activo');
+      if (pinGuardado && USUARIOS_PIN[pinGuardado]) {
+        usuarioActual = USUARIOS_PIN[pinGuardado];
+        aplicarPermisos(usuarioActual);
+      } else {
+        document.getElementById('pin-input').focus();
+      }
+
       document.querySelectorAll('.unit-velas').forEach(option => {
         option.addEventListener('click', function() {
           const target = this.getAttribute('data-target');
@@ -1052,7 +1238,6 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
 
-      // 1. HEADER
       doc.setFontSize(8);
       doc.setTextColor(80);
       doc.text("ANA PAULA VILLASEÑOR GONZALEZ", 15, 20);
@@ -1064,7 +1249,6 @@
       doc.text(`No. COTIZACION: #${folio}`, 160, 20);
       doc.text(`FECHA: ${fechaActual}`, 160, 24);
 
-      // LOGO CENTRADO
       try {
         const logoImg = document.getElementById('main-logo');
         const canvas = document.createElement('canvas');
@@ -1075,7 +1259,6 @@
         doc.addImage(logoData, 'JPEG', 58, 38, 100, 30);
       } catch (e) { console.error("No se pudo cargar el logo al PDF."); }
 
-      // 2. DATOS DEL CLIENTE
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(primaryColor);
@@ -1090,7 +1273,6 @@
       doc.text("Lugar de Emisión: Zapopan, Jalisco", 15, 101);
       doc.text(`Contacto: ${contacto || "___________________________"}`, 15, 107);
 
-      // 3. DATOS DE COTIZACIÓN
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(primaryColor);
       doc.text("DATOS DE COTIZACION", 15, 118);
@@ -1149,7 +1331,6 @@
       doc.text("TOTAL", 138, finalY);
       doc.text(formatCurrency(t.total), 195, finalY, { align: 'right' });
 
-      // 4. CONDICIONES DE VENTA
       let cy = finalY + 15;
       if (cy > 220) { doc.addPage(); cy = 20; }
 
