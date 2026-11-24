@@ -217,6 +217,7 @@
 
     .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
     .manual-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .manual-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .badge-count { background: var(--primario); color: white; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px; }
 
     /* BOTONES FLOTANTES */
@@ -236,7 +237,7 @@
       .calculadora-grid { display: flex; flex-direction: column; gap: 10px; }
       .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
       .logo-hero-container { height: 85px; margin: 10px auto 20px; width: calc(100% - 20px); }
-      .client-grid { grid-template-columns: 1fr; }
+      .client-grid, .manual-row-3 { grid-template-columns: 1fr; }
       .export-buttons { flex-direction: column; }
       .export-btn { width: 100%; min-width: 0; }
       .cart-table { font-size: 0.78rem; }
@@ -512,7 +513,6 @@
           <label for="modoIva">Configuración de IVA (16%):</label>
           <select id="modoIva">
             <option value="sumar">Sumar +16% de IVA al subtotal</option>
-            <option value="incluido">IVA (16%) ya incluido en precios</option>
             <option value="sin-iva">Sin IVA (0%)</option>
           </select>
         </div>
@@ -545,7 +545,7 @@
           <h3><i class="fas fa-plus-circle"></i> Agregar Artículo Manual</h3>
           <div class="input-group">
             <label for="manArticulo">Artículo / Título:</label>
-            <input type="text" id="manArticulo" placeholder="Ej. VELA AROMATICA, BANDEJA, ENVÍO..." value="VELA AROMATICA">
+            <input type="text" id="manArticulo" placeholder="Ej. VELA AROMATICA, BANDEJA..." value="VELA AROMATICA">
           </div>
           <div class="input-group">
             <label for="manDescripcion">Descripción:</label>
@@ -613,16 +613,19 @@
             </table>
           </div>
 
-          <div class="manual-row-2" style="margin-top: 15px;">
+          <div class="manual-row-3" style="margin-top: 15px;">
             <div class="input-group">
               <label for="manDescuentoPct">Descuento (%):</label>
               <input type="number" id="manDescuentoPct" step="0.5" min="0" max="100" value="0">
             </div>
             <div class="input-group">
+              <label for="manEnvio">Costo de envío ($):</label>
+              <input type="number" id="manEnvio" step="1" min="0" value="0" placeholder="0.00">
+            </div>
+            <div class="input-group">
               <label for="manModoIva">IVA (16%):</label>
               <select id="manModoIva">
                 <option value="sumar">Sumar +16% IVA</option>
-                <option value="incluido">IVA ya incluido</option>
                 <option value="sin-iva">Sin IVA (0%)</option>
               </select>
             </div>
@@ -633,6 +636,7 @@
             <div class="total-row" id="man-row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="man-lbl-desc">0</span>%):</span><span id="man-descuento">-$0.00</span></div>
             <div class="total-row"><span>Subtotal neto:</span><span id="man-subtotal">$0.00</span></div>
             <div class="total-row" id="man-row-iva"><span>IVA (16%):</span><span id="man-iva">$0.00</span></div>
+            <div class="total-row" id="man-row-envio" style="display:none;"><span>Costo de envío:</span><span id="man-envio">$0.00</span></div>
             <div class="total-row grand-total"><span>TOTAL:</span><span id="man-total">$0.00</span></div>
           </div>
 
@@ -753,6 +757,7 @@
       document.getElementById('modoIva').addEventListener('change', actualizarResumenCarrito);
 
       document.getElementById('manDescuentoPct').addEventListener('input', actualizarResumenManual);
+      document.getElementById('manEnvio').addEventListener('input', actualizarResumenManual);
       document.getElementById('manModoIva').addEventListener('change', actualizarResumenManual);
 
       calcularCostos();
@@ -846,30 +851,14 @@
     // ==========================================
     // HELPER DE CÁLCULO DE TOTALES (COMPARTIDO)
     // ==========================================
-    function calcularTotalesGenerico(items, descPct, modoIva) {
+    function calcularTotalesGenerico(items, descPct, modoIva, envio = 0) {
       const bruto = items.reduce((acc, item) => acc + (item.precioUnitario * item.cantidad), 0);
       const descuento = bruto * (Math.min(descPct, 100) / 100);
-      const trasDescuento = bruto - descuento;
+      const subtotal = bruto - descuento;
+      const iva = (modoIva === 'sumar') ? subtotal * 0.16 : 0;
+      const total = subtotal + iva + envio;
 
-      let subtotal = trasDescuento;
-      let iva = 0;
-      let total = trasDescuento;
-
-      if (modoIva === 'sumar') {
-        subtotal = trasDescuento;
-        iva = subtotal * 0.16;
-        total = subtotal + iva;
-      } else if (modoIva === 'incluido') {
-        total = trasDescuento;
-        subtotal = total / 1.16;
-        iva = total - subtotal;
-      } else {
-        subtotal = trasDescuento;
-        iva = 0;
-        total = trasDescuento;
-      }
-
-      return { items, bruto, descPct, descuento, subtotal, iva, total, modoIva };
+      return { items, bruto, descPct, descuento, subtotal, iva, envio, total, modoIva };
     }
 
     // ==========================================
@@ -957,7 +946,8 @@
       const t = calcularTotalesGenerico(
         obtenerItemsActivos(),
         obtenerValorNumerico('descuentoPct', 0),
-        document.getElementById('modoIva').value
+        document.getElementById('modoIva').value,
+        0
       );
       document.getElementById('cart-bruto').textContent = formatCurrency(t.bruto);
       document.getElementById('lbl-desc-pct').textContent = t.descPct;
@@ -994,7 +984,6 @@
         precioUnitario: precio
       });
 
-      // Limpiar campos para agregar el siguiente rápidamente
       document.getElementById('manDescripcion').value = '';
       document.getElementById('manPrecio').value = '';
       document.getElementById('manCantidad').value = '1';
@@ -1041,7 +1030,8 @@
       const t = calcularTotalesGenerico(
         carritoManual,
         obtenerValorNumerico('manDescuentoPct', 0),
-        document.getElementById('manModoIva').value
+        document.getElementById('manModoIva').value,
+        obtenerValorNumerico('manEnvio', 0)
       );
       document.getElementById('man-bruto').textContent = formatCurrency(t.bruto);
       document.getElementById('man-lbl-desc').textContent = t.descPct;
@@ -1050,6 +1040,8 @@
       document.getElementById('man-subtotal').textContent = formatCurrency(t.subtotal);
       document.getElementById('man-iva').textContent = formatCurrency(t.iva);
       document.getElementById('man-row-iva').style.display = t.modoIva === 'sin-iva' ? 'none' : 'flex';
+      document.getElementById('man-envio').textContent = formatCurrency(t.envio);
+      document.getElementById('man-row-envio').style.display = t.envio > 0 ? 'flex' : 'none';
       document.getElementById('man-total').textContent = formatCurrency(t.total);
     }
 
@@ -1146,6 +1138,12 @@
         doc.text(formatCurrency(t.iva), 195, finalY, { align: 'right' });
       }
 
+      if (t.envio > 0) {
+        finalY += 6;
+        doc.text("ENVÍO", 138, finalY);
+        doc.text(formatCurrency(t.envio), 195, finalY, { align: 'right' });
+      }
+
       finalY += 7;
       doc.setTextColor(primaryColor);
       doc.text("TOTAL", 138, finalY);
@@ -1191,7 +1189,8 @@
       const t = calcularTotalesGenerico(
         obtenerItemsActivos(),
         obtenerValorNumerico('descuentoPct', 0),
-        document.getElementById('modoIva').value
+        document.getElementById('modoIva').value,
+        0
       );
       generarPDFOficial({
         t,
@@ -1212,7 +1211,8 @@
       const t = calcularTotalesGenerico(
         carritoManual,
         obtenerValorNumerico('manDescuentoPct', 0),
-        document.getElementById('manModoIva').value
+        document.getElementById('manModoIva').value,
+        obtenerValorNumerico('manEnvio', 0)
       );
       generarPDFOficial({
         t,
@@ -1229,7 +1229,7 @@
     // WHATSAPP (COMPARTIDO)
     // ==========================================
     function enviarWhatsAppGenerico(t, folio, cliente) {
-      let msg = `*SOLUNA - Recuerdos y Decoración* ✨\n`;
+      let msg = `*Soluna - Velas para regalar* ✨\n`;
       msg += `*Cotización #${folio}*`;
       if (cliente) msg += ` | Cliente: ${cliente}`;
       msg += `\n\n`;
@@ -1247,6 +1247,9 @@
       if (t.modoIva !== 'sin-iva') {
         msg += `IVA (16%): ${formatCurrency(t.iva)}\n`;
       }
+      if (t.envio > 0) {
+        msg += `Envío: ${formatCurrency(t.envio)}\n`;
+      }
       msg += `*TOTAL: ${formatCurrency(t.total)} MXN*\n\n`;
       msg += `_Vigencia de 30 días. Se requiere 50% de anticipo para confirmar fecha de entrega._`;
 
@@ -1257,7 +1260,8 @@
       const t = calcularTotalesGenerico(
         obtenerItemsActivos(),
         obtenerValorNumerico('descuentoPct', 0),
-        document.getElementById('modoIva').value
+        document.getElementById('modoIva').value,
+        0
       );
       enviarWhatsAppGenerico(
         t,
@@ -1274,7 +1278,8 @@
       const t = calcularTotalesGenerico(
         carritoManual,
         obtenerValorNumerico('manDescuentoPct', 0),
-        document.getElementById('manModoIva').value
+        document.getElementById('manModoIva').value,
+        obtenerValorNumerico('manEnvio', 0)
       );
       enviarWhatsAppGenerico(
         t,
