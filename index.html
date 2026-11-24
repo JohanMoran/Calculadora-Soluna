@@ -47,6 +47,21 @@
       --terciario: #263238;
     }
 
+    /* TEMA COTIZACIÓN MANUAL (Terracota / Soluna) */
+    body.theme-manual {
+      --fondo-claro: #f7f4f2;
+      --primario: #a65d37;
+      --secundario: #c27d57;
+      --terciario: #f9ede6;
+      --hover: #8a4b2a;
+    }
+
+    body.theme-manual.dark {
+      --primario: #d49472;
+      --secundario: #b87654;
+      --terciario: #2b201a;
+    }
+
     html, body {
       overflow-x: hidden;
       width: 100%;
@@ -70,7 +85,7 @@
       width: 100%;
       max-width: 750px;
       height: 130px;
-      margin: 15px auto 30px;
+      margin: 15px auto 25px;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       overflow: hidden;
@@ -91,10 +106,10 @@
 
     /* SWITCHER PRINCIPAL DE APPS */
     .main-app-switcher {
-      display: flex; justify-content: center; gap: 15px; margin-bottom: 25px;
+      display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;
     }
     .app-btn {
-      padding: 12px 25px; font-size: 1.1rem; font-weight: 700; border-radius: 30px; border: 2px solid #ddd;
+      padding: 11px 22px; font-size: 1rem; font-weight: 700; border-radius: 30px; border: 2px solid #ddd;
       background: white; color: #666; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
     }
     body.dark .app-btn { background: #1e1e1e; border-color: #444; color: #aaa; }
@@ -201,6 +216,7 @@
     body.dark .total-row.grand-total { border-color: #444; }
 
     .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    .manual-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .badge-count { background: var(--primario); color: white; font-size: 0.8rem; padding: 2px 8px; border-radius: 12px; }
 
     /* BOTONES FLOTANTES */
@@ -226,6 +242,7 @@
       .cart-table { font-size: 0.78rem; }
       .cart-table th, .cart-table td { padding: 6px 4px; }
       .dark-mode-btn { top: 10px; right: 10px; padding: 6px 10px; font-size: 0.75rem; }
+      .app-btn { padding: 9px 16px; font-size: 0.92rem; }
     }
     @media (max-width: 480px) { .summary-grid { grid-template-columns: 1fr; } input, select { font-size: 16px; } }
     * { max-width: 100%; box-sizing: border-box; }
@@ -238,13 +255,16 @@
     <img src="SOLUNA OFICIAL.jpg" alt="Logo Soluna" class="hero-logo" id="main-logo">
   </div>
 
-  <!-- SELECTOR PRINCIPAL VELAS VS CONCRETO -->
+  <!-- SELECTOR PRINCIPAL: VELAS | CONCRETO | COTIZACIÓN MANUAL -->
   <div class="main-app-switcher">
     <button id="btn-app-velas" class="app-btn active-main" onclick="switchApp('velas')">
       <i class="fas fa-fire"></i> Velas
     </button>
     <button id="btn-app-concreto" class="app-btn" onclick="switchApp('concreto')">
       <i class="fas fa-cubes"></i> Concreto
+    </button>
+    <button id="btn-app-manual" class="app-btn" onclick="switchApp('manual')">
+      <i class="fas fa-file-signature"></i> Cotización Manual
     </button>
   </div>
 
@@ -266,7 +286,6 @@
 
     <div class="calculadora-grid">
       <div class="input-section">
-        <!-- PASO 1: CERA Y FRAGANCIA JUNTOS -->
         <div id="sec-cera-fragancia" class="input-card step-section-velas active">
           <h3><i class="fas fa-fire"></i> 1. Cera y Fragancia</h3>
           <div class="input-group"><label for="costoCera">Costo de 1kg de cera ($):</label><input type="number" id="costoCera" step="0.01" value="100.00"></div>
@@ -446,7 +465,7 @@
   </div>
 
   <!-- ==========================================
-       CARRITO DE COTIZACIÓN UNIFICADO (PDF + WHATSAPP)
+       CARRITO DE COTIZACIÓN PARA CALCULADORAS
        ========================================== -->
   <div class="cart-card" id="panel-carrito">
     <h3>
@@ -515,6 +534,118 @@
     </div>
   </div>
 
+  <!-- ==========================================
+       INICIO APP COTIZACIÓN MANUAL (INDEPENDIENTE)
+       ========================================== -->
+  <div id="app-manual" style="display: none;">
+    <div class="calculadora-grid">
+      <!-- Columna izquierda: Agregar artículo manual -->
+      <div class="input-section">
+        <div class="input-card">
+          <h3><i class="fas fa-plus-circle"></i> Agregar Artículo Manual</h3>
+          <div class="input-group">
+            <label for="manArticulo">Artículo / Título:</label>
+            <input type="text" id="manArticulo" placeholder="Ej. VELA AROMATICA, BANDEJA, ENVÍO..." value="VELA AROMATICA">
+          </div>
+          <div class="input-group">
+            <label for="manDescripcion">Descripción:</label>
+            <input type="text" id="manDescripcion" placeholder="Ej. Vela de soya 170g en frasco Mónaco con tapa dorada">
+          </div>
+          <div class="manual-row-2">
+            <div class="input-group">
+              <label for="manPrecio">Costo unitario ($):</label>
+              <input type="number" id="manPrecio" step="0.01" min="0" placeholder="0.00">
+            </div>
+            <div class="input-group">
+              <label for="manCantidad">Cantidad:</label>
+              <input type="number" id="manCantidad" step="1" min="1" value="1">
+            </div>
+          </div>
+          <button onclick="agregarItemManual()" class="export-btn add-cart-btn">
+            <i class="fas fa-cart-plus"></i> Agregar al Carrito Manual
+          </button>
+        </div>
+
+        <div class="input-card">
+          <h3><i class="fas fa-user"></i> Datos del Cliente</h3>
+          <div class="input-group">
+            <label for="manFolio">No. Cotización (Folio):</label>
+            <input type="text" id="manFolio" value="100" placeholder="Ej. 100">
+          </div>
+          <div class="input-group">
+            <label for="manClienteNombre">Nombre del Cliente:</label>
+            <input type="text" id="manClienteNombre" placeholder="Nombre o empresa">
+          </div>
+          <div class="input-group">
+            <label for="manClienteTel">Teléfono:</label>
+            <input type="text" id="manClienteTel" placeholder="Ej. 33 1234 5678">
+          </div>
+          <div class="input-group">
+            <label for="manClienteDom">Domicilio / Ciudad:</label>
+            <input type="text" id="manClienteDom" placeholder="Dirección, colonia y ciudad">
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Carrito manual y totales -->
+      <div class="results-section">
+        <div class="cart-card" style="margin-top: 0;">
+          <h3>
+            <i class="fas fa-shopping-cart"></i> Carrito de Cotización Manual
+            <span class="badge-count" id="man-cart-badge">0 artículos</span>
+          </h3>
+
+          <div style="overflow-x: auto;">
+            <table class="cart-table">
+              <thead>
+                <tr>
+                  <th>Artículo</th>
+                  <th>Descripción</th>
+                  <th>Cant.</th>
+                  <th>P. Unitario</th>
+                  <th>Importe</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="man-cart-tbody">
+                <tr><td colspan="6" style="text-align:center; color:#888; padding: 20px;">Agrega uno o más artículos desde el formulario para armar tu cotización manual.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="manual-row-2" style="margin-top: 15px;">
+            <div class="input-group">
+              <label for="manDescuentoPct">Descuento (%):</label>
+              <input type="number" id="manDescuentoPct" step="0.5" min="0" max="100" value="0">
+            </div>
+            <div class="input-group">
+              <label for="manModoIva">IVA (16%):</label>
+              <select id="manModoIva">
+                <option value="sumar">Sumar +16% IVA</option>
+                <option value="incluido">IVA ya incluido</option>
+                <option value="sin-iva">Sin IVA (0%)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cart-totals-box">
+            <div class="total-row"><span>Subtotal bruto:</span><span id="man-bruto">$0.00</span></div>
+            <div class="total-row" id="man-row-descuento" style="display:none; color:#e74c3c;"><span>Descuento (<span id="man-lbl-desc">0</span>%):</span><span id="man-descuento">-$0.00</span></div>
+            <div class="total-row"><span>Subtotal neto:</span><span id="man-subtotal">$0.00</span></div>
+            <div class="total-row" id="man-row-iva"><span>IVA (16%):</span><span id="man-iva">$0.00</span></div>
+            <div class="total-row grand-total"><span>TOTAL:</span><span id="man-total">$0.00</span></div>
+          </div>
+
+          <div class="export-buttons">
+            <button onclick="exportarPDFManual()" class="export-btn pdf-btn"><i class="fas fa-file-pdf"></i> PDF Oficial</button>
+            <button onclick="enviarWhatsAppManual()" class="export-btn wa-quote-btn"><i class="fab fa-whatsapp"></i> Enviar WhatsApp</button>
+            <button onclick="vaciarCarritoManual()" class="export-btn clear-cart-btn"><i class="fas fa-trash"></i> Vaciar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <a href="https://wa.me/523331490596" class="whatsapp-btn" target="_blank" title="Contactar por WhatsApp">
     <i class="fab fa-whatsapp"></i>
   </a>
@@ -530,24 +661,38 @@
 
     let resultadosConcreto = {};
     let carritoCotizacion = [];
+    let carritoManual = [];
 
     function switchApp(app) {
+      document.getElementById('app-velas').style.display = 'none';
+      document.getElementById('app-concreto').style.display = 'none';
+      document.getElementById('app-manual').style.display = 'none';
+      document.body.classList.remove('theme-concreto', 'theme-manual');
+
+      document.getElementById('btn-app-velas').classList.remove('active-main');
+      document.getElementById('btn-app-concreto').classList.remove('active-main');
+      document.getElementById('btn-app-manual').classList.remove('active-main');
+
       if (app === 'velas') {
         document.getElementById('app-velas').style.display = 'block';
-        document.getElementById('app-concreto').style.display = 'none';
-        document.body.classList.remove('theme-concreto');
+        document.getElementById('panel-carrito').style.display = 'block';
         document.getElementById('btn-app-velas').classList.add('active-main');
-        document.getElementById('btn-app-concreto').classList.remove('active-main');
         calcularCostos();
-      } else {
-        document.getElementById('app-velas').style.display = 'none';
+        actualizarResumenCarrito();
+      } else if (app === 'concreto') {
         document.getElementById('app-concreto').style.display = 'block';
+        document.getElementById('panel-carrito').style.display = 'block';
         document.body.classList.add('theme-concreto');
         document.getElementById('btn-app-concreto').classList.add('active-main');
-        document.getElementById('btn-app-velas').classList.remove('active-main');
         calcularCostosConcreto();
+        actualizarResumenCarrito();
+      } else if (app === 'manual') {
+        document.getElementById('app-manual').style.display = 'block';
+        document.getElementById('panel-carrito').style.display = 'none';
+        document.body.classList.add('theme-manual');
+        document.getElementById('btn-app-manual').classList.add('active-main');
+        actualizarResumenManual();
       }
-      actualizarResumenCarrito();
     }
 
     function mostrarSeccionVelas(sectionId, btnElement) {
@@ -606,6 +751,9 @@
       document.querySelectorAll('#app-concreto input').forEach(input => input.addEventListener('input', calcularCostosConcreto));
       document.getElementById('descuentoPct').addEventListener('input', actualizarResumenCarrito);
       document.getElementById('modoIva').addEventListener('change', actualizarResumenCarrito);
+
+      document.getElementById('manDescuentoPct').addEventListener('input', actualizarResumenManual);
+      document.getElementById('manModoIva').addEventListener('change', actualizarResumenManual);
 
       calcularCostos();
       calcularCostosConcreto();
@@ -696,7 +844,36 @@
     }
 
     // ==========================================
-    // LÓGICA DEL CARRITO, DESCUENTO E IVA
+    // HELPER DE CÁLCULO DE TOTALES (COMPARTIDO)
+    // ==========================================
+    function calcularTotalesGenerico(items, descPct, modoIva) {
+      const bruto = items.reduce((acc, item) => acc + (item.precioUnitario * item.cantidad), 0);
+      const descuento = bruto * (Math.min(descPct, 100) / 100);
+      const trasDescuento = bruto - descuento;
+
+      let subtotal = trasDescuento;
+      let iva = 0;
+      let total = trasDescuento;
+
+      if (modoIva === 'sumar') {
+        subtotal = trasDescuento;
+        iva = subtotal * 0.16;
+        total = subtotal + iva;
+      } else if (modoIva === 'incluido') {
+        total = trasDescuento;
+        subtotal = total / 1.16;
+        iva = total - subtotal;
+      } else {
+        subtotal = trasDescuento;
+        iva = 0;
+        total = trasDescuento;
+      }
+
+      return { items, bruto, descPct, descuento, subtotal, iva, total, modoIva };
+    }
+
+    // ==========================================
+    // CARRITO DE CALCULADORAS (VELAS / CONCRETO)
     // ==========================================
     function agregarAlCarrito(tipo) {
       if (tipo === 'velas') {
@@ -754,35 +931,6 @@
       }
     }
 
-    function calcularTotalesCotizacion() {
-      const items = obtenerItemsActivos();
-      const bruto = items.reduce((acc, item) => acc + (item.precioUnitario * item.cantidad), 0);
-      const descPct = Math.min(obtenerValorNumerico('descuentoPct', 0), 100);
-      const descuento = bruto * (descPct / 100);
-      const trasDescuento = bruto - descuento;
-      const modoIva = document.getElementById('modoIva').value;
-
-      let subtotal = trasDescuento;
-      let iva = 0;
-      let total = trasDescuento;
-
-      if (modoIva === 'sumar') {
-        subtotal = trasDescuento;
-        iva = subtotal * 0.16;
-        total = subtotal + iva;
-      } else if (modoIva === 'incluido') {
-        total = trasDescuento;
-        subtotal = total / 1.16;
-        iva = total - subtotal;
-      } else {
-        subtotal = trasDescuento;
-        iva = 0;
-        total = trasDescuento;
-      }
-
-      return { items, bruto, descPct, descuento, subtotal, iva, total, modoIva };
-    }
-
     function renderizarCarrito() {
       const tbody = document.getElementById('cart-tbody');
       const badge = document.getElementById('cart-badge');
@@ -806,7 +954,11 @@
     }
 
     function actualizarResumenCarrito() {
-      const t = calcularTotalesCotizacion();
+      const t = calcularTotalesGenerico(
+        obtenerItemsActivos(),
+        obtenerValorNumerico('descuentoPct', 0),
+        document.getElementById('modoIva').value
+      );
       document.getElementById('cart-bruto').textContent = formatCurrency(t.bruto);
       document.getElementById('lbl-desc-pct').textContent = t.descPct;
       document.getElementById('cart-descuento').textContent = `-${formatCurrency(t.descuento)}`;
@@ -818,14 +970,95 @@
     }
 
     // ==========================================
-    // EXPORTACIÓN A PDF OFICIAL (MULTI-PRODUCTO)
+    // CARRITO DE COTIZACIÓN MANUAL (INDEPENDIENTE)
     // ==========================================
-    async function exportToPDF() {
-      const esVelas = document.getElementById('app-velas').style.display !== 'none';
+    function agregarItemManual() {
+      const articulo = document.getElementById('manArticulo').value.trim() || 'ARTÍCULO';
+      const descripcion = document.getElementById('manDescripcion').value.trim();
+      const precio = obtenerValorNumerico('manPrecio', 0);
+      const cantidad = obtenerValorNumerico('manCantidad', 1);
+
+      if (!descripcion) {
+        alert('Por favor escribe una descripción para el artículo.');
+        return;
+      }
+      if (precio <= 0) {
+        alert('Por favor ingresa un costo unitario mayor a 0.');
+        return;
+      }
+
+      carritoManual.push({
+        articulo: articulo.toUpperCase(),
+        descripcion: descripcion,
+        cantidad: cantidad,
+        precioUnitario: precio
+      });
+
+      // Limpiar campos para agregar el siguiente rápidamente
+      document.getElementById('manDescripcion').value = '';
+      document.getElementById('manPrecio').value = '';
+      document.getElementById('manCantidad').value = '1';
+
+      renderizarCarritoManual();
+    }
+
+    function eliminarItemManual(index) {
+      carritoManual.splice(index, 1);
+      renderizarCarritoManual();
+    }
+
+    function vaciarCarritoManual() {
+      if (carritoManual.length === 0) return;
+      if (confirm('¿Vaciar todos los artículos de la cotización manual?')) {
+        carritoManual = [];
+        renderizarCarritoManual();
+      }
+    }
+
+    function renderizarCarritoManual() {
+      const tbody = document.getElementById('man-cart-tbody');
+      const badge = document.getElementById('man-cart-badge');
+      badge.textContent = `${carritoManual.length} artículo${carritoManual.length === 1 ? '' : 's'}`;
+
+      if (carritoManual.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888; padding: 20px;">Agrega uno o más artículos desde el formulario para armar tu cotización manual.</td></tr>';
+      } else {
+        tbody.innerHTML = carritoManual.map((item, i) => `
+          <tr>
+            <td><strong>${item.articulo}</strong></td>
+            <td>${item.descripcion}</td>
+            <td>${item.cantidad}</td>
+            <td>${formatCurrency(item.precioUnitario)}</td>
+            <td>${formatCurrency(item.precioUnitario * item.cantidad)}</td>
+            <td><button class="btn-del-item" onclick="eliminarItemManual(${i})" title="Quitar"><i class="fas fa-times"></i></button></td>
+          </tr>
+        `).join('');
+      }
+      actualizarResumenManual();
+    }
+
+    function actualizarResumenManual() {
+      const t = calcularTotalesGenerico(
+        carritoManual,
+        obtenerValorNumerico('manDescuentoPct', 0),
+        document.getElementById('manModoIva').value
+      );
+      document.getElementById('man-bruto').textContent = formatCurrency(t.bruto);
+      document.getElementById('man-lbl-desc').textContent = t.descPct;
+      document.getElementById('man-descuento').textContent = `-${formatCurrency(t.descuento)}`;
+      document.getElementById('man-row-descuento').style.display = t.descPct > 0 ? 'flex' : 'none';
+      document.getElementById('man-subtotal').textContent = formatCurrency(t.subtotal);
+      document.getElementById('man-iva').textContent = formatCurrency(t.iva);
+      document.getElementById('man-row-iva').style.display = t.modoIva === 'sin-iva' ? 'none' : 'flex';
+      document.getElementById('man-total').textContent = formatCurrency(t.total);
+    }
+
+    // ==========================================
+    // EXPORTACIÓN A PDF OFICIAL (COMPARTIDA)
+    // ==========================================
+    async function generarPDFOficial({ t, folio, nombre, domicilio, contacto, primaryColor, rgb }) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
-      const primaryColor = esVelas ? '#d97a9b' : '#546e7a';
-      const t = calcularTotalesCotizacion();
 
       // 1. HEADER
       doc.setFontSize(8);
@@ -836,7 +1069,6 @@
       doc.text("CEL: 33 3149 0596", 15, 32);
 
       const fechaActual = new Date().toLocaleDateString('es-MX');
-      const folio = document.getElementById('cotFolio').value.trim() || "100";
       doc.text(`No. COTIZACION: #${folio}`, 160, 20);
       doc.text(`FECHA: ${fechaActual}`, 160, 24);
 
@@ -856,19 +1088,15 @@
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(primaryColor);
       doc.text("DATOS DE CLIENTE", 15, 80);
-      doc.setDrawColor(esVelas ? 217 : 84, esVelas ? 122 : 110, esVelas ? 155 : 122);
+      doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
       doc.line(15, 82, 195, 82);
 
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(50);
-      const cNombre = document.getElementById('clienteNombre').value.trim() || "___________________________";
-      const cDom = document.getElementById('clienteDomicilio').value.trim() || "___________________________";
-      const cCont = document.getElementById('clienteContacto').value.trim() || "___________________________";
-
-      doc.text(`NOMBRE: ${cNombre}`, 15, 89);
-      doc.text(`Domicilio: ${cDom}`, 15, 95);
+      doc.text(`NOMBRE: ${nombre || "___________________________"}`, 15, 89);
+      doc.text(`Domicilio: ${domicilio || "___________________________"}`, 15, 95);
       doc.text("Lugar de Emisión: Zapopan, Jalisco", 15, 101);
-      doc.text(`Contacto: ${cCont}`, 15, 107);
+      doc.text(`Contacto: ${contacto || "___________________________"}`, 15, 107);
 
       // 3. DATOS DE COTIZACIÓN
       doc.setFont('helvetica', 'bold');
@@ -887,7 +1115,7 @@
       if (t.descPct > 0) {
         bodyRows.push([
           'DESCUENTO',
-          `Descuento por volumen (${t.descPct}%)`,
+          `Descuento (${t.descPct}%)`,
           '1',
           `${t.descPct}%`,
           `-${formatCurrency(t.descuento)}`
@@ -958,14 +1186,49 @@
       doc.save(`Cotizacion_Soluna_${folio}.pdf`);
     }
 
-    // ==========================================
-    // COTIZACIÓN RÁPIDA POR WHATSAPP
-    // ==========================================
-    function enviarWhatsAppCotizacion() {
-      const t = calcularTotalesCotizacion();
-      const cliente = document.getElementById('clienteNombre').value.trim();
-      const folio = document.getElementById('cotFolio').value.trim() || "100";
+    function exportToPDF() {
+      const esVelas = document.getElementById('app-velas').style.display !== 'none';
+      const t = calcularTotalesGenerico(
+        obtenerItemsActivos(),
+        obtenerValorNumerico('descuentoPct', 0),
+        document.getElementById('modoIva').value
+      );
+      generarPDFOficial({
+        t,
+        folio: document.getElementById('cotFolio').value.trim() || "100",
+        nombre: document.getElementById('clienteNombre').value.trim(),
+        domicilio: document.getElementById('clienteDomicilio').value.trim(),
+        contacto: document.getElementById('clienteContacto').value.trim(),
+        primaryColor: esVelas ? '#d97a9b' : '#546e7a',
+        rgb: esVelas ? [217, 122, 155] : [84, 110, 122]
+      });
+    }
 
+    function exportarPDFManual() {
+      if (carritoManual.length === 0) {
+        alert('Agrega al menos un artículo al carrito manual antes de generar el PDF.');
+        return;
+      }
+      const t = calcularTotalesGenerico(
+        carritoManual,
+        obtenerValorNumerico('manDescuentoPct', 0),
+        document.getElementById('manModoIva').value
+      );
+      generarPDFOficial({
+        t,
+        folio: document.getElementById('manFolio').value.trim() || "100",
+        nombre: document.getElementById('manClienteNombre').value.trim(),
+        domicilio: document.getElementById('manClienteDom').value.trim(),
+        contacto: document.getElementById('manClienteTel').value.trim(),
+        primaryColor: '#a65d37',
+        rgb: [166, 93, 55]
+      });
+    }
+
+    // ==========================================
+    // WHATSAPP (COMPARTIDO)
+    // ==========================================
+    function enviarWhatsAppGenerico(t, folio, cliente) {
       let msg = `*SOLUNA - Recuerdos y Decoración* ✨\n`;
       msg += `*Cotización #${folio}*`;
       if (cliente) msg += ` | Cliente: ${cliente}`;
@@ -987,8 +1250,37 @@
       msg += `*TOTAL: ${formatCurrency(t.total)} MXN*\n\n`;
       msg += `_Vigencia de 30 días. Se requiere 50% de anticipo para confirmar fecha de entrega._`;
 
-      const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank');
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function enviarWhatsAppCotizacion() {
+      const t = calcularTotalesGenerico(
+        obtenerItemsActivos(),
+        obtenerValorNumerico('descuentoPct', 0),
+        document.getElementById('modoIva').value
+      );
+      enviarWhatsAppGenerico(
+        t,
+        document.getElementById('cotFolio').value.trim() || "100",
+        document.getElementById('clienteNombre').value.trim()
+      );
+    }
+
+    function enviarWhatsAppManual() {
+      if (carritoManual.length === 0) {
+        alert('Agrega al menos un artículo al carrito manual antes de enviar por WhatsApp.');
+        return;
+      }
+      const t = calcularTotalesGenerico(
+        carritoManual,
+        obtenerValorNumerico('manDescuentoPct', 0),
+        document.getElementById('manModoIva').value
+      );
+      enviarWhatsAppGenerico(
+        t,
+        document.getElementById('manFolio').value.trim() || "100",
+        document.getElementById('manClienteNombre').value.trim()
+      );
     }
   </script>
 </body>
